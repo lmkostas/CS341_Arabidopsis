@@ -8,8 +8,8 @@ def docs_to_sentences(data_size):
 	db_name = 'full-data'
 	if data_size == 'small':
 		db_name = 'small-data'
-	#os.environ['SNORKELDB'] = 'postgres:///snorkel.db'#+db_name
-	#print os.environ['SNORKELDB']
+	#need this line for parallel processing
+	os.environ['SNORKELDB'] = 'postgres:///snorkel-'+db_name
 
 	from snorkel import SnorkelSession
 
@@ -25,7 +25,7 @@ def docs_to_sentences(data_size):
 	doc_preprocessor = TSVDocPreprocessor(pathname)
 
 	corpus_parser = CorpusParser()
-	corpus_parser.apply(doc_preprocessor)#, parallelism=20)
+	corpus_parser.apply(doc_preprocessor, parallelism=50)
 
 	print "Documents:", session.query(Document).count()
 	print "Sentences:", session.query(Sentence).count()
