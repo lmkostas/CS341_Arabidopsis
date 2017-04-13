@@ -1,6 +1,15 @@
 # Arabidopsis
 cs341 Spring 2017 project. Learning relationships between genes and phenotypes using snorkel.
 
+## Environment
+Run one of the following to set up the environment:
+```
+source agp_env.sh small-data
+```
+```
+source agp_env.sh full-data
+```
+
 ## Data
 Follow the steps below to retrive the data. This will take a while.
 ```
