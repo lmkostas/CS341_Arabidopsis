@@ -11,7 +11,6 @@ e.g. run split_docs.py <small/full>
 
 import os
 import sys
-from env import parse_args
 
 def docs_to_sentences():
 	# Must set SNORKELDB before importing SnorkelSession

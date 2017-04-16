@@ -35,7 +35,7 @@ def parseAggrHTML(raw_xml_file, tsv_file, id_file):
                 #if i%1000 ==0: print i
                 print i
                 total_files += 1
-                pmc_id = (doc.find('article-id', {'pub-id-type':'pmc'}).text).encode('utf-8')
+                pmc_id = 'PMC'+(doc.find('article-id', {'pub-id-type':'pmc'}).text).encode('utf-8')
                 text = ''
                 if doc.find('body'):
                     full_body_parsed += 1
