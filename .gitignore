@@ -1,2 +1,5 @@
 .DS_Store
 data/full_xml_data.xml
+small_data/temp_files/PMC_OA_list.csv
+small_data/small_data.xml
+
