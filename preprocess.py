@@ -20,24 +20,43 @@ import math
 TRAIN_PCT = 0.8
 DEV_PCT = 0.1
 
-def parseAggrHTML(raw_xml_file, tsv_file, id_file):
+def parseAggrHTML(raw_xml_file, tsv_file, id_file, data_size_flag, required_pmcids):
     full_body_parsed = 0
     abstract_parsed = 0
     no_data_parsed = 0
     total_files = 0
     pmc_ids = []
+    
+    small_file_count = 0
+    req_file_count = 0
+    random.seed(1)
+
+    if (data_size_flag == 'small'):
+        print "running small version...."
+
     with open(tsv_file, 'w') as wf:
 
         with open(raw_xml_file, 'rb') as f:
             print "Parsing XML file..."
             html = BeautifulSoup(f, 'xml')
             for i, doc in enumerate(html.find_all('article')):
-                #if i%1000 ==0: print i
-                print i
+                if i%100 ==0: print i
+                # print i
                 total_files += 1
                 pmc_id = 'PMC'+(doc.find('article-id', {'pub-id-type':'pmc'}).text).encode('utf-8')
+                idISSelected = (pmc_id in required_pmcids)
+                if (data_size_flag == 'small') and (not idISSelected):
+                    if small_file_count >= 400 or random.random() > .05:
+                        continue
+
+                print "parsing following id: ", pmc_id
+                    
                 text = ''
                 if doc.find('body'):
+                    small_file_count += 1
+                    if idISSelected:
+                        req_file_count += 1
+
                     full_body_parsed += 1
                     #remove all tabs and newlines from article text and convert to unicode
                     #conversion to unicode removes characters that cause later errors in snorkel preprocessing
@@ -60,6 +79,7 @@ def parseAggrHTML(raw_xml_file, tsv_file, id_file):
                     pmc_ids.append(pmc_id)
                 elif doc.find('abstract'):
                     #if the article has no body, check for abstract
+
                     abstract_parsed += 1
                     print pmc_id, ' - full article text not found, parsing abstract instead'
                     #remove all tabs and newlines from article text and convert to unicode
@@ -107,7 +127,12 @@ def parseAggrHTML(raw_xml_file, tsv_file, id_file):
         cPickle.dump({'train': pmc_ids[0:train_end_idx], 'dev': pmc_ids[train_end_idx:dev_end_idx], 'test': pmc_ids[dev_end_idx:]}, id_f)
     
     print "PMC_ids written!"
+    print "num files used: ", small_file_count
+    print "req files used: ", req_file_count
 
+def buildSelectedPMCIDSet(file):
+    selected_set = set(line.strip() for line in open(file))
+    return selected_set
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -117,6 +142,11 @@ if __name__ == '__main__':
                         help="Name of tsv output file to which processed data will be saved.")
     parser.add_argument("pmc_ids_file",
                         help="Name of pmc_ids pkl file to which ids will be saved")
+    parser.add_argument('-d', '--data_size', choices=["small","all"], default="small", help="what size dataset (small or all)")
     args = parser.parse_args()
-
-    parseAggrHTML(args.raw_xml_file, args.tsv_file, args.pmc_ids_file)
+    # print args.data_size
+    required_pmcids = set()
+    if (args.data_size == 'small'):
+        required_pmcids = buildSelectedPMCIDSet("small_data/selected_pmcid.txt")
+        # print required_pmcids, len(required_pmcids)
+    parseAggrHTML(args.raw_xml_file, args.tsv_file, args.pmc_ids_file, args.data_size, required_pmcids)

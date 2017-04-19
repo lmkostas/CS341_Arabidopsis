@@ -1,4 +1,5 @@
 .DS_Store
 *.pyc
 *.db
-data/full_xml_data.xml
+data/data_full.xml
+small_data/data_20k.xml
