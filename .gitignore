@@ -3,3 +3,4 @@
 *.db
 data/data_full.xml
 small_data/data_20k.xml
+small_data/temp_files/PMC_OA_list.csv
