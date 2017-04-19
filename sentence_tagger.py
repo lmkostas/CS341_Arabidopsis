@@ -25,14 +25,14 @@ print "Splitting Docs..."
 pathname = 'small_data_pp/' if os.environ['AGP_DATA_SIZE'] == 'small-data' else 'data/'
 with open(pathname+'pmc_ids.pkl', 'rb') as f:
     sent_dicts = cPickle.load(f)
-train_ids, dev_ids, test_ids = set(sent_dicts['train']), set(sent_dicts['dev'][12:15]), set(sent_dicts['test'])
+train_ids, dev_ids, test_ids = set(sent_dicts['train']), set(sent_dicts['dev']), set(sent_dicts['test'])
 all_ids = train_ids.union(dev_ids).union(test_ids)
 
 train_sents, dev_sents, test_sents, all_sents = set(), set(), set(), set()
 docs = session.query(Document).order_by(Document.name).all()
 countdev=0
 for i, doc in enumerate(docs):
-    if len(dev_sents) >= 100:break
+    #if len(dev_sents) >= 100:break
     for s in doc.sentences:
     	all_sents.add(s)
     	name = doc.name.split('-')[0]
