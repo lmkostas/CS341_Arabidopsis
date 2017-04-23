@@ -20,7 +20,7 @@ def docs_to_sentences():
 	from snorkel.models import Document, Sentence
 	session = SnorkelSession()
 
-	pathname = 'small_data_pp/small_pp.tsv' if os.environ['AGP_DATA_SIZE'] == 'small-data' else 'data/full_pp.tsv'
+	pathname = 'small_data/data_400.tsv' if os.environ['AGP_DATA_SIZE'] == 'small-data' else 'data/full_pp.tsv'
 	doc_preprocessor = TSVDocPreprocessor(pathname)
 
 	corpus_parser = CorpusParser()
