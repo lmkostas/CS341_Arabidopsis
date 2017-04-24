@@ -9,6 +9,7 @@ The script takes one argument:
 e.g. run split_docs.py <small/full>
 """ 
 
+import multiprocessing
 import os
 import sys
 
@@ -24,7 +25,7 @@ def docs_to_sentences():
 	doc_preprocessor = TSVDocPreprocessor(pathname)
 
 	corpus_parser = CorpusParser()
-	corpus_parser.apply(doc_preprocessor, parallelism=50)
+	corpus_parser.apply(doc_preprocessor, parallelism=multiprocessing.cpu_count())
 
 	print "Documents:", session.query(Document).count()
 	print "Sentences:", session.query(Sentence).count()
