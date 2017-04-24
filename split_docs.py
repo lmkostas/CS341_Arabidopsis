@@ -24,7 +24,7 @@ def docs_to_sentences():
 	doc_preprocessor = TSVDocPreprocessor(pathname)
 
 	corpus_parser = CorpusParser()
-	corpus_parser.apply(doc_preprocessor, parallelism=8)
+	corpus_parser.apply(doc_preprocessor, parallelism=50)
 
 	print "Documents:", session.query(Document).count()
 	print "Sentences:", session.query(Sentence).count()

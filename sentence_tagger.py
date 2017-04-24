@@ -1,6 +1,7 @@
 import os
 import sys
 import cPickle
+import multiprocessing
 
 sys.path.insert(1, '../snorkel')
 
@@ -48,7 +49,7 @@ print "Extracting Candidates..."
 
 #cand_extractor.apply(train_sents, split=0)#, parallelism=8)
 #train_cands = session.query(GenePhenoPair).filter(GenePhenoPair.split==0).all()
-#cand_extractor.apply(dev_sents, split=1)#, parallelism=8)
+#cand_extractor.apply(dev_sents, split=1, parallelism=4)
 #dev_cands = session.query(GenePhenoPair).filter(GenePhenoPair.split==1).all()
 #cand_extractor.apply(test_sents, split=2)#, parallelism=8)
 #test_cands = session.query(GenePhenoPair).filter(GenePhenoPair.split==2).all()
@@ -57,8 +58,8 @@ print "Extracting Candidates..."
 #print "Number of dev candidates:", len(dev_cands)
 #print "Number of test candidates:", len(test_cands)
 
-and_extractor.apply(all_sents, split=0)
-all_cands = session.query(GenePhenoPair).filter(GenePhenoPair.split==0).all()
+cand_extractor.apply(all_sents, split=4, parallelism=multiprocessing.cpu_count())
+all_cands = session.query(GenePhenoPair).filter(GenePhenoPair.split==4).all()
 print "Number of candidates:", len(all_cands)
 
 # NOTE: This if-then statement is only to avoid opening the viewer during automated testing of this notebook
