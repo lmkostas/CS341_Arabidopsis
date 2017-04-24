@@ -1,3 +1,4 @@
+import multiprocessing
 import os
 import sys
 import cPickle
@@ -46,11 +47,11 @@ for i, doc in enumerate(docs):
 print "Docs Split"
 print "Extracting Candidates..."
 
-#cand_extractor.apply(train_sents, split=0)#, parallelism=8)
+#cand_extractor.apply(train_sents, split=0)#, parallelism=multiprocessing.cpu_count())
 #train_cands = session.query(GenePhenoPair).filter(GenePhenoPair.split==0).all()
-#cand_extractor.apply(dev_sents, split=1)#, parallelism=8)
+#cand_extractor.apply(dev_sents, split=1)#, parallelism=multiprocessing.cpu_count())
 #dev_cands = session.query(GenePhenoPair).filter(GenePhenoPair.split==1).all()
-#cand_extractor.apply(test_sents, split=2)#, parallelism=8)
+#cand_extractor.apply(test_sents, split=2)#, parallelism=multiprocessing.cpu_count())
 #test_cands = session.query(GenePhenoPair).filter(GenePhenoPair.split==2).all()
 
 #print "Number of train candidates:", len(train_cands)
