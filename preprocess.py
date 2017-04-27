@@ -19,29 +19,115 @@ import math
 
 TRAIN_PCT = 0.8
 DEV_PCT = 0.1
+ESCAPE_CHARS = {
+    u"\u2212": "-",
+    u"\u2010": "-",
+    u"\u2011": "-",
+    u"\u2012": "-",
+    u"\u2013": "-",
+    u"\u2014": "-",
+    u"\u0391": "alpha",
+    u"\u03B1": "alpha",
+    u"\u0392": "beta",
+    u"\u03B2": "beta",
+    u"\u0393": "gamma",
+    u"\u03B3": "gamma",
+    u"\u0394": "delta",
+    u"\u03B4": "delta",
+    u"\u0395": "epsilon",
+    u"\u03B5": "epsilon",
+    u"\u0396": "zeta",
+    u"\u03B6": "zeta",
+    u"\u0397": "eta",
+    u"\u03B7": "eta",
+    u"\u0398": "theta",
+    u"\u03B8": "theta",
+    u"\u0399": "iota",
+    u"\u03B9": "iota",
+    u"\u039A": "kappa",
+    u"\u03BA": "kappa",
+    u"\u039B": "lambda",
+    u"\u03BB": "lambda",
+    u"\u039C": "mu",
+    u"\u03BC": "mu",
+    u"\u039D": "nu",
+    u"\u03BD": "nu",
+    u"\u039E": "xi",
+    u"\u03BE": "xi",
+    u"\u039F": "omicron",
+    u"\u03BF": "omicron",
+    u"\u03A0": "pi",
+    u"\u03C0": "pi",
+    u"\u03A1": "rho",
+    u"\u03C1": "rho",
+    #u"\u03A2": "sigma",
+    u"\u03C2": "sigma",
+    u"\u03C3": "sigma",
+    u"\u03A4": "tau",
+    u"\u03C4": "tau",
+    u"\u03A5": "upsilon",
+    u"\u03C5": "upsilon",
+    u"\u03A6": "phi",
+    u"\u03C6": "phi",
+    u"\u03A7": "chi",
+    u"\u03C7": "chi",
+    u"\u03A8": "psi",
+    u"\u03C8": "psi",
+    u"\u03A9": "omega",
+    u"\u03C9": "omega"
+}
 
-def parseAggrHTML(raw_xml_file, tsv_file, id_file):
+def replace_all_escaped(text):
+    for char in ESCAPE_CHARS:
+        text = text.replace(char, ESCAPE_CHARS[char])
+    return text
+
+def parseAggrHTML(raw_xml_file, tsv_file, id_file, data_size_flag, required_pmcids):
     full_body_parsed = 0
     abstract_parsed = 0
     no_data_parsed = 0
     total_files = 0
     pmc_ids = []
+    
+    small_file_count = 0
+    nonreq_count = 0
+    req_file_count = 0
+    random.seed(5)
+
+    if (data_size_flag == 'small'):
+        print "running small version...."
+
     with open(tsv_file, 'w') as wf:
 
         with open(raw_xml_file, 'rb') as f:
             print "Parsing XML file..."
             html = BeautifulSoup(f, 'xml')
             for i, doc in enumerate(html.find_all('article')):
-                #if i%1000 ==0: print i
-                print i
+                if i%100 ==0: print i
+                # print i
                 total_files += 1
                 pmc_id = 'PMC'+(doc.find('article-id', {'pub-id-type':'pmc'}).text).encode('utf-8')
+                idISSelected = (pmc_id in required_pmcids)
+                if (data_size_flag == 'small') and (not idISSelected):
+                    if nonreq_count >= 174 or random.random() > .5:
+                    	continue
+
+                print "parsing following id: ", pmc_id
+                    
                 text = ''
                 if doc.find('body'):
+                    small_file_count += 1
+                    if idISSelected:
+                        req_file_count += 1
+                    else:
+                    	nonreq_count += 1
+
                     full_body_parsed += 1
                     #remove all tabs and newlines from article text and convert to unicode
                     #conversion to unicode removes characters that cause later errors in snorkel preprocessing
-                    text = unicode(str(''.join(doc.find('body').find_all(text=True)).encode('utf-8').strip())+'.', errors='ignore')
+                    text = replace_all_escaped(''.join(doc.find('body').find_all(text=True)))
+                    text = unicode(str(text.encode('utf-8').strip())+'.', errors='ignore')
+                    # text = unicode(str(''.join(doc.find('body').find_all(text=True)).encode('utf-8').strip())+'.', errors='ignore')
                     #replace newliens with period for later processing by sentence
                     text = text.replace("\n", ". ")
                     text = text.replace("\t", " ")
@@ -60,11 +146,14 @@ def parseAggrHTML(raw_xml_file, tsv_file, id_file):
                     pmc_ids.append(pmc_id)
                 elif doc.find('abstract'):
                     #if the article has no body, check for abstract
+
                     abstract_parsed += 1
                     print pmc_id, ' - full article text not found, parsing abstract instead'
                     #remove all tabs and newlines from article text and convert to unicode
                     #conversion to unicode removes characters that cause later errors in snorkel preprocessing
-                    text = unicode(str(''.join(doc.find('abstract').find_all(text=True)).encode('utf-8').strip())+'.', errors='ignore')
+                    text = replace_all_escaped(''.join(doc.find('body').find_all(text=True)))
+                    text = unicode(str(text.encode('utf-8').strip())+'.', errors='ignore')                    
+                    # text = unicode(str(''.join(doc.find('abstract').find_all(text=True)).encode('utf-8').strip())+'.', errors='ignore')
                     #replace newlines with period for later processing by sentence
                     text = text.replace("\n", ". ")
                     text = text.replace("\t", " ")
@@ -107,7 +196,13 @@ def parseAggrHTML(raw_xml_file, tsv_file, id_file):
         cPickle.dump({'train': pmc_ids[0:train_end_idx], 'dev': pmc_ids[train_end_idx:dev_end_idx], 'test': pmc_ids[dev_end_idx:]}, id_f)
     
     print "PMC_ids written!"
+    print "num total files used: ", small_file_count
+    print "not req files used: ", nonreq_count
+    print "req files used: ", req_file_count
 
+def buildSelectedPMCIDSet(file):
+    selected_set = set(line.strip() for line in open(file))
+    return selected_set
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -117,6 +212,11 @@ if __name__ == '__main__':
                         help="Name of tsv output file to which processed data will be saved.")
     parser.add_argument("pmc_ids_file",
                         help="Name of pmc_ids pkl file to which ids will be saved")
+    parser.add_argument('-d', '--data_size', choices=["small","all"], default="small", help="what size dataset (small or all)")
     args = parser.parse_args()
-
-    parseAggrHTML(args.raw_xml_file, args.tsv_file, args.pmc_ids_file)
+    # print args.data_size
+    required_pmcids = set()
+    if (args.data_size == 'small'):
+        required_pmcids = buildSelectedPMCIDSet("small_data/selected_pmcid.txt")
+        # print required_pmcids, len(required_pmcids)
+    parseAggrHTML(args.raw_xml_file, args.tsv_file, args.pmc_ids_file, args.data_size, required_pmcids)

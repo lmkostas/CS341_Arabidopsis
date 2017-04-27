@@ -9,6 +9,7 @@ The script takes one argument:
 e.g. run split_docs.py <small/full>
 """ 
 
+import multiprocessing
 import os
 import sys
 
@@ -20,11 +21,11 @@ def docs_to_sentences():
 	from snorkel.models import Document, Sentence
 	session = SnorkelSession()
 
-	pathname = 'small_data_pp/small_pp.tsv' if os.environ['AGP_DATA_SIZE'] == 'small-data' else 'data/full_pp.tsv'
+	pathname = 'small_data/data_400.tsv' if os.environ['AGP_DATA_SIZE'] == 'small-data' else 'data/full_pp.tsv'
 	doc_preprocessor = TSVDocPreprocessor(pathname)
 
 	corpus_parser = CorpusParser()
-	corpus_parser.apply(doc_preprocessor, parallelism=8)
+	corpus_parser.apply(doc_preprocessor, parallelism=multiprocessing.cpu_count())
 
 	print "Documents:", session.query(Document).count()
 	print "Sentences:", session.query(Sentence).count()
