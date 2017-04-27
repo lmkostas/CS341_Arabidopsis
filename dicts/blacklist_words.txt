@@ -186,3 +186,4 @@ id	stop_word
 3	big
 4	WT
 5	or
+6	one
