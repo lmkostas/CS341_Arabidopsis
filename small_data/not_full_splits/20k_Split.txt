@@ -16,3 +16,19 @@ Add this to the top of File 2
 <?xml version="1.0"?>
 <!DOCTYPE pmc-articleset PUBLIC "-//NLM//DTD ARTICLE SET 2.0//EN" "https://dtd.nlm.nih.gov/ncbi/pmc/articleset/nlm-articleset-2.0.dtd">
 <pmc-articleset>
+
+
+
+
+###########################
+Get Results
+
+<title>Results</title>  [Exact Match]
+
+--------- or -------------
+ 
+<sec sec-type="results">  [Search for sec-type]
+
+
+File 1: 166 req files, 34 non-req files, random .05
+File 2: 23 req files, 177 non-req files, random .2
