@@ -1,0 +1,34 @@
+20k Split
+
+File 1: Line 1 - Line 1739080: 					1739080 lines
+File 2: Line 1739081 - Line 3477569: 			1738488 lines
+
+
+
+
+File 1 Command:
+sed -n -e 1,1739080p small_data/20k_files/data_20k.xml > small_data/not_full_splits/data_1k_1.xml
+
+File 2 Command:
+sed -n -e 1739081,3477568p small_data/20k_files/data_20k.xml > small_data/not_full_splits/data_1k_2.xml
+
+Add this to the top of File 2
+<?xml version="1.0"?>
+<!DOCTYPE pmc-articleset PUBLIC "-//NLM//DTD ARTICLE SET 2.0//EN" "https://dtd.nlm.nih.gov/ncbi/pmc/articleset/nlm-articleset-2.0.dtd">
+<pmc-articleset>
+
+
+
+
+###########################
+Get Results
+
+<title>Results</title>  [Exact Match]
+
+--------- or -------------
+ 
+<sec sec-type="results">  [Search for sec-type]
+
+
+File 1: 166 req files, 34 non-req files, random .05
+File 2: 23 req files, 177 non-req files, random .2
