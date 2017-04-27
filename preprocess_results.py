@@ -103,13 +103,13 @@ def parseAggrHTML(raw_xml_file, tsv_file, id_file, data_size_flag, required_pmci
             print "Parsing XML file..."
             html = BeautifulSoup(f, 'xml')
             for i, doc in enumerate(html.find_all('article')):
-                # if i%100 ==0: print i
-                print i
+                if i%100 ==0: print i
+                # print i
                 total_files += 1
                 pmc_id = 'PMC'+(doc.find('article-id', {'pub-id-type':'pmc'}).text).encode('utf-8')
                 idISSelected = (pmc_id in required_pmcids)
                 if (data_size_flag == 'small') and (not idISSelected):
-                    if nonreq_count >= 174: #or random.random() > .5:
+                    if nonreq_count >= 177 or random.random() > .2:
                     	continue
 
                 print "parsing following id: ", pmc_id
@@ -120,7 +120,11 @@ def parseAggrHTML(raw_xml_file, tsv_file, id_file, data_size_flag, required_pmci
                 if secRes is not None:
                     isSecType = True
 
-                titleRes = doc.find('title', text = 'Results').findParents('sec')[0]
+                res = doc.find('title', text = 'Results')
+                if res is not None:
+                    titleRes = res.findParents('sec')[0]
+                else:
+                    titleRes = None
                 isTitleType = False
                 if titleRes is not None:
                     isTitleType = True
@@ -135,13 +139,13 @@ def parseAggrHTML(raw_xml_file, tsv_file, id_file, data_size_flag, required_pmci
                     full_body_parsed += 1
 
                     if isSecType:
-                        print "************ CHOOSING SEC TYPE ********************"
+                        # print "************ CHOOSING SEC TYPE ********************"
                         text = replace_all_escaped(''.join(secRes.find_all(text=True)))                        
                     elif not isSecType and isTitleType:
-                        print "************ CHOOSING TITLE TYPE ********************"
+                        # print "************ CHOOSING TITLE TYPE ********************"
                         text = replace_all_escaped(''.join(titleRes.find_all(text=True)))
                     elif not isSecType and not isTitleType:
-                        print "************ CHOOSING BODY TYPE ********************"
+                        # print "************ CHOOSING BODY TYPE ********************"
                         text = replace_all_escaped(''.join(doc.find('body').find_all(text=True)))
 
                     #remove all tabs and newlines from article text and convert to unicode

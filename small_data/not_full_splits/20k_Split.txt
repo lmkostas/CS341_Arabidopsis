@@ -28,3 +28,7 @@ Get Results
 --------- or -------------
  
 <sec sec-type="results">  [Search for sec-type]
+
+
+File 1: 166 req files, 34 non-req files, random .05
+File 2: 23 req files, 177 non-req files, random .2
