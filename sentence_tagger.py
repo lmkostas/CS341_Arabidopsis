@@ -1,3 +1,4 @@
+import multiprocessing
 import os
 import sys
 import cPickle
@@ -31,10 +32,13 @@ all_ids = train_ids.union(dev_ids).union(test_ids)
 train_sents, dev_sents, test_sents, all_sents = set(), set(), set(), set()
 docs = session.query(Document).order_by(Document.name).all()
 countdev=0
-for i, doc in enumerate(docs):
-    #if len(dev_sents) >= 100:break
+doc_sents = dict()
+for split, doc in enumerate(docs):
+    if len(doc_sents) >= 3:break
+    doc_sents[split] = set()
     for s in doc.sentences:
     	all_sents.add(s)
+        doc_sents[split].add(s)
     	name = doc.name.split('-')[0]
         if name in train_ids:
             train_sents.add(s)
@@ -51,15 +55,20 @@ print "Extracting Candidates..."
 
 #cand_extractor.apply(train_sents, split=0)#, parallelism=8)
 #train_cands = session.query(GenePhenoPair).filter(GenePhenoPair.split==0).all()
-cand_extractor.apply(dev_sents, split=1)#, parallelism=8)
-dev_cands = session.query(GenePhenoPair).filter(GenePhenoPair.split==1).all()
+#cand_extractor.apply(dev_sents, split=1)#, parallelism=8)
+#dev_cands = session.query(GenePhenoPair).filter(GenePhenoPair.split==1).all()
 #cand_extractor.apply(test_sents, split=2)#, parallelism=8)
 #test_cands = session.query(GenePhenoPair).filter(GenePhenoPair.split==2).all()
 
 #print "Number of train candidates:", len(train_cands)
-print "Number of dev candidates:", len(dev_cands)
+#print "Number of dev candidates:", len(dev_cands)
 #print "Number of test candidates:", len(test_cands)
+
+for split, sents in doc_sents.iteritems():
+    cand_extractor.apply(sents, split=split, parallelism=multiprocessing.cpu_count())
+all_cands = session.query(GenePhenoPair).filter(GenePhenoPair.split < len(doc_sents)).all()
+print "Number of candidates:", len(all_cands)
 
 # NOTE: This if-then statement is only to avoid opening the viewer during automated testing of this notebook
 # You should ignore this!
-sv = SentenceNgramViewer(dev_cands, session, annotator_name = 'gold')
+#sv = SentenceNgramViewer(dev_cands, session, annotator_name = 'gold')
