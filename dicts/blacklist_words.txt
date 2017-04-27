@@ -187,3 +187,4 @@ id	stop_word
 4	WT
 5	or
 6	one
+7	role

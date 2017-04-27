@@ -10,7 +10,11 @@ ALLELE_PATTERNS = [
     "_ {gene} _ - {allele}",
     "_ {gene} _ -{allele}",
     "_ {gene} _ - _ {allele} _",
-    "{gene} - {allele}"
+    "{gene} - {allele}",
+    "_{gene}_-{allele}",
+    "_{gene}_-{allele}",
+    "_{gene}_-_{allele}_",
+    "{gene}-{allele}"
 ]
 
 PHENO_LIST = "dicts/list_phenotypes_arabidopsis_filtered.txt"
@@ -154,12 +158,12 @@ session = SnorkelSession()
 from snorkel.matchers import Sequence, DictionaryMatch, Concat, RegexMatchSpan, SlotFillMatch, Union, RegexMatchEach
 
 genes = load_gene_list()
-FULL_GENE = Union(DictionaryMatch(d=genes, longest_match_only=True), RegexMatchEach(rgx=r'[A-Za-z]\w*-\d+'), longest_match_only=True)
-GM = Sequence(FULL_GENE, longest_match_only=True)
-GM = Concat(DictionaryMatch(d=genes, longest_match_only=True), RegexMatchSpan(rgx=r'-\d+'), longest_match_only=True, right_required=False)
+GENE = DictionaryMatch(d=genes, longest_match_only=True)
+GM = Sequence(GENE, longest_match_only=True)
+#GM = Concat(DictionaryMatch(d=genes, longest_match_only=True), RegexMatchSpan(rgx=r'-\d+'), longest_match_only=True, right_required=False)
 dict_linkwords = ['of', 'over', 'in', 'the', 'with', 'to', 'a']
 #adjs = ['advanced', 'reduced', 'greater', 'less', 'small', 'large', 'short', 'tall', 'increased', 'decreased']
-patos = parse_pato(PATO_ONTOLOGY) + ['increased', 'decreased', 'levels']
+patos = parse_pato(PATO_ONTOLOGY) + ['increase', 'decrease', 'level']
 phenos = load_pheno_list() #+ ['root']
 obos = load_pheno_ontology() + ['root']
 
