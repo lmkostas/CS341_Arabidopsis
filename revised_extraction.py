@@ -159,13 +159,16 @@ from snorkel.matchers import Sequence, DictionaryMatch, Concat, RegexMatchSpan, 
 
 genes = load_gene_list()
 GENE = DictionaryMatch(d=genes, longest_match_only=True)
+#GM = Sequence(GENE, longest_match_only=True)
+#GENE = Concat(GENE, SlotFillMatch(GENE, pattern=r'{0}-\d+'), longest_match_only=True, right_required=False)
+GENE = Union(GENE, SlotFillMatch(GENE, pattern=r'{0}-\d+'), RegexMatchSpan(rgx=r'(([A-Za-z]{2,4}(\d+(.\d+)?)?(-\d+))+)|(([A-Za-z]{1,4}(\d+(.\d+)?)(-\d+)?)+)'))
 GM = Sequence(GENE, longest_match_only=True)
-#GM = Concat(DictionaryMatch(d=genes, longest_match_only=True), RegexMatchSpan(rgx=r'-\d+'), longest_match_only=True, right_required=False)
+
 dict_linkwords = ['of', 'over', 'in', 'the', 'with', 'to', 'a']
 #adjs = ['advanced', 'reduced', 'greater', 'less', 'small', 'large', 'short', 'tall', 'increased', 'decreased']
-patos = parse_pato(PATO_ONTOLOGY) + ['increase', 'decrease', 'level']
+patos = parse_pato(PATO_ONTOLOGY) + ['increase', 'decrease', 'level', 'enhance', 'reduce']
 phenos = load_pheno_list() #+ ['root']
-obos = load_pheno_ontology() + ['root']
+obos = load_pheno_ontology() + ['root'] + phenos
 
 QUALIFIERS = RegexMatchEach(rgx=r'JJ.*|JJS.*|JJR.*', attrib='pos_tags')
 #QUALIFIERS = RegexMatchSpan(rgx=r'JJ.*|JJS.*|JJR.*|VBN.*|RB.*|RBS.*|RBR.*|(JJ |JJS |JJR |VBN )?(NN|NNS|NNP|NNPS).*', attrib='pos_tags')
@@ -174,8 +177,39 @@ PATOS = DictionaryMatch(d=patos, attrib='lemmas', longest_match_only=True)
 OBOS = DictionaryMatch(d=obos, attrib='lemmas', longest_match_only=True)
 PHENOS = DictionaryMatch(d=phenos, attrib='lemmas', longest_match_only=True)
 
-OBO_QUAL = Sequence(QUALIFIERS, PATOS, OBOS, LINKS, longest_match_only=True, required=[1, 0, 1, 0])
+QUANT = RegexMatchSpan(rgx=r'(\d+(.\d+)?-)?\d+(.\d+)?%', longest_match_only=True)
+ADJS = Sequence(RegexMatchEach(rgx=r'(JJ|JJS|JJR|VBN).*', attrib='pos_tags', longest_match_only=True), longest_match_only=True)
+PREPS = DictionaryMatch(d=['of', 'in', 'to', 'over'])#RegexMatchEach(rgx=r'(IN|TO).*', attrib='pos_tags')
+DETS = DictionaryMatch(d=['a', 'the', 'its', 'their'], longest_match_only=True) 
+NOUNS = RegexMatchEach(rgx=r'(NN|NNS)+ (IN|TO).*', attrib='pos_tags')
+#ADJ_PHRASE = RegexMatchEach(rgx=r'(JJ|JJS|JJR|VBN)(( IN|TO)?( DT)?( NN| NNS)+( IN|TO)*)?.*', attrib='pos_tags')
+#PM = Union (OBOS, PM, SlotFillMatch(ADJ_PHRASE, OBOS, pattern = '{0} {1}'))
+VB = Union(RegexMatchEach(rgx=r'VBD|VBN.*', attrib='pos_tags', longest_match_only=True), DictionaryMatch(d=['is', 'are', 'was', 'were'], longest_match_only=True))
+NN = Sequence(RegexMatchEach(rgx=r'(NN|NNS).*', attrib='pos_tags', longest_match_only=True), longest_match_only=True)
+NNS = Sequence(RegexMatchSpan(rgx=r'[A-Za-z]+ion', longest_match_only=True), longest_match_only=True)
+ADJ_NN = Concat(ADJS, NN, longest_match_only=True)
+#PM = Sequence(OBOS, SlotFillMatch(OBOS, VB, ADJS, pattern='{0} {1} {2}'), SlotFillMatch(ADJS, OBOS, pattern='{0} {1}'), PATOS, PREPS, DETS, longest_match_only=True, required=[1, 0, 0, 0, 0, 0])
+
+#ADJ_PHRASE = RegexMatchEach(rgx = r'(JJ|JJR|JJS) (NN|NNS)( IN)?.*', attrib='pos_tags')
+PM = Sequence(OBOS, PATOS, PREPS, DETS, longest_match_only=True, required = [1, 0, 0, 0])
+PM = Union(Concat(ADJS, PM, longest_match_only=True), Concat(NNS, PM, longest_match_only=True), Concat(ADJ_NN, PM, longest_match_only=True), longest_match_only=True)
+'''
+#PM = SlotFillMatch(PHENOS, DictionaryMatch(d=['is', 'are', 'was', 'were']), ADJ_PHRASE, pattern='{0} {1} {2}')
+#OBO_QUAL = Sequence(QUALIFIERS, PATOS, OBOS, LINKS, longest_match_only=True, required=[1, 0, 1, 0])
 #OBO_PATO = Sequence(QUALIFIERS, PATOS, OBOS, LINKS, longest_match_only=True, required = [1, 1, 1, 0])
-PM = Union(OBO_QUAL, PHENOS, longest_match_only=True)
+#PM = Union(OBO_QUAL, PHENOS, longest_match_only=True)
+#PM = RegexMatchEach(rgx=r'VBN.*', attrib='pos_tags')
 #PM = RegexMatchSpan(rgx=r'JJ.*|JJS.*|JJR.*', attrib='pos_tags')
 #PM = Sequence(DictionaryMatch(d=phenos, longest_match_only=True, attrib='lemmas'), DictionaryMatch(d=patos, attrib='lemmas', longest_match_only=True), LINKS, QUALIFIERS, longest_match_only=True, required=[1, 0, 0, 0])
+
+PRE_ADJ = RegexMatchEach(rgx = r'(JJ|JJS|JJR|VBN) (NN|NNS) (IN|TO).*', attrib='pos_tags')
+ADJ_SEQ = RegexMatchEach(rgx = r'((JJ|JJS|JJR|VBN), |(JJ|JJS|JJR|VBN))+and (JJ|JJS|JJR|VBN).*', attrib='pos_tags')
+PRE_VBN = RegexMatchEach(rgx = r'VBN.*', attrib='pos_tags')
+POST_ADJ = RegexMatchEach(rgx = r'(IN|TO) (JJ|JJS|JJR|VBN) (NN|NNS).*', attrib='pos_tags')
+PRE_VBD = RegexMatchEach(rgx = r'(VBD|VBN) (TO|IN).*', attrib='pos_tags')
+RegexMatchEach(rgx = r'(VBD|VBN) IN.*', attrib='pos_tags')
+#PM = Concat(Sequence(RegexMatchEach(rgx = r'NN.*', attrib='pos_tags')), PM, longest_match_only=True, left_required=False)
+'''
+#Sequence(RegexMatchEach(rgx=r'(JJ|JJS|JJR).*', attrib='pos_tags', longest_match_only=True), longest_match_only=True)
+#SlotFillMatch(RegexMatchEach(rgx=r'(JJ|JJS|JJR).*', attrib='pos_tags', longest_match_only=True), RegexMatchEach(rgx=r'(NN|NNS).*', attrib='pos_tags', longest_match_only=True), pattern='{0} {1}', longest_match_only=True)
+#PM = Concat(ADJS, NN, longest_match_only=True)

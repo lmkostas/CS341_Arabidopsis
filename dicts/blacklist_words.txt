@@ -188,3 +188,5 @@ id	stop_word
 5	or
 6	one
 7	role
+8	DNA
+9	RNA
