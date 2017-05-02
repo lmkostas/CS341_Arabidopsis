@@ -352,7 +352,7 @@ class Sequence(NgramMatcher):
         if m is None:
             return False
         # Then, recursively apply matchers
-        for match in re.finditer(r'([\w-]+)', c.get_attrib_span(self.attrib)):
+        for match in re.finditer(r'([A-Za-z0-9-]+)', c.get_attrib_span(self.attrib)):
             match_found = False
             split = c.get_attrib_span(self.attrib)[match.start(1):match.end(1)]
             for i in range(len(self.children)):
