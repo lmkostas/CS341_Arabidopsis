@@ -104,7 +104,7 @@ def load_pheno_list():
 
     # Filter by blacklist
     blacklist = read_blacklist()
-    return [pheno.lower() for pheno in result if pheno.lower() not in blacklist]
+    return [pheno.lower() for pheno in result if pheno.lower() not in blacklist and len(pheno) > 1]
 
 def load_pheno_ontology():
     """
@@ -123,7 +123,7 @@ def load_pheno_ontology():
     ontology_terms = list(set(ontology_terms))
 
     blacklist = read_blacklist()
-    return [pheno.lower() for pheno in ontology_terms if pheno.lower() not in blacklist]
+    return [pheno.lower() for pheno in ontology_terms if pheno.lower() not in blacklist and len(pheno) > 1]
 
     return ontology_terms
 
