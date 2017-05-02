@@ -8,7 +8,7 @@ sys.path.insert(1, '../snorkel')
 
 from snorkel import SnorkelSession
 from snorkel.matchers import DictionaryMatch
-from extraction import GM, PM
+from revised_extraction import GM, PM
 from snorkel.candidates import Ngrams, CandidateSpace, CandidateExtractor
 from snorkel.models import Document, Sentence, candidate_subclass
 from snorkel.viewer import SentenceNgramViewer
@@ -21,7 +21,7 @@ gene_ngrams = Ngrams(n_max=5)
 pheno_ngrams = Ngrams(n_max=10)
 cand_extractor = CandidateExtractor(GenePhenoPair, 
                                     [gene_ngrams, pheno_ngrams], [GM, PM],
-                                    symmetric_relations=False)
+                                    symmetric_relations=True)
 
 print "Splitting Docs..."
 pathname = 'small_data/' if os.environ['AGP_DATA_SIZE'] == 'small-data' else 'data/'
@@ -32,9 +32,13 @@ all_ids = train_ids.union(dev_ids).union(test_ids)
 
 train_sents, dev_sents, test_sents, all_sents = set(), set(), set(), set()
 docs = session.query(Document).order_by(Document.name).all()
-for i, doc in enumerate(docs):
+doc_sents = dict()
+for split, doc in enumerate(docs):
+    if len(doc_sents) >= 10: break
+    doc_sents[split] = set()
     for s in doc.sentences:
     	all_sents.add(s)
+        doc_sents[split].add(s)
     	name = doc.name.split('-')[0]
         if name in train_ids:
             train_sents.add(s)
@@ -50,19 +54,20 @@ print "Extracting Candidates..."
 
 #cand_extractor.apply(train_sents, split=0)#, parallelism=multiprocessing.cpu_count())
 #train_cands = session.query(GenePhenoPair).filter(GenePhenoPair.split==0).all()
-#cand_extractor.apply(dev_sents, split=1)#, parallelism=multiprocessing.cpu_count())
+#cand_extractor.apply(dev_sents, split=1)#, parallelism=8)
 #dev_cands = session.query(GenePhenoPair).filter(GenePhenoPair.split==1).all()
-#cand_extractor.apply(test_sents, split=2)#, parallelism=multiprocessing.cpu_count())
+#cand_extractor.apply(test_sents, split=2)#, parallelism=8)
 #test_cands = session.query(GenePhenoPair).filter(GenePhenoPair.split==2).all()
 
 #print "Number of train candidates:", len(train_cands)
 #print "Number of dev candidates:", len(dev_cands)
 #print "Number of test candidates:", len(test_cands)
 
-cand_extractor.apply(all_sents, split=4, parallelism=multiprocessing.cpu_count())
-all_cands = session.query(GenePhenoPair).filter(GenePhenoPair.split==4).all()
+for split, sents in doc_sents.iteritems():
+    cand_extractor.apply(sents, split=split, parallelism=multiprocessing.cpu_count())
+all_cands = session.query(GenePhenoPair).filter(GenePhenoPair.split < len(doc_sents)).all()
 print "Number of candidates:", len(all_cands)
 
 # NOTE: This if-then statement is only to avoid opening the viewer during automated testing of this notebook
 # You should ignore this!
-sv = SentenceNgramViewer(all_cands, session, annotator_name = 'gold')
+#sv = SentenceNgramViewer(dev_cands, session, annotator_name = 'gold')
