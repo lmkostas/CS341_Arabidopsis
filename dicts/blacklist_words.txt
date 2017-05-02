@@ -182,7 +182,13 @@ id	stop_word
 172	WOODY
 125	WOULD
 1	localized
-2	root
 3	big
 4	WT
 5	or
+6	one
+7	indicate
+8	bar
+9	indicated
+10	grown
+11	bars
+12	bar

@@ -2,6 +2,7 @@ import csv
 import os
 import util
 from obo_parser import parseGOOBO
+import re
 
 BLACKLIST = "dicts/blacklist_words.txt"
 
@@ -10,7 +11,8 @@ ALLELE_PATTERNS = [
     "_ {gene} _ - {allele}",
     "_ {gene} _ -{allele}",
     "_ {gene} _ - _ {allele} _",
-    "{gene} - {allele}"
+    "{gene} - {allele}",
+    "{gene}-{allele}"
 ]
 
 PHENO_LIST = "dicts/list_phenotypes_arabidopsis_filtered.txt"
@@ -54,11 +56,7 @@ def load_gene_list():
     blacklist = read_blacklist()
     gene_blacklist = [item.lower() for item in blacklist]
 
-    genes = util.read_tsv_flat(GENE_LIST)
-
-    for g in genes:
-        if g in gene_blacklist: print 'b', g
-        if g.lower()=='also': print 'ALSO'
+    genes = util.read_tsv_flat(GENE_LIST) + ['st5.1']
 
     genes_filtered = [gene.lower() for gene in genes if gene.lower() not in gene_blacklist]
 
@@ -93,6 +91,14 @@ def load_pheno_list():
     result.extend(util.read_file_lines(PHENO_MANUAL))
 
     result.extend(load_pheno_ontology())
+
+    full_result = []
+    for p in result:
+        p = re.sub(r'\([^)]*\)',' ',p)
+        full_result.extend(p.split())
+
+    result.extend(full_result)
+    result = list(set(result))
 
     # Filter by blacklist
     blacklist = read_blacklist()
@@ -143,44 +149,40 @@ def parse_pato(ontology_file):
                     terms.append(elt['synonym'].split('"')[1])
                 except:
                     print 'error parsing ontology synonym non list'
-    return terms
+
+    full_result = []
+    for p in terms:
+        p = re.sub(r'\([^)]*\)',' ',p)
+        full_result.extend(p.split())
+
+    terms.extend(full_result)
+    terms = list(set(terms))
+    blacklist = read_blacklist()
+    return [pheno.lower() for pheno in terms if pheno.lower() not in blacklist]
 
 #if __name__ == "__main__":
 #    main()
 
 from snorkel import SnorkelSession
 session = SnorkelSession()
-from snorkel.matchers import DictionaryMatch, Concat, RegexMatchSpan, SlotFillMatch, Union
-
+from snorkel.matchers import Sequence, DictionaryMatch, Concat, RegexMatchEach, RegexMatchSpan, SlotFillMatch, Union
 genes = load_gene_list()
-EXTENDED = RegexMatchSpan(rgx=r' *- *\S+')
-END_EXT = RegexMatchSpan(rgx=r' *[\/] *\S+| *\(\S\)')
-FRONT_EXT = RegexMatchSpan(rgx=r'\S+ *[\/] *')
-PARENTHESIS = RegexMatchSpan(rgx=r' *\(.+\)')
-LIST_JOINERS = RegexMatchSpan(rgx=r'^( *,| *;| *and| *or)$')
-EXTENDED_GENE = Concat(DictionaryMatch(d=genes, longest_match_only=True), EXTENDED, longest_match_only=True, right_required=False)
-ADDON_GENE = Concat(EXTENDED_GENE, PARENTHESIS, longest_match_only=True, right_required=False)
-FULL_GENE = Concat(FRONT_EXT, Concat(ADDON_GENE, END_EXT, longest_match_only=True, right_required=False), longest_match_only=True, left_required=False)
-GENE_LIST = Union(FULL_GENE, SlotFillMatch(FULL_GENE, pattern='{0},'), SlotFillMatch(FULL_GENE, pattern='{0};'), SlotFillMatch(FULL_GENE, pattern='{0}, and'), SlotFillMatch(FULL_GENE, pattern='{0}; and'), SlotFillMatch(FULL_GENE, pattern='{0}, or'), SlotFillMatch(FULL_GENE, pattern='{0}; or'), SlotFillMatch(FULL_GENE, pattern='{0} and'), SlotFillMatch(FULL_GENE, pattern='{0} or'), SlotFillMatch(FULL_GENE, pattern='{0}, and/or'), SlotFillMatch(FULL_GENE, pattern='{0} and/or'))#Concat(FULL_GENE, LIST_JOINERS, longest_match_only=True, right_required=False)
-GM = Concat(GENE_LIST, GENE_LIST, longest_match_only=True, right_required=False)
-GM = Concat(GM, GM, longest_match_only=True, right_required=False)
-GM = Concat(GM, GM, longest_match_only=True, right_required=False)
-
-dict_linkwords = ['of', 'over', 'in', 'the', 'with', 'to', 'a']
+#dict_linkwords = ['of', 'over', 'in', 'the', 'with', 'to', 'a']
 adjs = ['advanced', 'reduced', 'greater', 'less', 'small', 'large', 'short', 'tall', 'increased', 'decreased']
-patos = parse_pato(PATO_ONTOLOGY)#+ dict_linkwords
+patos = parse_pato(PATO_ONTOLOGY)+adjs
 phenos = load_pheno_list()
+print phenos
+GM = Union(Sequence(DictionaryMatch(d=genes, longest_match_only=True)), DictionaryMatch(d=genes, longest_match_only=True), RegexMatchEach(rgx=r'([A-Za-z]{1,4}\d+(.\d+)?(-\d+)?){2,}'))
+PM = Concat(DictionaryMatch(d=phenos, stemmer='porter', longest_match_only=True), DictionaryMatch(d=patos, stemmer='porter', longest_match_only=True), permutations=True, longest_match_only=True)
+#PM = Sequence(DictionaryMatch(d=phenos, stemmer='porter', longest_match_only=True), DictionaryMatch(d=patos, stemmer='porter', longest_match_only=True), DictionaryMatch(d=['a', 'the'], longest_match_only=True), longest_match_only=True, required=[1, 0, 0])
+'''
+PM=Concat(DictionaryMatch(d=phenos, stemmer='porter', longest_match_only=True), DictionaryMatch(d=['a', 'the']), longest_match_only=True, permutations=True)
+PM_NN = Concat(RegexMatchEach(rgx=r'(\w+ion(, (and)?)?)+ (of|in)', longest_match_only=True), PM, longest_match_only=True)
+PM_PART = Concat(RegexMatchEach(rgx=r'VBN+( CC VBN)?.*', longest_match_only=True, attrib='pos_tags'), PM, longest_match_only=True)
+PM_ADJ = Concat(RegexMatchEach(rgx=r'(JJ|JJR)+( CC (JJ|JJR))?.*', longest_match_only=True, attrib='pos_tags'), PM, longest_match_only=True)
+PM_PART_POST = SlotFillMatch(PM, DictionaryMatch(d=['was', 'is', 'were', 'are']), RegexMatchEach(rgx=r'(JJ|JJR|VBN)+( CC (JJ|JJR|VBN))?.*', longest_match_only=True, attrib='pos_tags'), pattern='{0} {1} {2}', longest_match_only=True)
+PM_PATO = Concat(PM, DictionaryMatch(d=patos, stemmer='porter', longest_match_only=True), permutations=True, longest_match_only=True)
 
-#QM = QUALIFIERS = RegexMatchSpan(rgx=r'JJ.*|JJS.*|JJR.*', attrib='poses')
-LINKS = Concat(DictionaryMatch(d=dict_linkwords, longest_match_only=True), DictionaryMatch(d=dict_linkwords, longest_match_only=True), longest_match_only=True, right_required=False)
-PATO_MATCH = Concat(DictionaryMatch(d=patos, attrib='lemmas', longest_match_only=True), DictionaryMatch(d=patos, attrib='lemmas', longest_match_only=True), longest_match_only=True, right_required=False)
-FULL_PATO = Concat(Concat(PATO_MATCH, LINKS, longest_match_only=True, right_required=False), Concat(LINKS, PATO_MATCH, longest_match_only=True, left_required=False), longest_match_only = True, permutations = True, left_required = False, right_required=False)
-FULL_PHENO = Concat(Concat(FULL_PATO, DictionaryMatch(d=phenos, longest_match_only=True), longest_match_only=True, left_required=False), PATO_MATCH, longest_match_only=True, right_required=False)
-#FRONT_EXT_PHENO = Concat(PATO_MATCH, DictionaryMatch(d=phenos, longest_match_only=True), longest_match_only=True)
-#BACK_EXT_PHENO = Concat(DictionaryMatch(d=phenos, longest_match_only=True), PATO_MATCH, longest_match_only=True)
-#FULL_PHENO = Concat(FRONT_EXT_PHENO, BACK_EXT_PHENO, longest_match_only=True, left_required=False, right_required=False)
-#FULL_PHENO = Concat(Concat(PATO_MATCH, DictionaryMatch(d=phenos, longest_match_only=True), longest_match_only=True, left_required=False), PATO_MATCH, longest_match_only=True, right_required=False)
-PHENO_LIST = Union(FULL_PHENO, SlotFillMatch(FULL_PHENO, pattern='{0},'), SlotFillMatch(FULL_PHENO, pattern='{0};'), SlotFillMatch(FULL_PHENO, pattern='{0}, and'), SlotFillMatch(FULL_PHENO, pattern='{0}; and'), SlotFillMatch(FULL_PHENO, pattern='{0}, or'), SlotFillMatch(FULL_PHENO, pattern='{0}; or'), SlotFillMatch(FULL_PHENO, pattern='{0} and'), SlotFillMatch(FULL_PHENO, pattern='{0} or'), SlotFillMatch(FULL_PHENO, pattern='{0}, and/or'), SlotFillMatch(FULL_PHENO, pattern='{0} and/or'))
-PM = Concat(PHENO_LIST, PHENO_LIST, longest_match_only=True, right_required=False)
-PM = Concat(PM, PM, longest_match_only=True, right_required=False)
-PM = Concat(PM, PM, longest_match_only=True, right_required=False)
+PM = Union(PM_PATO, PM_ADJ, PM_PART, PM_PART_POST, longest_match_only=True)
+#PM = Sequence(PM, DictionaryMatch(d=patos, stemmer='porter', longest_match_only=True), RegexMatchEach(rgx=r'IN', longest_match_only=True, attrib='pos_tags'), required = [1, 1, 0])
+'''
