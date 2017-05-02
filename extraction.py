@@ -93,7 +93,7 @@ def load_pheno_list():
     result.extend(util.read_file_lines(PHENO_MANUAL))
 
     result.extend(load_pheno_ontology())
-
+    '''
     full_result = []
     for p in result:
         p = re.sub(r'\([^)]*\)',' ',p)
@@ -101,7 +101,7 @@ def load_pheno_list():
 
     result.extend(full_result)
     result = list(set(result))
-
+    '''
     # Filter by blacklist
     blacklist = read_blacklist()
     return [pheno.lower() for pheno in result if pheno.lower() not in blacklist and len(pheno) > 1]
@@ -113,17 +113,17 @@ def load_pheno_ontology():
     ontology_terms = []
     for ontology_file in ONTOLOGIES:
         ontology_terms.extend(parse_ontology(ontology_file))
-
+    '''
     full_result = []
     for p in ontology_terms:
         p = re.sub(r'\([^)]*\)',' ',p)
         full_result.extend(p.split())
-
-    ontology_terms.extend(full_result)
-    ontology_terms = list(set(ontology_terms))
+    '''
+    #ontology_terms.extend(full_result)
+    #ontology_terms = list(set(full_result))
 
     blacklist = read_blacklist()
-    return [pheno.lower() for pheno in ontology_terms if pheno.lower() not in blacklist and len(pheno) > 1]
+    return [pheno.lower() for pheno in ontology_terms if pheno.lower() not in blacklist and len(pheno) > 1 and re.search(r'[a-zA-Z]', pheno)]
 
     return ontology_terms
 
@@ -131,47 +131,59 @@ def load_pheno_ontology():
 def parse_ontology(ontology_file):
     terms = []
     for elt in parseGOOBO(ontology_file):
-        if len(elt["name"]) > 1: terms.append(elt["name"])
+        #terms.append(elt["name"])
+        #if len(elt["name"].split()) > 1:
+        p = re.sub(r'\([^)]*\)',' ',elt["name"])
+        terms.extend(p.split())
         if 'synonym' in elt:
             if isinstance(elt['synonym'], list):
                 for syn in elt['synonym']:
                     try:
-                        if len(syn.split('"')[1]) >1: terms.append(syn.split('"')[1])
+                        #terms.append(syn.split('"')[1])
+                        #if len(syn.split('"')[1].split()) > 1:
+                        p = re.sub(r'\([^)]*\)',' ',syn.split('"')[1])
+                        terms.extend(p.split())
                     except:
                         print 'error parsing ontology synonym'
             else:
                 try:
-                    if len(elt['synonym'].split('"')[1]) > 1: terms.append(elt['synonym'].split('"')[1])
+                    #terms.append(elt['synonym'].split('"')[1])
+                    #if len(elt['synonym'].split('"')[1].split()) > 1:
+                    p = re.sub(r'\([^)]*\)',' ',elt['synonym'].split('"')[1])
+                    terms.extend(p.split())
                 except:
                     print 'error parsing ontology synonym non list'
+    terms = list(set(terms))
     return terms
 
 def parse_pato(ontology_file):
     terms = []
     for elt in parseGOOBO(ontology_file):
-        if len(elt["name"]) > 1: terms.append(elt["name"])
+        #terms.append(elt["name"])
+        #if len(elt["name"].split()) > 1:
+        p = re.sub(r'\([^)]*\)',' ',elt["name"])
+        terms.extend(p.split())
         if 'synonym' in elt:
             if isinstance(elt['synonym'], list):
                 for syn in elt['synonym']:
                     try:
-                        if len(syn.split('"')[1]) >1: terms.append(syn.split('"')[1])
+                        #terms.append(syn.split('"')[1])
+                        #if len(syn.split('"')[1].split()) > 1:
+                        p = re.sub(r'\([^)]*\)',' ',syn.split('"')[1])
+                        terms.extend(p.split())
                     except:
                         print 'error parsing ontology synonym'
             else:
                 try:
-                    if len(elt['synonym'].split('"')[1]) > 1: terms.append(elt['synonym'].split('"')[1])
+                    #terms.append(elt['synonym'].split('"')[1])
+                    #if len(elt['synonym'].split('"')[1].split()) > 1:
+                    p = re.sub(r'\([^)]*\)',' ',elt['synonym'].split('"')[1])
+                    terms.extend(p.split())
                 except:
                     print 'error parsing ontology synonym non list'
-
-    full_result = []
-    for p in terms:
-        p = re.sub(r'\([^)]*\)',' ',p)
-        full_result.extend(p.split())
-
-    terms.extend(full_result)
     terms = list(set(terms))
     blacklist = read_blacklist()
-    return [pheno.lower() for pheno in terms if pheno.lower() not in blacklist]
+    return [pheno.lower() for pheno in terms if pheno.lower() not in blacklist and len(pheno) > 1 and re.search(r'[a-zA-Z]', pheno)]
 
 #if __name__ == "__main__":
 #    main()
@@ -183,10 +195,11 @@ genes = load_gene_list()
 #dict_linkwords = ['of', 'over', 'in', 'the', 'with', 'to', 'a']
 adjs = ['elongation','accumulation','advanced', 'reduced', 'greater', 'loss', 'small', 'large', 'short', 'tall', 'increased', 'decreased', 'sensitivity']
 patos = parse_pato(PATO_ONTOLOGY)+adjs
-phenos = load_pheno_list() + ['cell']
+phenos = load_pheno_list() + ['cell', 'leaves']
+#print phenos
 GM = Union(Sequence(DictionaryMatch(d=genes, longest_match_only=True), RegexMatchEach(rgx=r'([A-Za-z]{1,4}\d+(\.\d+)?(-\d+)?){2,}')), DictionaryMatch(d=genes, longest_match_only=True))
 #PM = Sequence(DictionaryMatch(d=phenos, longest_match_only=True), RegexMatchEach(rgx=r'(JJ|JJR)', longest_match_only=True, attrib='pos_tags'), DictionaryMatch(d=patos, longest_match_only=True), RegexMatchEach(rgx=r'^[A-Za-z]+(ion|ed|ment)[^A-Za-z]$', longest_match_only=True), DictionaryMatch(d=['a', 'the', 'in', 'of', 'over', 'to', 'but', 'not'], longest_match_only=True), longest_match_only=True, required=[1, 1, 0, 0, 0])
-PM = Sequence(DictionaryMatch(d=phenos, stemmer='porter', blacklist=read_blacklist(), longest_match_only=True), DictionaryMatch(d=patos, stemmer='porter', blacklist=read_blacklist(), longest_match_only=True), RegexMatchSpan(rgx=r'^[A-Za-z]+(ion|ed|ment|ty|ties|ions)[^A-Za-z]$', longest_match_only=True), RegexMatchEach(rgx=r'(IN|TO|DET|CC).*', longest_match_only=True, attrib='pos_tags'), DictionaryMatch(d=['a', 'the', 'in', 'of', 'over', 'to', 'but', 'not', 'is', 'was', 'are', 'were', 'to', 'with', 'and', 'or']), required=[1,0,0,0,0])#Sequence(DictionaryMatch(d=phenos, stemmer='porter', blacklist=read_blacklist(), longest_match_only=True), DictionaryMatch(d=patos, stemmer='porter', blacklist=read_blacklist(), longest_match_only=True), DictionaryMatch(d=['a', 'the', 'in', 'of', 'over', 'to', 'but', 'not']), longest_match_only=True, required=[1, 1, 0])
+PM = Sequence(DictionaryMatch(d=phenos, stemmer='porter', blacklist=read_blacklist(), longest_match_only=True), DictionaryMatch(d=patos, stemmer='porter', blacklist=read_blacklist(), longest_match_only=True), RegexMatchSpan(rgx=r'[A-Za-z]+(ion|ed|ment|ty|ties|ions)[^A-Za-z]', longest_match_only=True), RegexMatchSpan(rgx=r'(IN|TO|DET|CC)', longest_match_only=True, attrib='pos_tags'), DictionaryMatch(d=['a', 'the', 'in', 'of', 'over', 'to', 'but', 'not', 'is', 'was', 'are', 'were', 'to', 'with', 'and', 'or', 'no', 'by', 'from']), longest_match_only=True, required=[1,0,0,0,0])#Sequence(DictionaryMatch(d=phenos, stemmer='porter', blacklist=read_blacklist(), longest_match_only=True), DictionaryMatch(d=patos, stemmer='porter', blacklist=read_blacklist(), longest_match_only=True), DictionaryMatch(d=['a', 'the', 'in', 'of', 'over', 'to', 'but', 'not']), longest_match_only=True, required=[1, 1, 0])
 PM = Contains(PM, rgxs=[r'.*JJ|JJS|JJR.*', r'.*[A-Za-z]+(ion|ed|ment|ty|ties|ions)[^A-Za-z].*'], attrib=['pos_tags', 'words'], type='or')
 PM = Contains(PM, rgxs=[r'.*NN|NNS.*'], attrib=['pos_tags'], type='and')
 '''
