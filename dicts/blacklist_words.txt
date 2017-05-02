@@ -224,3 +224,14 @@ id	stop_word
 44	tests
 45	plants
 46	plant
+47	mapping
+48	markers
+49	treatments
+50	treatment
+51	type
+52	hand
+53	other
+54	times
+55	fig
+56	chi
+57	chi2
