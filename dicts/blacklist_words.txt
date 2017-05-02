@@ -80,7 +80,6 @@ id	stop_word
 168	LATE
 145	LC
 143	LD
-169	LEAFY
 150	LY
 38	MADE
 165	main
@@ -235,3 +234,6 @@ id	stop_word
 55	fig
 56	chi
 57	chi2
+58	except
+59	exception
+60	whether
