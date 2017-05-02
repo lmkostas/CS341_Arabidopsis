@@ -190,3 +190,11 @@ id	stop_word
 7	role
 8	DNA
 9	RNA
+10	mapping
+11	mapped
+12	coarse
+13	tested
+14	tests
+15	experiments
+16	pool
+17	pooled

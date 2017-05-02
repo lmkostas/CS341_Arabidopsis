@@ -59,15 +59,13 @@ def load_gene_list():
 
     genes = util.read_tsv_flat(GENE_LIST)
 
-    for g in genes:
-        if g in gene_blacklist: print 'b', g
-        if g.lower()=='also': print 'ALSO'
-
     genes_filtered = [gene.lower() for gene in genes if gene.lower() not in gene_blacklist]
 
     genes_filtered = [gene for gene in genes_filtered if len(gene) >= 1]
 
     genes_filtered.extend(enumerate_allele_extensions(genes_filtered))
+
+    genes_filtered = [gene.lower() for gene in genes if gene.lower() not in gene_blacklist]
 
     return genes_filtered
 
@@ -99,7 +97,7 @@ def load_pheno_list():
 
     # Filter by blacklist
     blacklist = read_blacklist()
-    return [pheno.lower() for pheno in result if pheno.lower() not in blacklist]
+    return [pheno.lower() for pheno in result if pheno.lower() not in blacklist and len(pheno)>1]
 
 def load_pheno_ontology():
     """
@@ -110,7 +108,7 @@ def load_pheno_ontology():
         ontology_terms.extend(parse_ontology(ontology_file))
 
     blacklist = read_blacklist()
-    return [pheno.lower() for pheno in ontology_terms if pheno.lower() not in blacklist]
+    return [pheno.lower() for pheno in ontology_terms if pheno.lower() not in blacklist and len(pheno)>1]
 
     return ontology_terms
 
@@ -155,44 +153,45 @@ def parse_pato(ontology_file):
 #    main()
 from snorkel import SnorkelSession
 session = SnorkelSession()
-from snorkel.matchers import Sequence, DictionaryMatch, Concat, RegexMatchSpan, SlotFillMatch, Union, RegexMatchEach
+from snorkel.matchers import Contains, Sequence, DictionaryMatch, Concat, RegexMatchSpan, SlotFillMatch, Union, RegexMatchEach
 
 genes = load_gene_list()
 GENE = DictionaryMatch(d=genes, longest_match_only=True)
 #GM = Sequence(GENE, longest_match_only=True)
 #GENE = Concat(GENE, SlotFillMatch(GENE, pattern=r'{0}-\d+'), longest_match_only=True, right_required=False)
-GENE = Union(GENE, SlotFillMatch(GENE, pattern=r'{0}-\d+'), RegexMatchSpan(rgx=r'(([A-Za-z]{2,4}(\d+(.\d+)?)?(-\d+))+)|(([A-Za-z]{1,4}(\d+(.\d+)?)(-\d+)?)+)'))
+GENE = Union(GENE, SlotFillMatch(GENE, pattern=r'{0}-\d+'), RegexMatchEach(rgx=r'([A-Za-z]{1,4}\d+(\.\d+)?(-\d+)?){2,}'))
 GM = Sequence(GENE, longest_match_only=True)
 
 dict_linkwords = ['of', 'over', 'in', 'the', 'with', 'to', 'a']
 #adjs = ['advanced', 'reduced', 'greater', 'less', 'small', 'large', 'short', 'tall', 'increased', 'decreased']
-patos = parse_pato(PATO_ONTOLOGY) + ['increase', 'decrease', 'level', 'enhance', 'reduce']
+patos = parse_pato(PATO_ONTOLOGY) + ['increase', 'decrease', 'level', 'enhance', 'reduce', 'sensitive', 'resistant']
 phenos = load_pheno_list() #+ ['root']
-obos = load_pheno_ontology() + ['root'] + phenos
+obos = load_pheno_ontology() + ['root', 'glucose'] + phenos
 
 QUALIFIERS = RegexMatchEach(rgx=r'JJ.*|JJS.*|JJR.*', attrib='pos_tags')
 #QUALIFIERS = RegexMatchSpan(rgx=r'JJ.*|JJS.*|JJR.*|VBN.*|RB.*|RBS.*|RBR.*|(JJ |JJS |JJR |VBN )?(NN|NNS|NNP|NNPS).*', attrib='pos_tags')
 LINKS = DictionaryMatch(d=dict_linkwords, longest_match_only=True)
-PATOS = DictionaryMatch(d=patos, attrib='lemmas', longest_match_only=True)
-OBOS = DictionaryMatch(d=obos, attrib='lemmas', longest_match_only=True)
-PHENOS = DictionaryMatch(d=phenos, attrib='lemmas', longest_match_only=True)
+PATOS = DictionaryMatch(d=patos, attrib='lemmas', stemmer='porter', longest_match_only=True)
+OBOS = DictionaryMatch(d=obos, attrib='lemmas', stemmer='porter', longest_match_only=True)
+PHENOS = DictionaryMatch(d=phenos, attrib='lemmas', stemmer='porter', longest_match_only=True)
 
 QUANT = RegexMatchSpan(rgx=r'(\d+(.\d+)?-)?\d+(.\d+)?%', longest_match_only=True)
-ADJS = Sequence(RegexMatchEach(rgx=r'(JJ|JJS|JJR|VBN).*', attrib='pos_tags', longest_match_only=True), longest_match_only=True)
-PREPS = DictionaryMatch(d=['of', 'in', 'to', 'over'])#RegexMatchEach(rgx=r'(IN|TO).*', attrib='pos_tags')
+ADJS = Sequence(RegexMatchEach(rgx=r'^(JJ|JJS|JJR|VBN)$', attrib='pos_tags', longest_match_only=True), longest_match_only=True)
+PREPS = RegexMatchEach(rgx=r'(IN|TO).*', attrib='pos_tags')#DictionaryMatch(d=['of', 'in', 'to', 'over'])
 DETS = DictionaryMatch(d=['a', 'the', 'its', 'their'], longest_match_only=True) 
 NOUNS = RegexMatchEach(rgx=r'(NN|NNS)+ (IN|TO).*', attrib='pos_tags')
 #ADJ_PHRASE = RegexMatchEach(rgx=r'(JJ|JJS|JJR|VBN)(( IN|TO)?( DT)?( NN| NNS)+( IN|TO)*)?.*', attrib='pos_tags')
 #PM = Union (OBOS, PM, SlotFillMatch(ADJ_PHRASE, OBOS, pattern = '{0} {1}'))
 VB = Union(RegexMatchEach(rgx=r'VBD|VBN.*', attrib='pos_tags', longest_match_only=True), DictionaryMatch(d=['is', 'are', 'was', 'were'], longest_match_only=True))
 NN = Sequence(RegexMatchEach(rgx=r'(NN|NNS).*', attrib='pos_tags', longest_match_only=True), longest_match_only=True)
-NNS = Sequence(RegexMatchSpan(rgx=r'[A-Za-z]+ion', longest_match_only=True), longest_match_only=True)
+NNS = Sequence(RegexMatchSpan(rgx=r'[A-Za-z]+(ion|ity|ant|ent)', longest_match_only=True), longest_match_only=True)
 ADJ_NN = Concat(ADJS, NN, longest_match_only=True)
+VB_PHRASE = Concat(DictionaryMatch(d=['is', 'are', 'was', 'were'], longest_match_only=True), RegexMatchEach(rgx=r'VBD|VBN|JJ|JJR|JJS.*', attrib='pos_tags', longest_match_only=True), longest_match_only=True)
 #PM = Sequence(OBOS, SlotFillMatch(OBOS, VB, ADJS, pattern='{0} {1} {2}'), SlotFillMatch(ADJS, OBOS, pattern='{0} {1}'), PATOS, PREPS, DETS, longest_match_only=True, required=[1, 0, 0, 0, 0, 0])
 
 #ADJ_PHRASE = RegexMatchEach(rgx = r'(JJ|JJR|JJS) (NN|NNS)( IN)?.*', attrib='pos_tags')
-PM = Sequence(OBOS, PATOS, PREPS, DETS, longest_match_only=True, required = [1, 0, 0, 0])
-PM = Union(Concat(ADJS, PM, longest_match_only=True), Concat(NNS, PM, longest_match_only=True), Concat(ADJ_NN, PM, longest_match_only=True), longest_match_only=True)
+PM = Sequence(OBOS, PATOS, VB, PREPS, DETS, longest_match_only=True, required = [1, 0, 0, 0, 0])
+PM = Union(Contains(PM, rgxs=[r'.*(JJ|JJS|JJR).*',], attrib=['pos_tags']), Concat(ADJS, PM, longest_match_only=True, permutations=True), Concat(NNS, PM, longest_match_only=True, permutations=True), Concat(ADJ_NN, PM, longest_match_only=True), Concat(PM, VB_PHRASE,longest_match_only=True), longest_match_only=True)
 '''
 #PM = SlotFillMatch(PHENOS, DictionaryMatch(d=['is', 'are', 'was', 'were']), ADJ_PHRASE, pattern='{0} {1} {2}')
 #OBO_QUAL = Sequence(QUALIFIERS, PATOS, OBOS, LINKS, longest_match_only=True, required=[1, 0, 1, 0])
