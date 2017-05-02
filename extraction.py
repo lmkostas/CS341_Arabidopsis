@@ -56,13 +56,15 @@ def load_gene_list():
     blacklist = read_blacklist()
     gene_blacklist = [item.lower() for item in blacklist]
 
-    genes = util.read_tsv_flat(GENE_LIST) + ['st5.1']
+    genes = util.read_tsv_flat(GENE_LIST) #+ ['st5.1']
 
     genes_filtered = [gene.lower() for gene in genes if gene.lower() not in gene_blacklist]
 
     genes_filtered = [gene for gene in genes_filtered if len(gene) >= 1]
 
     genes_filtered.extend(enumerate_allele_extensions(genes_filtered))
+
+    genes_filtered = [gene.lower() for gene in genes_filtered if gene.lower() not in gene_blacklist]
 
     return genes_filtered
 
@@ -168,12 +170,12 @@ session = SnorkelSession()
 from snorkel.matchers import Sequence, DictionaryMatch, Concat, RegexMatchEach, RegexMatchSpan, SlotFillMatch, Union
 genes = load_gene_list()
 #dict_linkwords = ['of', 'over', 'in', 'the', 'with', 'to', 'a']
-adjs = ['advanced', 'reduced', 'greater', 'less', 'small', 'large', 'short', 'tall', 'increased', 'decreased']
+adjs = ['advanced', 'reduced', 'greater', 'loss', 'small', 'large', 'short', 'tall', 'increased', 'decreased', 'sensitivity']
 patos = parse_pato(PATO_ONTOLOGY)+adjs
-phenos = load_pheno_list()
+phenos = load_pheno_list() + 'cell'
 print phenos
-GM = Union(Sequence(DictionaryMatch(d=genes, longest_match_only=True)), DictionaryMatch(d=genes, longest_match_only=True), RegexMatchEach(rgx=r'([A-Za-z]{1,4}\d+(.\d+)?(-\d+)?){2,}'))
-PM = Concat(DictionaryMatch(d=phenos, stemmer='porter', longest_match_only=True), DictionaryMatch(d=patos, stemmer='porter', longest_match_only=True), permutations=True, longest_match_only=True)
+GM = Union(Sequence(DictionaryMatch(d=genes, longest_match_only=True)), DictionaryMatch(d=genes, longest_match_only=True), RegexMatchEach(rgx=r'([A-Za-z]{1,4}\d+(\.\d+)?(-\d+)?){2,}'))
+PM = Sequence(DictionaryMatch(d=phenos, longest_match_only=True), RegexMatchEach(rgx=r'(JJ|JJR)', longest_match_only=True, attrib='pos_tags'), DictionaryMatch(d=patos, longest_match_only=True), RegexMatchEach(rgx=r'\w+(ion|ed|ment)[^\w]', longest_match_only=True), DictionaryMatch(d=['a', 'the', 'in', 'of', 'over', 'to', 'but', 'not'], longest_match_only=True), longest_match_only=True, required=[1, 1, 0, 0, 0])
 #PM = Sequence(DictionaryMatch(d=phenos, stemmer='porter', longest_match_only=True), DictionaryMatch(d=patos, stemmer='porter', longest_match_only=True), DictionaryMatch(d=['a', 'the'], longest_match_only=True), longest_match_only=True, required=[1, 0, 0])
 '''
 PM=Concat(DictionaryMatch(d=phenos, stemmer='porter', longest_match_only=True), DictionaryMatch(d=['a', 'the']), longest_match_only=True, permutations=True)
