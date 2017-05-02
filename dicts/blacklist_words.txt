@@ -231,3 +231,7 @@ id	stop_word
 51	type
 52	hand
 53	other
+54	times
+55	fig
+56	chi
+57	chi2
