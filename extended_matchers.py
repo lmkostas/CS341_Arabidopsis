@@ -102,6 +102,7 @@ class DictionaryMatch(NgramMatcher):
         if self.stemmer is not None:
             if self.stemmer == 'porter':
                 self.stemmer = PorterStemmer()
+            self.blacklist = [self._stem(b) for b in self.blacklist]
             temp = []
             for w in list(self.d):
                 if len(w.split()) == 0 and (self.blacklist is None or self_stem(w) not in self.blacklist):
