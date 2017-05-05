@@ -8,7 +8,7 @@ sys.path.insert(1, '../snorkel')
 
 from snorkel import SnorkelSession
 from snorkel.matchers import DictionaryMatch
-from extraction import GM, PM
+from revised_extraction import GM, PM
 from snorkel.candidates import Ngrams, CandidateSpace, CandidateExtractor
 from snorkel.models import Document, Sentence, candidate_subclass
 from snorkel.viewer import SentenceNgramViewer
@@ -21,7 +21,7 @@ gene_ngrams = Ngrams(n_max=5)
 pheno_ngrams = Ngrams(n_max=10)
 cand_extractor = CandidateExtractor(GenePhenoPair, 
                                     [gene_ngrams, pheno_ngrams], [GM, PM],
-                                    symmetric_relations=False)
+                                    symmetric_relations=True)
 
 print "Splitting Docs..."
 pathname = 'small_data/' if os.environ['AGP_DATA_SIZE'] == 'small-data' else 'data/'
@@ -34,7 +34,7 @@ train_sents, dev_sents, test_sents, all_sents = set(), set(), set(), set()
 docs = session.query(Document).order_by(Document.name).all()
 doc_sents = dict()
 for split, doc in enumerate(docs):
-    if len(doc_sents) >= 3:break
+    if len(doc_sents) >= 50:break
     doc_sents[split] = set()
     for s in doc.sentences:
     	all_sents.add(s)
