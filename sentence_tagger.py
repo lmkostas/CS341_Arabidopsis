@@ -13,6 +13,8 @@ from snorkel.candidates import Ngrams, CandidateSpace, CandidateExtractor
 from snorkel.models import Document, Sentence, candidate_subclass
 from snorkel.viewer import SentenceNgramViewer
 
+SPLIT_ON_DOCS = False
+
 session = SnorkelSession()
 
 GenePhenoPair = candidate_subclass('GenePhenoPair',['gene', 'pheno'])
@@ -33,40 +35,42 @@ all_ids = train_ids.union(dev_ids).union(test_ids)
 train_sents, dev_sents, test_sents, all_sents = set(), set(), set(), set()
 docs = session.query(Document).order_by(Document.name).all()
 doc_sents = dict()
-for split, doc in enumerate(docs):
+for doc_num, doc in enumerate(docs):
     if len(doc_sents) >= 50:break
     doc_sents[split] = set()
     for s in doc.sentences:
-    	all_sents.add(s)
-        doc_sents[split].add(s)
-    	name = doc.name.split('-')[0]
-        if name in train_ids:
-            train_sents.add(s)
-        elif name in dev_ids:
-            dev_sents.add(s)
-        elif name in test_ids:
-            test_sents.add(s)
-        else:
-            raise Exception('ID <{0}> not found in any id set'.format(doc.name))
+	all_sents.add(s)
+	doc_sents[doc_num].add(s)
+	name = doc.name.split('-')[0]
+	if name in train_ids:
+	    train_sents.add(s)
+	elif name in dev_ids:
+	    dev_sents.add(s)
+	elif name in test_ids:
+	    test_sents.add(s)
+	else:
+	    raise Exception('ID <{0}> not found in any id set'.format(doc.name))
 
 print "Docs Split"
 print "Extracting Candidates..."
 
-#cand_extractor.apply(train_sents, split=0)#, parallelism=multiprocessing.cpu_count())
-#train_cands = session.query(GenePhenoPair).filter(GenePhenoPair.split==0).all()
-#cand_extractor.apply(dev_sents, split=1)#, parallelism=8)
-#dev_cands = session.query(GenePhenoPair).filter(GenePhenoPair.split==1).all()
-#cand_extractor.apply(test_sents, split=2)#, parallelism=8)
-#test_cands = session.query(GenePhenoPair).filter(GenePhenoPair.split==2).all()
 
-#print "Number of train candidates:", len(train_cands)
-#print "Number of dev candidates:", len(dev_cands)
-#print "Number of test candidates:", len(test_cands)
+if SPLIT_ON_DOCS:
+    for split, sents in doc_sents.iteritems():
+        cand_extractor.apply(sents, split=split, parallelism=multiprocessing.cpu_count())
+    all_cands = session.query(GenePhenoPair).filter(GenePhenoPair.split < len(doc_sents)).all()
+    print "Number of candidates:", len(all_cands)
+else:
+    cand_extractor.apply(train_sents, split=0, parallelism=multiprocessing.cpu_count())
+    train_cands = session.query(GenePhenoPair).filter(GenePhenoPair.split==0).all()
+    cand_extractor.apply(dev_sents, split=1, parallelism=multiprocessing.cpu_count())
+    dev_cands = session.query(GenePhenoPair).filter(GenePhenoPair.split==1).all()
+    cand_extractor.apply(test_sents, split=2, parallelism=multiprocessing.cpu_count())
+    test_cands = session.query(GenePhenoPair).filter(GenePhenoPair.split==2).all()
+    print "Number of train candidates:", len(train_cands)
+    print "Number of dev candidates:", len(dev_cands)
+    print "Number of test candidates:", len(test_cands)
 
-for split, sents in doc_sents.iteritems():
-    cand_extractor.apply(sents, split=split, parallelism=multiprocessing.cpu_count())
-all_cands = session.query(GenePhenoPair).filter(GenePhenoPair.split < len(doc_sents)).all()
-print "Number of candidates:", len(all_cands)
 
 # NOTE: This if-then statement is only to avoid opening the viewer during automated testing of this notebook
 # You should ignore this!
