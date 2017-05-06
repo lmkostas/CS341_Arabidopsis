@@ -40,7 +40,6 @@ id	stop_word
 32	DURING
 37	EACH
 42	EITHER
-144	ELONGATED
 47	ENOUGH
 164	ER
 52	ESPECIALLY
@@ -82,7 +81,6 @@ id	stop_word
 168	LATE
 145	LC
 143	LD
-169	LEAFY
 150	LY
 38	MADE
 165	main
@@ -182,7 +180,6 @@ id	stop_word
 172	WOODY
 125	WOULD
 1	localized
-2	root
 3	big
 4	WT
 5	or
@@ -198,3 +195,9 @@ id	stop_word
 15	experiments
 16	pool
 17	pooled
+18	figure
+20	analyze
+21	analysis
+22	experiment
+23	test
+24	tested
