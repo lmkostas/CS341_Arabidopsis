@@ -201,3 +201,4 @@ id	stop_word
 22	experiment
 23	test
 24	tested
+25	table

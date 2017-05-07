@@ -75,12 +75,7 @@ def enumerate_allele_extensions(genes):
         result.extend(genes_with_alleles)
     return result
 
-def stem_word(w):
-    stemmer = PorterStemmer()
-    try:
-        return stemmer.stem(w)
-    except UnicodeDecodeError:
-        return w
+
 def load_pheno_list():
     """
     Loads a list of phenotypes from multiple files.
@@ -157,10 +152,19 @@ def parse_pato(ontology_file):
                     print 'error parsing ontology synonym non list'
 
     blacklist = read_blacklist()
+    blacklist.extend([stem(b) for b in blacklist])
     #blacklist = [stem_word(b) for b in blacklist]
     return [pheno.lower() for pheno in terms if pheno.lower() not in blacklist and len(pheno)>1]
 
     return terms
+
+def stem(w):
+        """Apply stemmer, handling encoding errors"""
+        stemmer = PorterStemmer()
+        try:
+            return stemmer.stem(w)
+        except UnicodeDecodeError:
+            return w
 
 #if __name__ == "__main__":
 #    main()
@@ -177,18 +181,19 @@ GENE_SLOTFILL= SlotFillMatch(PRE_GENE, GENE, pattern=r'({0}(-|::|\/))?{1}((-|::|
 GM = Sequence(Union(GENE_REGEX, GENE_SLOTFILL, GENE, longest_match_only=True), longest_match_only=True)
 
 blacklist = read_blacklist()
-phenos = load_pheno_list()+load_pheno_ontology()
+blacklist.extend([stem(b) for b in blacklist])
+phenos = load_pheno_list()
+obos = load_pheno_ontology()
 full_phenos = load_pheno_list()
 patos = parse_pato(PATO_ONTOLOGY)
-phenos.extend(patos)
-'''
-ext_phenos = []
-ext_phenos.extend(phenos)
-for p in phenos:
-    p = re.sub(r'(\([^\)]\))|(\[[^\]]\])', ' ', p)
-    ext_phenos.extend([add_p.lower() for add_p in p.split() if len(add_p)>1 and not re.match(r'.*\d.*', p) and add_p.lower() not in blacklist])
-phenos = ext_phenos
+obos.extend(patos)
 
+ext_phenos = []
+for p in obos:
+    p = re.sub(r'(\([^\)]\))|(\[[^\]]\])', ' ', p)
+    ext_phenos.extend([add_p.lower() for add_p in p.split() if len(add_p)>1 and not re.match(r'^.*\d.*$', p) and stem(add_p.lower()) not in blacklist])
+obos = list(set(ext_phenos))
+'''
 ext_patos = []
 ext_patos.extend(patos)
 for p in patos:
@@ -211,19 +216,19 @@ NN = RegexMatchSpan(rgx=r'NN|NNS|NNP|NNPS', attrib='pos_tags', longest_match_onl
 PM = SlotFillMatch(HELPER_VBS, ADJS, pattern='{0} {1}', longest_match_only=True)
 LINKWORDS = RegexMatchEach(rgx=r'IN|DT|TO|CC', attrib='pos_tags', longest_match_only=True)
 #PM = SlotFillMatch(VB, DictionaryMatch(d=phenos, longest_match_only=True), pattern = '{0} {1}')
+#OBOS = Concat(LINKWORDS, DictionaryMatch(d=phenos, attrib='lemmas', longest_match_only=True), longest_match_only=True, left_required=False, permutations=True)
+#PATOS = Concat(LINKWORDS, DictionaryMatch(d=patos, attrib='lemmas', longest_match_only=True), longest_match_only=True, left_required=False, permutations=True)
+#PM = Concat(OBOS, OBOS, longest_match_only=True)#, permutations=True)
+#PM = Concat(NN_ADJ, PM, longest_match_only=True, left_required=False, permutations=True)
+
 NN_PHRASE = RegexMatchSpan(rgx=r'(VB |VBD |VBZ |VBP |VBG |VBN )?(DT )?(NN ?| NNS ?| NNP ?| NNPS ?|JJ ?)+', attrib='pos_tags', longest_match_only=True)
 PHENOS = DictionaryMatch(d=['phenotype', 'phenotypes'], longest_match_only=True)
 PHENO_PHRASE = SlotFillMatch(NN_PHRASE, PHENOS, pattern='{0} {1}')
 PM_ADJS = RegexMatchSpan(rgx=r'(RBR JJ|JJR).*(NN|NNS|NNP|NNPS)', attrib='pos_tags', longest_match_only=True)
 PM_VBS = RegexMatchSpan(rgx=r'(VBD|VBN)( DT)?( NN|NNS|NNP|NNPS)+ (IN|TO)( JJ| JJR| NN| NNS| NNP| NNPS)*', attrib='pos_tags', longest_match_only=True)
-
-OBOS = Concat(LINKWORDS, DictionaryMatch(d=phenos, attrib='lemmas', longest_match_only=True), longest_match_only=True, left_required=False, permutations=True)
-#PATOS = Concat(LINKWORDS, DictionaryMatch(d=patos, attrib='lemmas', longest_match_only=True), longest_match_only=True, left_required=False, permutations=True)
-PM = Concat(OBOS, OBOS, longest_match_only=True)#, permutations=True)
-PM = Concat(NN_ADJ, PM, longest_match_only=True, left_required=False, permutations=True)
-PM = Union(PM, PM_ADJS, PM_VBS, PHENO_PHRASE, DictionaryMatch(d=full_phenos, longest_match_only=True), longest_match_only=True)
-ADJ = RegexMatchSpan(rgx=r'^(JJR|JJ|VBN)$', attrib='pos_tags', longest_match_only=True)
-#PM = Sequence(DictionaryMatch(d=phenos, attrib='lemmas', longest_match_only=True), ADJ, LINKWORDS, longest_match_only=True, required=[1,1,0], links=True)
-
+ADJ = RegexMatchSpan(rgx=r'^(JJR|JJ)$', attrib='pos_tags', longest_match_only=True)
+NN_ADJ = RegexMatchSpan(rgx=r'^[A-Za-z-]+(ion|ment|ance|ence|ity|ive)$', longest_match_only=True)#(of|to|in|on|over|against)')
 ADJ_PHRASE = RegexMatchEach(rgx=r'((JJR|JJ|CC|VBD|VBN|NN IN|DT|IN|TO) ?)+', attrib='pos_tags')
-#PM = Sequence(DictionaryMatch(d=phenos, stemmer='porter', longest_match_only=True), DictionaryMatch(d=patos, stemmer='porter', longest_match_only=True), DictionaryMatch(d=LINKWORDS, longest_match_only=True), required=[1, 1, 0], links=True, longest_match_only=True)
+OBOS = Sequence(DictionaryMatch(d=obos, stemmer='porter', longest_match_only=True), ADJ, NN_ADJ, LINKWORDS, required=[1, 1, 0, 0], links=True, longest_match_only=True)
+PM = DictionaryMatch(d=phenos, longest_match_only=True)
+PM = Union(PM, PM_ADJS, PM_VBS, PHENO_PHRASE, OBOS, longest_match_only=True)
