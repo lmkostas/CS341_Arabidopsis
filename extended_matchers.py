@@ -7,6 +7,12 @@ if 'CI' not in os.environ:
         from nltk.stem.porter import PorterStemmer
     except ImportError:
         warnings.warn("nltk not installed- some default functionality may be absent.")
+    '''
+    try:
+        from nltk.stem.wordnet import WordNetLemmatizer
+    except ImportError:
+        warnings.warn("nltk not installed- some default functionality may be absent.")
+    '''
 
 
 class Matcher(object):
@@ -90,9 +96,8 @@ class DictionaryMatch(NgramMatcher):
         self.ignore_case = self.opts.get('ignore_case', True)
         self.attrib      = self.opts.get('attrib', WORDS)
         self.reverse     = self.opts.get('reverse', False)
-        self.blacklist  =self.opts.get('blacklist', None)
         try:
-            self.d = frozenset(w.lower() if self.ignore_case else w for w in self.opts['d'] if self.blacklist is None or w not in self.blacklist)
+            self.d = frozenset(w.lower() if self.ignore_case else w for w in self.opts['d'])
         except KeyError:
             raise Exception("Please supply a dictionary (list of phrases) d as d=d.")
 
@@ -102,15 +107,7 @@ class DictionaryMatch(NgramMatcher):
         if self.stemmer is not None:
             if self.stemmer == 'porter':
                 self.stemmer = PorterStemmer()
-            if self.blacklist: self.blacklist = [self._stem(b) for b in self.blacklist]
-            temp = []
-            for w in list(self.d):
-                if len(w.split()) == 0 and (self.blacklist is None or self_stem(w) not in self.blacklist):
-                    temp.append(self._stem(w))
-                else:
-                    temp.append(w)
-            self.d = frozenset(temp)
-            #self.d = frozenset(self._stem(w) for w in list(self.d))
+            self.d = frozenset(self._stem(w) for w in list(self.d))
 
     def _stem(self, w):
         """Apply stemmer, handling encoding errors"""
@@ -122,7 +119,7 @@ class DictionaryMatch(NgramMatcher):
     def _f(self, c):
         p = c.get_attrib_span(self.attrib)
         p = p.lower() if self.ignore_case else p
-        p = self._stem(p) if self.stemmer is not None else p
+        p = self._stem(p) if self.stemmer is not None else p        
         return (not self.reverse) if p in self.d else self.reverse
 
 class LambdaFunctionMatch(NgramMatcher):
@@ -341,6 +338,7 @@ class Sequence(NgramMatcher):
         self.sep            = self.opts.get('sep', ' ')
         self.links            = self.opts.get('links', None)
         self.required = self.opts.get('required', [1 for _ in range(len(self.children))])
+        self.links  =self.opts.get('links', False)
 
         # Check for correct number of child matchers / slots
         if len(self.children) < 1:
@@ -350,24 +348,28 @@ class Sequence(NgramMatcher):
         # First, filter candidates by matching splits pattern
         match_instance = [(r+1)%2 for r in self.required]
         m = re.match(r'([\w-]+)', c.get_attrib_span(self.attrib))
+        #print m, c.get_attrib_span(self.attrib)
         if m is None:
             return False
         # Then, recursively apply matchers
-        for match in re.finditer(r'([A-Za-z0-9-]+)', c.get_attrib_span(self.attrib)):
+        rgx = r'\S+'
+        if self.links:
+            rgx = r'([A-Za-z0-9-]+)'
+        for match in re.finditer(rgx, c.get_attrib_span(self.attrib)):
             match_found = False
-            split = c.get_attrib_span(self.attrib)[match.start(1):match.end(1)]
+            #print match, c.get_attrib_span(self.attrib)
+            split = c.get_attrib_span(self.attrib)[match.start(0):match.end(0)]
             for i in range(len(self.children)):
-                if self.children[i].f(c[match.start(1):match.end(1)]) != 0:
+                if self.children[i].f(c[match.start(0):match.end(0)]) != 0:
                     match_found = True
                     match_instance[i] = 1
                     break
-            '''
-            if not match_found and self.sep:
-                for matcher in self.sep:
-                    if matcher.f(c[match.start(1):match.end(1)]) != 0:
-                        match_found = True
-            '''
-            if not match_found and (split != 'and' and split != 'or' and split != 'and/or'): return False
+            if not match_found:
+                #return False
+                if self.links:
+                    if (split != 'and' and split != 'or' and split != 'and/or'): return False
+                else:
+                    return False
         if sum(match_instance) != len(match_instance): return False
         return True
 
