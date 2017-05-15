@@ -18,7 +18,7 @@ ALL_DOCS = True # if true, create train dev and test. if false, push everything 
 
 session = SnorkelSession()
 
-GenePhenoPair = candidate_subclass('GenePhenoPair',['gene', 'pheno'])
+GenePhenoPair = candidate_subclass('GenePhenoPair2',['gene', 'pheno'])
 
 gene_ngrams = Ngrams(n_max=5)
 pheno_ngrams = Ngrams(n_max=10)
