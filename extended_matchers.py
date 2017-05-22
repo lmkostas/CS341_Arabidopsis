@@ -103,17 +103,27 @@ class DictionaryMatch(NgramMatcher):
 
         # Optionally use a stemmer, preprocess the dictionary
         # Note that user can provide *an object having a stem() method*
+        self.blacklist = self.opts.get('blacklist', None)
         self.stemmer = self.opts.get('stemmer', None)
         if self.stemmer is not None:
             if self.stemmer == 'porter':
                 self.stemmer = PorterStemmer()
-            self.d = frozenset(self._stem(w) for w in list(self.d))
+            if self.blacklist is not None:
+                self.d = frozenset(self._stem(w) for w in list(self.d) if self._stem(w) not in self.blacklist and len(w)>2)
+            else:
+                self.d = frozenset(self._stem(w) for w in list(self.d))
 
     def _stem(self, w):
         """Apply stemmer, handling encoding errors"""
         try:
-            return self.stemmer.stem(w)
-        except UnicodeDecodeError:
+            if len(w.split()) == 1:
+                return self.stemmer.stem(w)
+            else:
+                new_w = []
+                for word in w.split():
+                    new_w.append(self._stem(word))
+                return ' '.join(new_w)
+        except:# UnicodeDecodeError:
             return w
 
     def _f(self, c):
@@ -338,7 +348,7 @@ class Sequence(NgramMatcher):
         self.sep            = self.opts.get('sep', ' ')
         self.links            = self.opts.get('links', None)
         self.required = self.opts.get('required', [1 for _ in range(len(self.children))])
-        self.links  =self.opts.get('links', False)
+        self.links  =self.opts.get('links', None)
 
         # Check for correct number of child matchers / slots
         if len(self.children) < 1:
@@ -353,7 +363,7 @@ class Sequence(NgramMatcher):
             return False
         # Then, recursively apply matchers
         rgx = r'\S+'
-        if self.links:
+        if self.links is not None:
             rgx = r'([A-Za-z0-9-]+)'
         for match in re.finditer(rgx, c.get_attrib_span(self.attrib)):
             match_found = False
@@ -367,7 +377,13 @@ class Sequence(NgramMatcher):
             if not match_found:
                 #return False
                 if self.links:
-                    if (split != 'and' and split != 'or' and split != 'and/or'): return False
+                    #if (split != 'and' and split != 'or' and split != 'and/or'): return False
+                    for l in range(len(self.links)):
+                        if self.links[l].f(c[match.start(0):match.end(0)]) != 0:
+                            match_found = True
+                            break
+                    if not match_found:
+                        return False
                 else:
                     return False
         if sum(match_instance) != len(match_instance): return False
@@ -512,4 +528,41 @@ class MergeMatcher(NgramMatcher):
                     return True
         return False
 
+class Seq(NgramMatcher):
+    def init(self):
+        self.ignore_case = self.opts.get('ignore_case', True)
+        self.attrib      = self.opts.get('attrib', WORDS)
+        self.reverse     = self.opts.get('reverse', False)
+        try:
+            self.d = list(set(w.lower() if self.ignore_case else w for w in self.opts['d']))
+            self.d.sort(key=len, reverse=True)
+        except KeyError:
+            raise Exception("Please supply a dictionary (list of phrases) d as d=d.")
 
+        # Optionally use a stemmer, preprocess the dictionary
+        # Note that user can provide *an object having a stem() method*
+        self.stemmer = self.opts.get('stemmer', None)
+        if self.stemmer is not None:
+            if self.stemmer == 'porter':
+                self.stemmer = PorterStemmer()
+            self.d = frozenset(self._stem(w) for w in list(self.d))
+
+    def _stem(self, w):
+        """Apply stemmer, handling encoding errors"""
+        try:
+            return self.stemmer.stem(w)
+        except UnicodeDecodeError:
+            return w
+
+    def _f(self, c):
+        p = c.get_attrib_span(self.attrib)
+        p = p.lower() if self.ignore_case else p
+        p = self._stem(p) if self.stemmer is not None else p
+        while len(p) > 0: 
+            for w in self.d:
+                if len(p) > len(w):
+                    if p[:len(w)] == w:
+                        p = p[len(w):]
+                elif len(p) == len(w) and p == w:
+                    p = ''
+        return len(p) == 0
