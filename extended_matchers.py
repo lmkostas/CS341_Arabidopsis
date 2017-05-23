@@ -365,9 +365,11 @@ class Sequence(NgramMatcher):
         rgx = r'\S+'
         if self.links is not None:
             rgx = r'([A-Za-z0-9-]+)'
+        else:
+            if len(set([',', ';', '.', '...', '?', '!']).intersection(set(map(str, c.get_attrib_tokens(self.attrib))))) > 0: return False
         for match in re.finditer(rgx, c.get_attrib_span(self.attrib)):
             match_found = False
-            #print match, c.get_attrib_span(self.attrib)
+            #print c.get_attrib_span(self.attrib)[match.start(0):match.end(0)], c.get_attrib_span(self.attrib)
             split = c.get_attrib_span(self.attrib)[match.start(0):match.end(0)]
             for i in range(len(self.children)):
                 if self.children[i].f(c[match.start(0):match.end(0)]) != 0:

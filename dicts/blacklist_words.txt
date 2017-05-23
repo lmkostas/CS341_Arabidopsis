@@ -236,3 +236,6 @@ id	stop_word
 63	T-DNA
 64	se
 65	annotate
+66	left
+67	right
+68	scale
