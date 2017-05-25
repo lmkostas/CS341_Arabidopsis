@@ -14,7 +14,7 @@ BLACKLIST = "dicts/blacklist_words.txt"
 PHENO_LIST = "dicts/list_phenotypes_arabidopsis_filtered.txt"
 PHENO_EQ_LIST = "dicts/phenotypes_all_eq_dict.txt"
 PHENO_MANUAL = "dicts/phenotypes_manual.txt"
-ONTOLOGIES = ["dicts/po.obo"]
+ONTOLOGIES = ["dicts/po.obo"]#, "dicts/chebi.obo", "dicts/go-basic.obo"]
 PATO_ONTOLOGY = "dicts/pato.obo"
 
 
@@ -116,27 +116,30 @@ def stem(w):
 
 from snorkel import SnorkelSession
 session = SnorkelSession()
-from snorkel.matchers import Seq, Contains, Sequence, DictionaryMatch, Concat, RegexMatchSpan, SlotFillMatch, Union, RegexMatchEach
+from snorkel.matchers import Contains, Sequence, DictionaryMatch, Concat, RegexMatchSpan, SlotFillMatch, Union, RegexMatchEach
 
 blacklist = read_blacklist()
 blacklist.extend([stem(b) for b in blacklist])
 phenos = load_pheno_list()
-obos = load_pheno_ontology() + ['stem', 'leaves', 'phenotype', 'carpel', 'tip']
-patos = parse_pato(PATO_ONTOLOGY) + ['alter', 'growth', 'develop']
+obos = load_pheno_ontology() + ['stem', 'leaves', 'phenotype', 'carpel', 'tip', 'effect']
+patos = parse_pato(PATO_ONTOLOGY) + ['alter', 'growth', 'develop', 'affect']
 
 
 PATO = DictionaryMatch(d=patos, longest_match_only=True, stemmer='porter', blacklist=blacklist)
 OBO = DictionaryMatch(d=obos, longest_match_only=True, stemmer='porter', blacklist=blacklist)
 PHENOS = DictionaryMatch(d=phenos, longest_match_only=True)
-NN_ADJ = RegexMatchSpan(rgx=r'^[A-Za-z-]+(ion|ment|ance|ence|ity|ive)$', longest_match_only=True)
+NN_ADJ = RegexMatchSpan(rgx=r'^[A-Za-z-]+(ion|ment|ance|ence|ity|ive)s?$', longest_match_only=True)
 ADJS = DictionaryMatch(d=['JJ', 'JJR'], longest_match_only=True, attrib='pos_tags')
 NUMS = SlotFillMatch(RegexMatchEach(rgx=r'CD', longest_match_only=True, attrib='pos_tags'), pattern= r'{0}(%| percent|-fold)', longest_match_only=True)
-NUMS2 = RegexMatchSpan(rgx=r'\d+(\.\d+)?%', longest_match_only=True)
+NN_PHRASE = RegexMatchSpan(rgx=r'^(JJ |JJR |VBD |NN |NNS |NNP |NNPS )*(NN|NNS|NNP|NNPS)$', attrib='pos_tags', longest_match_only=False)
+NN_PHRASE = RegexMatchSpan(rgx=r'^(NN|NNS|NNP|NNPS)$', attrib='pos_tags', longest_match_only=False)
 LINK_VBS = DictionaryMatch(d=['is', 'are', 'was', 'were', 'has', 'had', 'became', 'become', 'no', 'not'], longest_match_only=True, stemmer='porter')
 LINKS = RegexMatchEach(rgx=r'(IN|TO|DT|CC)', longest_match_only=True, attrib='pos_tags')
-ADVBS = DictionaryMatch(d=['RB', 'RBR'], longest_match_only=True, attrib='pos_tags')
+ADVBS = DictionaryMatch(d=['RB', 'RBR', 'VBD', 'JJG'], longest_match_only=True, attrib='pos_tags')
+NN = Sequence(DictionaryMatch(d=['NN', 'NNS', 'NNP', 'NNPS'], longest_match_only=True, attrib='pos_tags'), longest_match_only=False)
+COMPS = DictionaryMatch(d=['compared', 'contrast', 'relative', 'than'])
 #NUMS = SlotFillMatch(RegexMatchEach(rgx=r'CD', longest_match_only=True, attrib='pos_tags'), pattern= r'{0}(%| percent|-fold)?', longest_match_only=True)
-OBO = Sequence(OBO, longest_match_only=True)
-PATO = Sequence(Union(PATO, ADJS, NUMS, longest_match_only = True), NN_ADJ, ADVBS, required=[1,0,0], links = [LINKS, LINK_VBS], longest_match_only=True)
-
+OBO = Sequence(Union(OBO, longest_match_only=True), NN_PHRASE, required=[1,0], punct='punct', links = [LINKS], longest_match_only=True)
+PATO = Sequence(Union(PATO, ADJS, NUMS, longest_match_only = True), NUMS, ADVBS, COMPS, NN_ADJ, required=[1,0,0,0,0], punct='punct', tails=True, links = [LINKS, LINK_VBS], longest_match_only=True)
+#PATO = Concat(PATO, NN_PHRASE, left_required=True, longest_match_only=True)
 #PM = Sequence(PATO, OBO, PHENOS, NN_ADJ, ADJS, GENE, GENE_REGEX, GENE_SLOTFILL, links = [LINKS, LINK_VBS, NUMS], required = [1, 1, 0, 0, 0, 0, 0, 0], longest_match_only=True)
