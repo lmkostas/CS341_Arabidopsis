@@ -239,3 +239,12 @@ id	stop_word
 66	left
 67	right
 68	scale
+69	probe
+70	cDNA
+71	identify
+72	see
+73	found
+74	value
+75	locate
+76	expose
+77	vector

@@ -14,7 +14,7 @@ BLACKLIST = "dicts/blacklist_words.txt"
 PHENO_LIST = "dicts/list_phenotypes_arabidopsis_filtered.txt"
 PHENO_EQ_LIST = "dicts/phenotypes_all_eq_dict.txt"
 PHENO_MANUAL = "dicts/phenotypes_manual.txt"
-ONTOLOGIES = ["dicts/po.obo"]#, "dicts/chebi.obo", "dicts/go-basic.obo"]
+ONTOLOGIES = ["dicts/po.obo", "dicts/chebi.obo", "dicts/go-basic.obo"]
 PATO_ONTOLOGY = "dicts/pato.obo"
 
 
@@ -120,26 +120,44 @@ from snorkel.matchers import Contains, Sequence, DictionaryMatch, Concat, RegexM
 
 blacklist = read_blacklist()
 blacklist.extend([stem(b) for b in blacklist])
-phenos = load_pheno_list()
-obos = load_pheno_ontology() + ['stem', 'leaves', 'phenotype', 'carpel', 'tip', 'effect']
-patos = parse_pato(PATO_ONTOLOGY) + ['alter', 'growth', 'develop', 'affect']
+#phenos = load_pheno_list()
+obos = load_pheno_ontology() + ['stem', 'leaves', 'phenotype', 'carpel', 'tip']
+patos = parse_pato(PATO_ONTOLOGY) + ['alter', 'growth', 'develop', 'affect', 'display']
 
 
 PATO = DictionaryMatch(d=patos, longest_match_only=True, stemmer='porter', blacklist=blacklist)
 OBO = DictionaryMatch(d=obos, longest_match_only=True, stemmer='porter', blacklist=blacklist)
-PHENOS = DictionaryMatch(d=phenos, longest_match_only=True)
-NN_ADJ = RegexMatchSpan(rgx=r'^[A-Za-z-]+(ion|ment|ance|ence|ity|ive)s?$', longest_match_only=True)
-ADJS = DictionaryMatch(d=['JJ', 'JJR'], longest_match_only=True, attrib='pos_tags')
-NUMS = SlotFillMatch(RegexMatchEach(rgx=r'CD', longest_match_only=True, attrib='pos_tags'), pattern= r'{0}(%| percent|-fold)', longest_match_only=True)
-NN_PHRASE = RegexMatchSpan(rgx=r'^(JJ |JJR |VBD |NN |NNS |NNP |NNPS )*(NN|NNS|NNP|NNPS)$', attrib='pos_tags', longest_match_only=False)
-NN_PHRASE = RegexMatchSpan(rgx=r'^(NN|NNS|NNP|NNPS)$', attrib='pos_tags', longest_match_only=False)
+
+NN_ADJ = RegexMatchSpan(rgx=r'^[A-Za-z-]+(ion|ment|ance|ence|ity)s?$', longest_match_only=True)
+ADJS = DictionaryMatch(d=['JJR', 'RBR'], longest_match_only=True, attrib='pos_tags')
+NUMS = RegexMatchSpan(rgx=r'^CD$', longest_match_only=True, attrib='pos_tags')#SlotFillMatch(RegexMatchEach(rgx=r'CD', longest_match_only=True, attrib='pos_tags'), pattern= r'{0}(%| percent|-fold)?', longest_match_only=True)
+#NN_PHRASE = RegexMatchSpan(rgx=r'^(JJ |JJR |VBD |NN |NNS |NNP |NNPS )*(NN|NNS|NNP|NNPS)$', attrib='pos_tags', longest_match_only=False)
+NNS = RegexMatchSpan(rgx=r'^(NN|NNS|NNP|NNPS)$', attrib='pos_tags', longest_match_only=False)
 LINK_VBS = DictionaryMatch(d=['is', 'are', 'was', 'were', 'has', 'had', 'became', 'become', 'no', 'not'], longest_match_only=True, stemmer='porter')
-LINKS = RegexMatchEach(rgx=r'(IN|TO|DT|CC)', longest_match_only=True, attrib='pos_tags')
-ADVBS = DictionaryMatch(d=['RB', 'RBR', 'VBD', 'JJG'], longest_match_only=True, attrib='pos_tags')
+LINKS = DictionaryMatch(d=['IN', 'DT', 'TO', 'CC', 'WDT'], longest_match_only=True, attrib='pos_tags')#RegexMatchSpan(rgx=r'^(IN|TO|DT|CC)$', longest_match_only=True, attrib='pos_tags')
+ADVBS = DictionaryMatch(d=['RB', 'RBR', 'VBD', 'VBG', 'VBN', 'JJ', 'JJS'], longest_match_only=True, attrib='pos_tags')
 NN = Sequence(DictionaryMatch(d=['NN', 'NNS', 'NNP', 'NNPS'], longest_match_only=True, attrib='pos_tags'), longest_match_only=False)
-COMPS = DictionaryMatch(d=['compared', 'contrast', 'relative', 'than'])
-#NUMS = SlotFillMatch(RegexMatchEach(rgx=r'CD', longest_match_only=True, attrib='pos_tags'), pattern= r'{0}(%| percent|-fold)?', longest_match_only=True)
-OBO = Sequence(Union(OBO, longest_match_only=True), NN_PHRASE, required=[1,0], punct='punct', links = [LINKS], longest_match_only=True)
-PATO = Sequence(Union(PATO, ADJS, NUMS, longest_match_only = True), NUMS, ADVBS, COMPS, NN_ADJ, required=[1,0,0,0,0], punct='punct', tails=True, links = [LINKS, LINK_VBS], longest_match_only=True)
+COMPS = DictionaryMatch(d=['compared', 'contrast', 'relative', 'than', 'similar', 'different'])
+NOS = DictionaryMatch(d=['no', 'not'], longest_match_only=True)
+NN_PHRASE = RegexMatchSpan(rgx=r'^(JJ |JJR |JJS |VBN |NN |NNS |NNP |NNPS )*(NN|NNS|NNP|NNPS)( JJ| JJR| JJS| VBN| NN| NNS| NNP| NNPS)*$', attrib='pos_tags', longest_match_only=False)
+PREPS = DictionaryMatch(d=['IN', 'DT', 'TO'], longest_match_only=True, attrib='pos_tags')
+PREP_PHRASE = RegexMatchEach(rgx=r'(IN|TO|DT|WDT)', attrib='pos_tags', longest_match_only=True)
+DETS = DictionaryMatch(d='DT|WDT', longest_match_only=True, attrib='pos_tags')
+OBO = Sequence(OBO, NNS, COMPS, NOS, NUMS, required=[1,0,0,0,0], punct='punct', links = [PREPS], longest_match_only=True)
+#OBO = Union(OBO, Union(Concat(OBO, NN_PHRASE, longest_match_only=True), Concat(OBO, PATO, longest_match_only=True), longest_match_only=True))
+PATO = Sequence(Union(PATO, ADJS, NN_ADJ, longest_match_only = True), NUMS, ADVBS, NOS, required=[1,0,0,0], punct='punct', links = [LINKS, LINK_VBS], longest_match_only=True)
+#OBO_TAIL = Concat(OBO1, PREP_PHRASE, longest_match_only=True)
+#PATO_TAIL = Concat(PATO1, PREP_PHRASE, longest_match_only=True)
+
+OBO1 = Union(OBO, Concat(PATO, OBO, permutations=True, longest_match_only=True))
+PATO = Union(PATO, Concat(PATO, OBO, permutations=True, longest_match_only=True))
+OBO = OBO1
+#OBO2 = Union(OBO1, Concat(OBO_TAIL, Union(NN_PHRASE, PATO1, longest_match_only=True), longest_match_only=True), longest_match_only=True)
+#PATO2 = Union(PATO1, Concat(PATO_TAIL, Union(NN_PHRASE, OBO1, longest_match_only=True), longest_match_only=True), longest_match_only=True)
+#PATO = Union(PATO2, Concat(PATO2, OBO2), longest_match_only=False)
+#OBO = Union(OBO2, Concat(PATO2, OBO2), longest_match_only=False)
 #PATO = Concat(PATO, NN_PHRASE, left_required=True, longest_match_only=True)
 #PM = Sequence(PATO, OBO, PHENOS, NN_ADJ, ADJS, GENE, GENE_REGEX, GENE_SLOTFILL, links = [LINKS, LINK_VBS, NUMS], required = [1, 1, 0, 0, 0, 0, 0, 0], longest_match_only=True)
+#PREPS = RegexMatchSpan(rgx=r'^(IN|TO|DT)( IN| TO| DT)*$', longest_match_only=True, attrib='pos_tags')
+
+#PATO = Union(PATO, Concat(PATO, NN_PHRASE, longest_match_only=True), Concat(PATO, OBO, longest_match_only=True))#, SlotFillMatch(PATO, PREPS, OBO, pattern='{0} {1} {2}', longest_match_only=True), SlotFillMatch(PATO, PREPS, NN_PHRASE, pattern='{0} {1} {2}', longest_match_only=True))
