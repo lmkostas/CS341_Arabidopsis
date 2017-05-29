@@ -167,6 +167,7 @@ class Concat(NgramMatcher):
         self.right_required = self.opts.get('right_required', True)
         self.ignore_sep     = self.opts.get('ignore_sep', True)
         self.sep            = self.opts.get('sep', " ")
+        self.sep_attrib     =self.opts.get('sep_attrib', WORDS)
 
     def f(self, c):
         if len(self.children) != 2:
@@ -179,9 +180,8 @@ class Concat(NgramMatcher):
         # Iterate over candidate splits **at the word boundaries**
         for wsplit in range(c.get_word_start()+1, c.get_word_end()+1):
             csplit = c.word_to_char_index(wsplit) - c.char_start  # NOTE the switch to **candidate-relative** char index
-
             # Optionally check for specific separator
-            if self.ignore_sep or c.get_span()[csplit-1] == self.sep:
+            if self.ignore_sep or c.get_attrib_span(WORDS)[csplit-1] == self.sep:
                 c1 = c[:csplit-len(self.sep)]
                 c2 = c[csplit:]
                 if self.children[0].f(c1) and self.children[1].f(c2):
@@ -345,10 +345,11 @@ class Sequence(NgramMatcher):
     """Matches a slot fill pattern of matchers _at the character level_"""
     def init(self):
         self.attrib = self.opts.get('attrib', WORDS)
-        self.sep            = self.opts.get('sep', ' ')
+        self.punct            = self.opts.get('punct', ' ')
         self.links            = self.opts.get('links', None)
         self.required = self.opts.get('required', [1 for _ in range(len(self.children))])
         self.links  =self.opts.get('links', None)
+        self.tails = self.opts.get('tails', False)
 
         # Check for correct number of child matchers / slots
         if len(self.children) < 1:
@@ -365,8 +366,10 @@ class Sequence(NgramMatcher):
         rgx = r'\S+'
         if self.links is not None:
             rgx = r'([A-Za-z0-9-]+)'
-        else:
-            if len(set([',', ';', '.', '...', '?', '!']).intersection(set(map(str, c.get_attrib_tokens(self.attrib))))) > 0: return False
+        #elif self.punct == 'punct':
+        if len(set([',', ';', '.', '...', '?', '!', '(', ')', '[', ']']).intersection(set(map(str, c.get_attrib_tokens(self.attrib))))) > 0: return False
+        length = len(c.get_attrib_span(self.attrib).split())
+        seen = 1
         for match in re.finditer(rgx, c.get_attrib_span(self.attrib)):
             match_found = False
             #print c.get_attrib_span(self.attrib)[match.start(0):match.end(0)], c.get_attrib_span(self.attrib)
@@ -378,7 +381,7 @@ class Sequence(NgramMatcher):
                     break
             if not match_found:
                 #return False
-                if self.links:
+                if self.links and seen > 1:# and seen < length:#(self.tails or (seen > 1 and seen < length)):
                     #if (split != 'and' and split != 'or' and split != 'and/or'): return False
                     for l in range(len(self.links)):
                         if self.links[l].f(c[match.start(0):match.end(0)]) != 0:
@@ -388,6 +391,7 @@ class Sequence(NgramMatcher):
                         return False
                 else:
                     return False
+            seen += 1
         if sum(match_instance) != len(match_instance): return False
         return True
 

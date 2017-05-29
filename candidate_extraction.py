@@ -20,7 +20,8 @@ ALLELE_PATTERNS = [
     "_{gene}_-{allele}",
     "_{gene}_-{allele}",
     "_{gene}_-_{allele}_",
-    "{gene}-{allele}"
+    "{gene}-{allele}",
+    "{gene}.{allele}"
 ]
 
 PHENO_LIST = "dicts/list_phenotypes_arabidopsis_filtered.txt"
@@ -47,7 +48,7 @@ def load_gene_list():
     gene blacklist.
     """
     blacklist = read_blacklist()
-    gene_blacklist = [item.lower() for item in blacklist]
+    gene_blacklist = [item.lower() for item in blacklist] +['ER']
 
     genes = util.read_tsv_flat(GENE_LIST)
 
@@ -174,59 +175,32 @@ from snorkel.matchers import Seq, Contains, Sequence, DictionaryMatch, Concat, R
 
 genes = load_gene_list()
 GENE = DictionaryMatch(d=genes, longest_match_only=True)
-GENE_REGEX = RegexMatchSpan(rgx=r'((\S+)?[A-Za-z]{2,4}\d(\S+)?)', longest_match_only=True)
-PRE_GENE = RegexMatchEach(rgx=r'[A-Za-z0-9\.\/:-]+', longest_match_only=True)
-GENE_SLOTFILL= SlotFillMatch(PRE_GENE, GENE, pattern=r'({0}(-|::|\/))?{1}((-|::|\/){0})?')
-GM = Sequence(Union(GENE_REGEX, GENE_SLOTFILL, GENE, longest_match_only=True), longest_match_only=True)
+GENE_REGEX = RegexMatchSpan(rgx=r'^((\S+)?[A-Za-z]{2,4}\d(\S+)?)$', longest_match_only=True)
+PRE_GENE = RegexMatchSpan(rgx=r'^[A-Za-z0-9\.\/:-]+$', longest_match_only=True)
+#GENE_SLOTFILL= Union(SlotFillMatch(PRE_GENE, GENE, pattern=r'^({0}(-|::|\/))?{1}((-|::|\/){0})?$', longest_match_only=True), SlotFillMatch(PRE_GENE, GENE_REGEX, pattern=r'^({0}(-|::|\/))?{1}((-|::|\/){0})?$', longest_match_only=True), longest_match_only=True)
+GENE_SLOTFILL= Union(SlotFillMatch(PRE_GENE, GENE, pattern=r'{0}(-|::|\/){1}(-|::|\/){0}', longest_match_only=True), SlotFillMatch(PRE_GENE, GENE, pattern=r'{0}(-|::|\/){1}', longest_match_only=True), SlotFillMatch(PRE_GENE, GENE, pattern=r'{1}(-|::|\/){0}', longest_match_only=True), GENE, longest_match_only=True)
+#GM = Sequence(Union(GENE_REGEX, GENE_SLOTFILL, GENE, longest_match_only=True), longest_match_only=True)
+GM = Sequence(GENE_SLOTFILL, longest_match_only=True) #SlotFillMatch(PRE_GENE, GENE, pattern=r'^({0}(-|::|\/))?{1}((-|::|\/){0})?$', longest_match_only=True) #Sequence(Union(GENE_SLOTFILL, GENE, longest_match_only=True), longest_match_only=True)
 
 blacklist = read_blacklist()
 blacklist.extend([stem(b) for b in blacklist])
 phenos = load_pheno_list()
-obos = load_pheno_ontology() + ['stem', 'leaves', 'phenotype', 'carpel']
+obos = load_pheno_ontology() + ['stem', 'leaves', 'phenotype', 'carpel', 'tip', 'level', 'underglycosylation']
 full_phenos = load_pheno_list()
-patos = parse_pato(PATO_ONTOLOGY) + ['alter']
+patos = parse_pato(PATO_ONTOLOGY) + ['alter', 'growth']
 #obos.extend(patos)
 
 PATO = DictionaryMatch(d=patos, longest_match_only=False, stemmer='porter', blacklist=blacklist)
 OBO = DictionaryMatch(d=obos, longest_match_only=False, stemmer='porter', blacklist=blacklist)
 PHENOS = DictionaryMatch(d=phenos, longest_match_only=True)
-NN_ADJ = RegexMatchSpan(rgx=r'^[A-Za-z-]+(ion|ment|ance|ence|ity|ive)$', longest_match_only=True)
+NN_ADJ = RegexMatchSpan(rgx=r'^[A-Za-z-]+(ion|ment|ance|ence|ity|ive)s?$', longest_match_only=True)
 ADJS = DictionaryMatch(d=['JJ', 'JJR', 'VBN', 'RB', 'RBR'], longest_match_only=True, attrib='pos_tags')
-LINK_VBS = DictionaryMatch(d=['is', 'are', 'was', 'were', 'has', 'had', 'became', 'become', 'no', 'not'], longest_match_only=True, stemmer='porter')
+LINK_VBS = DictionaryMatch(d=['is', 'are', 'was', 'were', 'has', 'had', 'became', 'become'], longest_match_only=True, stemmer='porter')
 LINKS = RegexMatchEach(rgx=r'(IN|TO|DT|CC)', longest_match_only=True, attrib='pos_tags')
+NO = DictionaryMatch(d=['no', 'not'], longest_match_only=True)
 NUMS = SlotFillMatch(RegexMatchEach(rgx=r'CD', longest_match_only=True, attrib='pos_tags'), pattern= r'{0}(%| percent|-fold)?', longest_match_only=True)
-PM = Sequence(PATO, OBO, PHENOS, NN_ADJ, ADJS, GENE, GENE_REGEX, GENE_SLOTFILL, links = [LINKS, LINK_VBS, NUMS], required = [1, 1, 0, 0, 0, 0, 0, 0], longest_match_only=True)
-'''
-LINKS = RegexMatchEach(rgx=r'(IN|TO|DT|CC)', longest_match_only=True, attrib='pos_tags')
-NUMS = SlotFillMatch(RegexMatchEach(rgx=r'CD', longest_match_only=True, attrib='pos_tags'), pattern= r'{0}(%| percent|-fold)?', longest_match_only=True)
-ADJS = DictionaryMatch(d=['JJ', 'JJR', 'VBN'], longest_match_only=True, attrib='pos_tags')
-VBS = DictionaryMatch(d=['VB', 'VBZ', 'VBD', 'RB', 'RBR'], longest_match_only=True, attrib='pos_tags')
-VBS = RegexMatchEach(rgx=r'(VB|VBZ|VBD|RB|RBR)', longest_match_only=True, attrib='pos_tags')
-NNS = DictionaryMatch(d=['NN', 'NNS', 'NNP', 'NNPS'], longest_match_only=True, attrib='pos_tags')
-LINK_VBS = ['is', 'are', 'was', 'were', 'has', 'had', 'became', 'become']
-
-#adj + phrase
-PRE_NN = RegexMatchSpan(rgx=r'^(JJ |JJR |VBN )?(NN|NNS|NNP|NNPS)(( IN| TO)( IN| TO| DT)+)?$', longest_match_only=True, attrib='pos_tags')
-POST_NN = RegexMatchSpan(rgx=r'^((IN |TO )(IN |TO |DT )+ )?(JJ |JJR |VBN )*(NN|NNS|NNP|NNPS)$', longest_match_only=True, attrib='pos_tags')
-
-
-#PM = Union(PATO, OBO, PHENOS, ADJS)
-#PM = Seq(d=patos + obos + phenos, longest_match_only=True)
-PM1 = Union(SlotFillMatch(PATO, LINKS, pattern = '{0} {1} {0}', longest_match_only=True), SlotFillMatch(PATO, LINKS, pattern = '{1} {0} {1}', longest_match_only=True), SlotFillMatch(PATO, LINKS, pattern = '{1} {0}', longest_match_only=True), SlotFillMatch(PATO, LINKS, pattern = '{0} {1}', longest_match_only=True), PATO, longest_match_only=True)
-PM2 = Concat(PM1, PM1, longest_match_only=True, right_required=False)
-PM3 = Union(SlotFillMatch(OBO, pattern = r'([a-zA-Z]+-)?{0}(-[a-zA-Z]+)?', longest_match_only=True), SlotFillMatch(OBO, pattern = r'{0},? (and|or) {0}', longest_match_only=True), OBO, longest_match_only=True) 
-PM4 = Union(SlotFillMatch(PM3, LINKS, pattern = '{0} {1} {0}', longest_match_only=True), SlotFillMatch(PM3, pattern = '{0} {0}', longest_match_only=True), PM3, longest_match_only=True)#Concat(PM3, PM3, longest_match_only=True, right_required=False)
-PM = Union(PM2, PM4, longest_match_only=True)
-#PM = Concat(PM2, PM4, longest_match_only=True, permutations=True)
-#PM = Union(SlotFillMatch(PM2, PM4, pattern = '{1} {0} {1}', longest_match_only=True), SlotFillMatch(PM2, PM4, pattern = '{0} {1} {0}', longest_match_only=True), SlotFillMatch(PM2, PM4, pattern = '{1} {0}', longest_match_only=True), SlotFillMatch(PM2, PM4, pattern = '{0} {1}', longest_match_only=True), longest_match_only=True) 
-#PM = Union(Concat(ADJS, PM, longest_match_only=True), PM, longest_match_only=True)
-#PM = Union(SlotFillMatch(PRE_NN, POST_NN, PM, pattern = '{0} {2} {1}', longest_match_only=True), SlotFillMatch(PRE_NN, PM, pattern = '{0} {1}', longest_match_only=True), SlotFillMatch(POST_NN, PM, pattern = '{1} {0}', longest_match_only=True), PM, longest_match_only=True)
-#PM = Union(PM1, OBO, longest_match_only=True) 
-'''
-'''
-PM1 = Union(SlotFillMatch(PATO, LINKS, pattern = '{0} {1} {0}', longest_match_only=True), SlotFillMatch(PATO, pattern = '{0} {0}', longest_match_only=True), PATO, longest_match_only=True)
-PM2 = Union(SlotFillMatch(OBO, pattern = r'([a-zA-Z]+-)?{0}(-[a-zA-Z]+)?', longest_match_only=True), SlotFillMatch(OBO, pattern = r'{0},? (and|or) {0}', longest_match_only=True), OBO, longest_match_only=True) 
-PM2 = Union(SlotFillMatch(PM2, LINKS, pattern = '{0} {1} {0}', longest_match_only=True), SlotFillMatch(PM2, pattern = '{0} {0}', longest_match_only=True), PM2, longest_match_only=True)
-#PM = Concat(PM2, PM4, longest_match_only=True, permutations=True)
-PM = Union(SlotFillMatch(PM1, PM2, LINKS, pattern = '{1} {2} {0} {2} {1}', longest_match_only=True), SlotFillMatch(PM1, PM2, LINKS, pattern = '{1} {2} {0} {1}', longest_match_only=True), SlotFillMatch(PM1, PM2, LINKS, pattern = '{1} {0} {2} {1}', longest_match_only=True), SlotFillMatch(PM1, PM2, pattern = '{1} {0} {1}', longest_match_only=True), SlotFillMatch(PM1, PM2, LINKS, pattern = '{0} {2} {1} {2} {0}', longest_match_only=True), SlotFillMatch(PM1, PM2, LINKS, pattern = '{0} {2} {1} {0}', longest_match_only=True), SlotFillMatch(PM1, PM2, LINKS, pattern = '{0} {1} {2} {0}', longest_match_only=True), SlotFillMatch(PM1, PM2, pattern = '{0} {1} {0}', longest_match_only=True), SlotFillMatch(PM1, PM2, LINKS, pattern = '{1} {2} {0}', longest_match_only=True), SlotFillMatch(PM1, PM2, pattern = '{1} {0}', longest_match_only=True), SlotFillMatch(PM1, PM2, LINKS, pattern = '{0} {2} {1}', longest_match_only=True), SlotFillMatch(PM1, PM2, pattern = '{0} {1}', longest_match_only=True), longest_match_only=True) 
-'''
+PM = Sequence(PATO, OBO, PHENOS, NN_ADJ, ADJS, GENE_SLOTFILL, NO, DictionaryMatch(d=genes, longest_match_only=False), links = [LINKS, LINK_VBS, NUMS], required = [1, 1, 0, 0, 0, 0, 0, 0, 0], longest_match_only=True)
+#S2 = Sequence(PATO, NN_ADJ, OBO, PHENOS, ADJS, GENE_SLOTFILL, DictionaryMatch(d=genes, longest_match_only=False), links = [LINKS, LINK_VBS, NUMS], required = [1, 1, 0, 0, 0, 0, 0, 0], longest_match_only=True)
+#S3 = Sequence(ADJS, NN_ADJ, OBO, PHENOS, PATO, GENE_SLOTFILL, DictionaryMatch(d=genes, longest_match_only=False), links = [LINKS, LINK_VBS, NUMS], required = [1, 1, 0, 0, 0, 0, 0, 0], longest_match_only=True)
+#S4 = Sequence(ADJS, OBO, PATO, NN_ADJ, PHENOS, GENE_SLOTFILL, DictionaryMatch(d=genes, longest_match_only=False), links = [LINKS, LINK_VBS, NUMS], required = [1, 1, 0, 0, 0, 0, 0, 0], longest_match_only=True)
+#PM = Union(PM, S2, S3, S4, PHENOS, longest_match_only=True)
