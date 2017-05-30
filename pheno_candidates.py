@@ -135,7 +135,7 @@ NUMS = RegexMatchSpan(rgx=r'^CD$', longest_match_only=True, attrib='pos_tags')#S
 NNS = RegexMatchSpan(rgx=r'^(NN|NNS|NNP|NNPS)$', attrib='pos_tags', longest_match_only=False)
 LINK_VBS = DictionaryMatch(d=['is', 'are', 'was', 'were', 'has', 'had', 'became', 'become', 'no', 'not'], longest_match_only=True, stemmer='porter')
 LINKS = DictionaryMatch(d=['IN', 'DT', 'TO', 'CC', 'WDT'], longest_match_only=True, attrib='pos_tags')#RegexMatchSpan(rgx=r'^(IN|TO|DT|CC)$', longest_match_only=True, attrib='pos_tags')
-ADVBS = DictionaryMatch(d=['RB', 'RBR', 'VBD', 'VBG', 'VBN', 'JJ', 'JJS'], longest_match_only=True, attrib='pos_tags')
+ADVBS = DictionaryMatch(d=['RB', 'RBR', 'RBS', 'VBD', 'VBG', 'VBN', 'JJ', 'JJS'], longest_match_only=True, attrib='pos_tags')
 NN = Sequence(DictionaryMatch(d=['NN', 'NNS', 'NNP', 'NNPS'], longest_match_only=True, attrib='pos_tags'), longest_match_only=False)
 COMPS = DictionaryMatch(d=['compared', 'contrast', 'relative', 'than', 'similar', 'different'])
 NOS = DictionaryMatch(d=['no', 'not'], longest_match_only=True)
@@ -143,15 +143,17 @@ NN_PHRASE = RegexMatchSpan(rgx=r'^(JJ |JJR |JJS |VBN |NN |NNS |NNP |NNPS )*(NN|N
 PREPS = DictionaryMatch(d=['IN', 'DT', 'TO'], longest_match_only=True, attrib='pos_tags')
 PREP_PHRASE = RegexMatchEach(rgx=r'(IN|TO|DT|WDT)', attrib='pos_tags', longest_match_only=True)
 DETS = DictionaryMatch(d='DT|WDT', longest_match_only=True, attrib='pos_tags')
-OBO = Sequence(OBO, NNS, COMPS, NOS, NUMS, required=[1,0,0,0,0], punct='punct', links = [PREPS], longest_match_only=True)
+MODS = DictionaryMatch(d=['RB', 'RBR', 'RBS', 'VBN', 'JJ', 'JJR', 'JJS'], longest_match_only=True, attrib='pos_tags')
+OBO = Sequence(OBO, NNS, COMPS, NOS, NUMS, MODS, required=[1,0,0,0,0,0], punct='punct', links = [PREPS], longest_match_only=True)
 #OBO = Union(OBO, Union(Concat(OBO, NN_PHRASE, longest_match_only=True), Concat(OBO, PATO, longest_match_only=True), longest_match_only=True))
 PATO = Sequence(Union(PATO, ADJS, NN_ADJ, longest_match_only = True), NUMS, ADVBS, NOS, required=[1,0,0,0], punct='punct', links = [LINKS, LINK_VBS], longest_match_only=True)
 #OBO_TAIL = Concat(OBO1, PREP_PHRASE, longest_match_only=True)
 #PATO_TAIL = Concat(PATO1, PREP_PHRASE, longest_match_only=True)
 
-OBO1 = Union(OBO, Concat(PATO, OBO, permutations=True, longest_match_only=True))
-PATO = Union(PATO, Concat(PATO, OBO, permutations=True, longest_match_only=True))
-OBO = OBO1
+#OBO1 = Union(OBO, Concat(PATO, OBO, permutations=True, longest_match_only=True))
+#PATO = Union(PATO, Concat(PATO, OBO, permutations=True, longest_match_only=True))
+#OBO = OBO1
+
 #OBO2 = Union(OBO1, Concat(OBO_TAIL, Union(NN_PHRASE, PATO1, longest_match_only=True), longest_match_only=True), longest_match_only=True)
 #PATO2 = Union(PATO1, Concat(PATO_TAIL, Union(NN_PHRASE, OBO1, longest_match_only=True), longest_match_only=True), longest_match_only=True)
 #PATO = Union(PATO2, Concat(PATO2, OBO2), longest_match_only=False)
