@@ -116,7 +116,7 @@ def stem(w):
 
 from snorkel import SnorkelSession
 session = SnorkelSession()
-from snorkel.matchers import Contains, Sequence, DictionaryMatch, Concat, RegexMatchSpan, SlotFillMatch, Union, RegexMatchEach
+from extended_matchers import DictionaryMatch, Concat, RegexMatchSpan, SlotFillMatch, Union, RegexMatchEach, Sequence
 
 blacklist = read_blacklist()
 blacklist.extend([stem(b) for b in blacklist])

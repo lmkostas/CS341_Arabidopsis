@@ -102,7 +102,11 @@ class Brat(object):
         self._create_candidate_subclasses(config)
 
         # create candidates
-        self._create_candidates(annotations, annotator_name)
+        self.stable_labels_by_type, self.entity_types = self._create_candidates(annotations, annotator_name)
+        
+    def explore(self):
+        return self.stable_labels_by_type, self.entity_types
+        
 
     def export_project(self, output_dir, positive_only_labels=True):
         """
@@ -265,8 +269,8 @@ class Brat(object):
                     disc_mentions = {}
                     if len(spans) != 1:
                         disc_mentions[anno_id] = len(spans)
-                        print>> sys.stderr, "NotImplementedError: Discontinuous Spans"
-                        #continue
+#print>> sys.stderr, ann_filename, spans, "NotImplementedError: Discontinuous Spans"
+#continue
                     entity = []
                     for k, (i, j) in enumerate(spans):
                         
@@ -292,7 +296,7 @@ class Brat(object):
                     rela_type, arg1, arg2 = rela.split()
                     arg1 = arg1.split(":")[1] if ":" in arg1 else arg1
                     arg2 = arg2.split(":")[1] if ":" in arg2 else arg2
-                    print rela_type, arg1, arg2
+#print rela_type, arg1, arg2
                     ext1 = 0 if arg1 not in disc_mentions else disc_mentions[arg1]
                     ext2 = 0 if arg2 not in disc_mentions else disc_mentions[arg2]
                     anno_count = 0
@@ -305,7 +309,7 @@ class Brat(object):
                             if ext1 + ext2 != 0:
                                 anno_count += 1
                                 anno_id = anno_id.split('-')[0]+'-'+str(anno_count)
-                            print anno_id, rela_type, arg1, arg2
+#print anno_id, rela_type, arg1, arg2
                             annotations[anno_id] = (rela_type, arg1, arg2)
                     #annotations[anno_id] = (rela_type, arg1, arg2)
 
@@ -476,8 +480,12 @@ class Brat(object):
                 # create relation labels
                 for key in relations:
                     rela_type, arg1, arg2 = annotations[name][key]
-                    rela = sorted([[annotations[name][arg1]["entity_type"], spans[arg1]],
-                                    [annotations[name][arg2]["entity_type"],spans[arg2]]])
+                    try:
+                        rela = sorted([[annotations[name][arg1]["entity_type"], spans[arg1]],
+                                     [annotations[name][arg2]["entity_type"],spans[arg2]]])
+                    except KeyError as e:
+                        print(name, key, rela_type, arg1, arg2, "not found: ", e)
+                        continue
                     stable_labels_by_type[rela_type].append("~~".join(zip(*rela)[1]))
                     labeled_rels.add(tuple(sorted([arg1,arg2])))
 
@@ -498,27 +506,28 @@ class Brat(object):
                         
                     #entity_type = annotations[name][key]['entity_type']
                     #stable_labels_by_type[entity_type].append(spans[key])
-                
+
+    
         # create stable labels
         # NOTE: we store each label class type in a different split so that it is compatible with
         # the current version of 'reload_annotator_labels', where we create candidates by split id
         #for i, class_type in enumerate(stable_labels_by_type):
-        ak = self.session.query(GoldLabelKey).filter(GoldLabelKey.name == annotator_name).first()
-        if ak is None:
-            ak = GoldLabelKey(name=annotator_name)
-            self.session.add(ak)
-            self.session.commit()
+        # ak = self.session.query(GoldLabelKey).filter(GoldLabelKey.name == annotator_name).first()
+        # if ak is None:
+        #     ak = GoldLabelKey(name=annotator_name)
+        #     self.session.add(ak)
+        #     self.session.commit()
 
         labs = stable_labels_by_type['Causation']+stable_labels_by_type['Negative']
         vals = [1]*len(stable_labels_by_type['Causation'])+[-1]*len(stable_labels_by_type['Negative'])
 
-        for i, context_stable_id in enumerate(labs): #stable_labels_by_type[class_type]:
-            query = self.session.query(StableLabel).filter(StableLabel.context_stable_ids == context_stable_id)
-            query = query.filter(StableLabel.annotator_name == annotator_name)
-            if query.count() != 0:
-                continue
-            self.session.add(StableLabel(context_stable_ids=context_stable_id, split=0,
-                                             annotator_name=annotator_name, value=vals[i]))
+        # for i, context_stable_id in enumerate(labs): #stable_labels_by_type[class_type]:
+        #     query = self.session.query(StableLabel).filter(StableLabel.context_stable_ids == context_stable_id)
+        #     query = query.filter(StableLabel.annotator_name == annotator_name)
+        #     if query.count() != 0:
+        #         continue
+        #     self.session.add(StableLabel(context_stable_ids=context_stable_id, split=0,
+        #                                      annotator_name=annotator_name, value=vals[i]))
 
         abs_offsets = {}
         entity_types = defaultdict(list)
@@ -570,25 +579,26 @@ class Brat(object):
         '''
         class_type = 'Causation'
         class_name = self.subclasses[class_type]
-
-        if clear:
-            self.session.query(Candidate).filter(Candidate.split == 0).delete()
+        return stable_labels_by_type, entity_types
+    
+        # if clear:
+        #     self.session.query(Candidate).filter(Candidate.split == 0).delete()
         
-        candidate_args = {'split': 0}
+        # candidate_args = {'split': 0}
 
-        for i, args in enumerate(entity_types[class_type]):
-            for j, arg_name in enumerate(class_name.__argnames__):
-                candidate_args[arg_name + '_id'] = args[j].id
+#         for i, args in enumerate(entity_types[class_type]):
+#             for j, arg_name in enumerate(class_name.__argnames__):
+#                 candidate_args[arg_name + '_id'] = args[j].id
 
-            candidate = class_name(**candidate_args)
-            self.session.add(candidate)
+#             candidate = class_name(**candidate_args)
+#             self.session.add(candidate)
             
-            label = self.session.query(GoldLabel).filter(GoldLabelKey == ak).filter(GoldLabel.candidate == candidate).first()
-            if label is None:
-                label = GoldLabel(candidate=candidate, key=ak, value=vals[i])
-                self.session.add(label)
+#             label = self.session.query(GoldLabel).filter(GoldLabelKey.name == annotator_name).filter(GoldLabelKey == ak).filter(GoldLabel.candidate == candidate).first()
+#             if label is None:
+#                 label = GoldLabel(candidate=candidate, key=ak, value=vals[i])
+#                 self.session.add(label)
 
-        self.session.commit()
+#         self.session.commit()
         
 
 def _group_by_document(candidates):
