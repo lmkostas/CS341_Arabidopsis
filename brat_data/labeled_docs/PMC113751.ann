@@ -1,0 +1,4 @@
+T1	Gene 328 343	sis5-1/abi4-101
+#1	AnnotatorNotes T1	double mutant, two genes affected
+T2	Phenotype 355 421	resistant to glucose inhibition of seed storage lipid mobilization
+R1	Causation Arg1:T1 Arg2:T2	

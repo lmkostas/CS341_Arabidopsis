@@ -1,0 +1,71 @@
+T1	Gene 786 792	etr2-1
+T2	Phenotype 808 842;854 946	trichomes similar to the wild type with 2% two-branched trichomes, 93% three-branched trichomes, and 5% four-branched trichomes
+R1	Causation Arg1:T1 Arg2:T2	
+T3	Gene 966 972	etr2-2
+T4	Phenotype 997 1104	lacked four-branched trichomes and instead had 17% two-branched trichomes, and 83% three-branched trichomes
+R2	Causation Arg1:T3 Arg2:T4	
+T5	Gene 1183 1189	etr2-3
+T6	Phenotype 1211 1236	100% unbranched trichomes
+R3	Causation Arg1:T5 Arg2:T6	
+T7	Gene 1714 1720	etr2-2
+T8	Phenotype 1734 1773	higher number of two-branched trichomes
+R4	Causation Arg1:T7 Arg2:T8	
+T9	Gene 1784 1790	etr2-3
+T10	Phenotype 1795 1820	only unbranched trichomes
+R5	Causation Arg1:T9 Arg2:T10	
+T11	Gene 4098 4104	etr2-3
+T12	Phenotype 4117 4250	trichomes nearing maturity show disorganized microtubule cytoskeleton and early signs of depolymerization at the base of the trichome
+R6	Causation Arg1:T11 Arg2:T12	
+T13	Gene 4518 4524	etr2-3
+T14	Phenotype 4592 4642	trichome branching and normal microtubule assembly
+R7	Causation Arg1:T13 Arg2:T14	
+T15	Gene 6579 6585	etr2-3
+T16	Phenotype 6567 6571;6586 6595;6603 6662	some trichomes normal longitudinal microtubules in nearly mature trichomes
+T17	Phenotype 6666 6782	subset of trichomes exhibited a random and disorganized microtubule network that showed evidence of depolymerization
+R8	Causation Arg1:T15 Arg2:T17	
+R9	Causation Arg1:T15 Arg2:T16	
+T18	Gene 6814 6820	etr2-3
+T19	Phenotype 6801 6810;6826 6905	Trichomes lacked the dense knots of microtubules typically present in branching trichomes
+R10	Causation Arg1:T18 Arg2:T19	
+T20	Gene 1698 1704	etr2-1
+T21	Phenotype 1614 1623;1641 1673	Trichomes are predominantly three-branched
+R11	Causation Arg1:T20 Arg2:T21	
+T22	Gene 2955 2961	etr2-3
+T23	Phenotype 2903 2951	Microtubule cytoskeleton organization is altered
+R12	Causation Arg1:T22 Arg2:T23	
+T24	Gene 9047 9053	etr2-3
+T25	Phenotype 9060 9115	higher number of branched root hairs than the wild type
+R13	Causation Arg1:T24 Arg2:T25	
+T26	Gene 9462 9468	etr2-1
+T27	Phenotype 9476 9571	significantly lower number of branched root hairs at 1.0 muM oryzalin compared to the wild type
+R14	Causation Arg1:T26 Arg2:T27	
+T28	Gene 10159 10162	gl3
+T29	Phenotype 10171 10197	has two-branched trichomes
+R15	Causation Arg1:T28 Arg2:T29	
+T30	Gene 10333 10338	spy-5
+T31	Phenotype 10391 10419	increased trichome branching
+R16	Causation Arg1:T30 Arg2:T31	
+T32	Gene 11008 11011	gl2
+T33	Phenotype 10975 11004;11012 11141	trichomes on the first leaves either did not fully extend (for unbranched trichomes) or showed a high proportion of branched trichomes with very short branches
+R17	Causation Arg1:T32 Arg2:T33	
+T34	Gene 11148 11154;11181 11185	etr2-3 fas1
+T35	Phenotype 11311 11336	100% unbranched trichomes
+R18	Causation Arg1:T34 Arg2:T35	
+T36	Gene 11508 11518	try etr2-3
+T37	Phenotype 11537 11595	unbranched trichomes that, in a few cases appeared clumped
+R19	Causation Arg1:T36 Arg2:T37	
+T38	Gene 11642 11656	fas1-1 and try
+T39	Phenotype 11687 11737	trichome branching and clustering phenotype of try
+R20	Causation Arg1:T38 Arg2:T39	
+T40	Gene 14076 14082	etr2-3
+T41	Phenotype 14047 14072;14083 14111	expression levels of FAS1 were significantly increased
+R21	Causation Arg1:T40 Arg2:T41	
+T42	Gene 14328 14334	etr2-3
+T43	Phenotype 14282 14324	TRY expression was significantly increased
+R22	Causation Arg1:T42 Arg2:T43	
+T44	Gene 14401 14407	fas1-1
+T45	Phenotype 14415 14461	TRY expression is also significantly repressed
+R23	Causation Arg1:T44 Arg2:T45	
+T46	Gene 14630 14636	etr2-3
+T47	Phenotype 14590 14626	STI was significantly down-regulated
+R24	Causation Arg1:T46 Arg2:T47	

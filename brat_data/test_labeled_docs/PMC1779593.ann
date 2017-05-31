@@ -1,0 +1,5 @@
+T1	Gene 198 201	pgm
+#1	AnnotatorNotes T1	allele
+T3	Phenotype 136 194;202 278	The amplitudes of the diurnal changes in metabolite levels were (with the exception of sugars) similar or smaller than in the wild type
+R1	Causation Arg1:T1 Arg2:T3	
+#2	AnnotatorNotes R1	one part of same phenotype in sentence

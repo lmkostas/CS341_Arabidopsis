@@ -1,0 +1,86 @@
+T1	Gene 15 22	coi1-16
+T2	Phenotype 36 90	reduced response to ACC-induced root growth inhibition
+R1	Causation Arg1:T1 Arg2:T2	
+T3	Gene 360 367	coi1-16
+T4	Phenotype 378 477	significantly less response than the wild-type to root growth inhibition induced by MeJA and by ACC
+R2	Causation Arg1:T3 Arg2:T4	
+T5	Gene 2138 2145	coi1-16
+T6	Phenotype 2118 2134;2146 2152	reduced response to ACC
+R3	Causation Arg1:T5 Arg2:T6	
+T7	Gene 3292 3298	jar1-1
+T8	Gene 3303 3307	jin1
+T9	Phenotype 3317 3373	wild-type response to ACC-induced root growth inhibition
+R4	Causation Arg1:T8 Arg2:T9	
+R5	Causation Arg1:T7 Arg2:T9	
+T10	Gene 6389 6395	etr1-1
+T11	Phenotype 6401 6477	less responsive to ACC-induced root growth inhibition in continuous darkness
+R6	Causation Arg1:T10 Arg2:T11	
+T12	Gene 6627 6634	coi1-16
+T13	Phenotype 6641 6678	wild-type response to ACC in the dark
+R7	Causation Arg1:T12 Arg2:T13	
+T14	Gene 6899 6913	etr1-1;coi1-16
+T15	Phenotype 6921 6979	reduced response to MeJA both in the light and in the dark
+T16	Phenotype 6989 7024	unresponsiveness to ACC in the dark
+R8	Causation Arg1:T14 Arg2:T15	
+R9	Causation Arg1:T14 Arg2:T16	
+T17	Gene 10316 10323	coi1-16
+T18	Phenotype 10261 10293;10334 10362	ACC induced root hair elongation in the light and in the dark
+R10	Causation Arg1:T17 Arg2:T18	
+T19	Gene 10403 10409	etr1-1
+T20	Gene 10414 10428	etr1-1;coi1-16
+T21	Phenotype 10446 10511	no visible root hair elongation in the presence or absence of ACC
+R11	Causation Arg1:T20 Arg2:T21	
+R12	Causation Arg1:T19 Arg2:T21	
+T22	Gene 12875 12881	ers1-1
+T23	Gene 12883 12889	ers2-1
+T24	Gene 12891 12897	etr2-1
+T25	Gene 12903 12907	ein4
+T26	Phenotype 12913 12989	less responsive to ACC than the wild-type, both in the light and in the dark
+T27	Phenotype 13000 13052	less responsive to ACC in the dark than in the light
+T28	Gene 13065 13071	etr1-1
+R13	Causation Arg1:T28 Arg2:T27	
+R14	Causation Arg1:T22 Arg2:T27	
+R15	Causation Arg1:T23 Arg2:T27	
+R16	Causation Arg1:T24 Arg2:T27	
+R17	Causation Arg1:T25 Arg2:T27	
+R18	Causation Arg1:T22 Arg2:T26	
+R19	Causation Arg1:T23 Arg2:T26	
+R20	Causation Arg1:T24 Arg2:T26	
+R21	Causation Arg1:T25 Arg2:T26	
+T29	Gene 13115 13121	ctr1-1
+T30	Phenotype 13077 13107	constitutive ethylene response
+T31	Phenotype 13126 13182	partially responsive to ACC in the dark and in the light
+R22	Causation Arg1:T29 Arg2:T31	
+R23	Causation Arg1:T29 Arg2:T30	
+T32	Gene 13195 13201	ein3-1
+T33	Gene 13184 13190	ein2-1
+T34	Phenotype 13207 13277	less responsive to ACC than the wild-type in the light and in the dark
+T35	Phenotype 13288 13340	less responsive to ACC in the dark than in the light
+R24	Causation Arg1:T32 Arg2:T34	
+R25	Causation Arg1:T32 Arg2:T35	
+R26	Causation Arg1:T33 Arg2:T34	
+R27	Causation Arg1:T33 Arg2:T35	
+T36	Gene 13815 13829	etr1-1;coi1-16
+T37	Phenotype 13848 13925	less responsive to ACC-induced root growth inhibition than the single mutants
+R28	Causation Arg1:T36 Arg2:T37	
+T38	Gene 13946 13960	ers1-1;coi1-16
+T39	Gene 13962 13976	ers2-1;coi1-16
+T40	Gene 13978 13992	ein2-1;coi1-16
+T41	Gene 13998 14012	ein3-1;coi1-16
+T42	Phenotype 14025 14122	less response than the single parental mutants to ACC-induced root growth inhibition in the light
+R29	Causation Arg1:T38 Arg2:T42	
+R30	Causation Arg1:T39 Arg2:T42	
+R31	Causation Arg1:T40 Arg2:T42	
+R32	Causation Arg1:T41 Arg2:T42	
+T43	Gene 14301 14315	ctr1-1;coi1-16
+T44	Phenotype 14320 14350	severely stunted and infertile
+R33	Causation Arg1:T43 Arg2:T44	
+T45	Gene 15479 15486	coi1-16
+T46	Phenotype 15494 15521;15533 15571	significantly less response to ACC than the wild-type in CL and LD
+R34	Causation Arg1:T45 Arg2:T46	
+T47	Gene 15583 15590	coi1-16
+T48	Phenotype 15595 15706	significantly less responsive than the wild-type to MeJA-induced root growth inhibition in all light conditions
+R35	Causation Arg1:T47 Arg2:T48	
+T49	Gene 19940 19947	coi1-16
+T50	Phenotype 19920 19936;19948 19955	reduced response to MeJA
+R36	Causation Arg1:T49 Arg2:T50	

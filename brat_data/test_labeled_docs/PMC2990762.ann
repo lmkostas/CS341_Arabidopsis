@@ -1,0 +1,8 @@
+T1	Gene 29817 29823	pgsip1
+T2	Phenotype 29782 29795	irx phenotype
+R1	Negative Arg1:T1 Arg2:T2	
+T3	Phenotype 29916 29997	highly significant 66% reduction in the content of GlcA compared to the wild type
+R2	Causation Arg1:T1 Arg2:T3	
+T4	Gene 30271 30277	pgsip1
+T5	Phenotype 30242 30267;30287 30319	GlcA transferase activity about 50% of the wild type level
+R3	Causation Arg1:T4 Arg2:T5	

@@ -1,0 +1,120 @@
+T1	Gene 184 199	CUL3A and CUL3B
+#1	AnnotatorNotes T1	double mutant, two genes affected
+T2	Phenotype 213 229	embryo lethality
+R1	Causation Arg1:T1 Arg2:T2	
+T3	Gene 2304 2311	cul3a-3
+T4	Phenotype 2330 2337	fertile
+T5	Phenotype 2354 2407	morphological defects under normal growth conditions.
+R2	Causation Arg1:T3 Arg2:T4	
+R3	Negative Arg1:T3 Arg2:T5	
+T6	Gene 2575 2590	cul3a-3 cul3b-1
+#2	AnnotatorNotes T6	double mutant, two genes affected
+T7	Phenotype 2668 2697	several developmental defects
+T8	Phenotype 2646 2652	viable
+R4	Causation Arg1:T6 Arg2:T8	
+R5	Causation Arg1:T6 Arg2:T7	
+T10	Gene 2731 2738	cul3hyp
+#3	AnnotatorNotes T10	cul3hyp = cul3a-3 cul3b-1 double mutant
+T9	Phenotype 2759 2787	altered cotyledon phenotypes
+R6	Causation Arg1:T10 Arg2:T9	
+T11	Gene 3334 3349	cul3a-1 cul3b-1
+#4	AnnotatorNotes T11	double mutant, two genes affected
+T12	Phenotype 3258 3282	absence of root meristem
+R7	Causation Arg1:T11 Arg2:T12	
+T13	Gene 3796 3803	cul3hyp
+#5	AnnotatorNotes T13	cul3hyp = double mutant
+T14	Phenotype 3857 3930	epinastically curled cotyledons and shorter roots when grown in the light
+R8	Causation Arg1:T13 Arg2:T14	
+T15	Gene 4136 4143	cul3a-1
+T16	Phenotype 4087 4112	slight delay in flowering
+R9	Causation Arg1:T15 Arg2:T16	
+T17	Gene 4348 4355	cul3hyp
+T18	Phenotype 4379 4423	a Triple Response in the Absence of Ethylene
+R10	Causation Arg1:T17 Arg2:T18	
+T19	Gene 4711 4718	cul3hyp
+T20	Phenotype 4739 4789	typical triple response in the absence of ethylene
+T21	Phenotype 4817 4876	short hypocotyls, short roots, and exaggerated apical hooks
+R11	Causation Arg1:T19 Arg2:T20	
+R12	Causation Arg1:T19 Arg2:T21	
+T22	Gene 5042 5049	cul3a-3
+T23	Phenotype 5069 5089	weak triple response
+R13	Causation Arg1:T22 Arg2:T23	
+T24	Gene 5146 5153	cul3hyp
+T25	Phenotype 5171 5193	responsive to ethylene
+R14	Causation Arg1:T24 Arg2:T25	
+T26	Phenotype 5101 5140	when germinated in the presence 5 M ACC
+#6	AnnotatorNotes T26	conditional phenotype
+T27	Gene 5288 5295	cul3hyp
+T28	Phenotype 5303 5344	exhibits the triple response in the dark.
+R15	Causation Arg1:T27 Arg2:T28	
+T29	Gene 6625 6639	etr1-1 cul3hyp
+#7	AnnotatorNotes T29	triple mutant! three genes affected
+T30	Gene 6641 6655	ein2-1 cul3hyp
+#8	AnnotatorNotes T30	triple mutant!
+T31	Gene 6660 6674	ein3-1 cul3hyp
+#9	AnnotatorNotes T31	triple mutant
+T32	Phenotype 6676 6695;6734 6776	the triple response significantly, but not entirely suppressed
+R16	Causation Arg1:T31 Arg2:T32	
+R17	Causation Arg1:T30 Arg2:T32	
+R18	Causation Arg1:T29 Arg2:T32	
+T33	Gene 6839 6846	cul3hyp
+T34	Phenotype 6810 6835	triple response phenotype
+R19	Causation Arg1:T33 Arg2:T34	
+T35	Gene 7332 7346	eto1-1 cul3hyp
+#10	AnnotatorNotes T35	triple mutant, three genes
+T36	Phenotype 7378 7445	slight additive effect on the triple response regarding root growth
+R20	Causation Arg1:T35 Arg2:T36	
+T37	Gene 7516 7523	cul3hyp
+T38	Phenotype 7488 7503	triple response
+R21	Causation Arg1:T37 Arg2:T38	
+T39	Gene 7851 7858	cul3hyp
+T40	Phenotype 7866 7913	accumulated two to three-fold more ethylene gas
+R22	Causation Arg1:T39 Arg2:T40	
+T41	Gene 8831 8838	cul3hyp
+T42	Phenotype 8793 8827	half-life of myc-ACS5 is increased
+R23	Causation Arg1:T41 Arg2:T42	
+T43	Gene 9865 9879	eto1-1 cul3hyp
+T44	Phenotype 9842 9857;9894 9951	triple response was slightly more severe than in the eto1-1 single mutant
+R24	Causation Arg1:T43 Arg2:T44	
+T45	Gene 10319 10333	etr1-1 cul3hyp
+T46	Phenotype 10264 10311;10341 10359	increase of about 3-fold in ethylene production compared to etr1-1
+R25	Causation Arg1:T45 Arg2:T46	
+T47	Gene 1147 1154	cul3hyp
+T48	Phenotype 1164 1200	multiple developmental abnormalities
+R26	Causation Arg1:T47 Arg2:T48	
+T49	Gene 2123 2130	cul3hyp
+T50	Phenotype 2103 2122;2131 2140	Venation defects of cotyledon
+R27	Causation Arg1:T49 Arg2:T50	
+T51	Gene 10861 10867	cin5-3
+T52	Phenotype 10913 11022	significantly reduces ethylene production in eto1-1 and partially suppresses its constitutive triple response
+R28	Causation Arg1:T51 Arg2:T52	
+T53	Gene 12652 12659	cul3hyp
+T54	Phenotype 12678 12690	shorter root
+R29	Causation Arg1:T53 Arg2:T54	
+T55	Gene 13124 13131	cul3hyp
+T56	Phenotype 13110 13120;13132 13201	elongation primary root showed a reduction of about 80% as compared to wild type
+R30	Causation Arg1:T55 Arg2:T56	
+T57	Gene 13571 13578	cul3hyp
+T58	Phenotype 13586 13636	affects primary root meristem size and cell number
+R31	Causation Arg1:T57 Arg2:T58	
+T59	Gene 15358 15365	cul3hyp
+T60	Phenotype 15273 15350	cortical cell length in the differentiation zone was only marginally affected
+R32	Causation Arg1:T59 Arg2:T60	
+T61	Gene 15802 15809	cul3hyp
+T62	Phenotype 15814 15884	meristem size and cell number was reduced compared to wild-type plants
+R33	Causation Arg1:T61 Arg2:T62	
+T63	Gene 15922 15928	ctr1-1
+T64	Phenotype 15954 16013	significant reduction in both meristem size and cell number
+R34	Causation Arg1:T63 Arg2:T64	
+T65	Gene 16030 16036	eto1-1
+T66	Phenotype 16042 16139	root meristem size and cell number were even slightly increased in comparison to wild-type plants
+R35	Causation Arg1:T65 Arg2:T66	
+T67	Gene 17250 17257	cul3hyp
+T68	Phenotype 17267 17331	Affects Distal Root Patterning in an Ethylene-Independent Manner
+R36	Causation Arg1:T67 Arg2:T68	
+T69	Gene 19999 20013	ein3-1 cul3hyp
+T70	Phenotype 19934 19982	defects of cell division in the QC and columella
+R37	Causation Arg1:T69 Arg2:T70	
+T71	Gene 20164 20170	eto1-1
+T72	Phenotype 20127 20156	deregulated QC cell divisions
+R38	Negative Arg1:T71 Arg2:T72	

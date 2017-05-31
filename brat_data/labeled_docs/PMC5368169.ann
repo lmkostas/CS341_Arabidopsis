@@ -1,0 +1,76 @@
+T1	Gene 7296 7302	csu1-4
+T2	Phenotype 7310 7337;7353 7382	rosette was clearly smaller showed a yellowish coloration
+R1	Causation Arg1:T1 Arg2:T2	
+T3	Gene 7411 7418	rha1a-1
+T4	Phenotype 7434 7448;7511 7522	smaller leaves more leaves
+R2	Causation Arg1:T3 Arg2:T4	
+T5	Gene 7660 7668	sinal7-2
+T6	Phenotype 7669 7695	rosette was clearly larger
+T7	Phenotype 7745 7777	color, shape or number of leaves
+R3	Negative Arg1:T5 Arg2:T7	
+R4	Causation Arg1:T5 Arg2:T6	
+T8	Gene 9477 9483	csu1-4
+T9	Phenotype 9491 9539	slower growth, reduced rosette area and perimete
+R5	Causation Arg1:T8 Arg2:T9	
+T10	Gene 9619 9626	rha1a-1
+T11	Phenotype 9750 9773	higher number of leaves
+T12	Phenotype 9631 9643;9699 9719	rosette area significantly larger
+R6	Causation Arg1:T10 Arg2:T12	
+R7	Causation Arg1:T10 Arg2:T11	
+T13	Gene 9919 9927	sinal7-2
+T14	Phenotype 9940 9965	area and perimeter larger
+R8	Causation Arg1:T13 Arg2:T14	
+T15	Gene 10567 10573	csu1-4
+T16	Phenotype 10581 10600	increased roundness
+R9	Causation Arg1:T15 Arg2:T16	
+T17	Gene 10814 10822	sinal7-2
+T18	Phenotype 10936 10951	lower roundness
+R10	Causation Arg1:T17 Arg2:T18	
+T19	Gene 14492 14498	csu1-4
+T20	Phenotype 14508 14537;14538 14610	decay of compactness overtime in a similar way to Col-0 plants, but its curve was shifted to the right
+R11	Causation Arg1:T19 Arg2:T20	
+T21	Gene 16030 16048	csu1-4 (AT1G61620)
+T22	Phenotype 16061 16076	early-flowering
+R12	Causation Arg1:T21 Arg2:T22	
+T23	Gene 15505 15511	csu1-4
+T24	Phenotype 15519 15535	lower SOL values
+R13	Negative Arg1:T23 Arg2:T24	
+T25	Phenotype 15582 15599	higher SOL values
+T26	Gene 15554 15561	rha1a-1
+T27	Gene 15566 15574	sinal7-2
+R14	Causation Arg1:T27 Arg2:T25	
+R15	Causation Arg1:T26 Arg2:T25	
+T28	Gene 14703 14710	rha1a-1
+T29	Phenotype 14715 14744	pattern that was less compact
+R16	Causation Arg1:T28 Arg2:T29	
+T30	Gene 19720 19728	sinal7-2
+T31	Phenotype 19742 19834	produce flower buds of abnormal shape, characterized by presence of cavities in the bud tips
+R17	Causation Arg1:T30 Arg2:T31	
+R18	Causation Arg1:T1 Arg2:T2	
+R19	Causation Arg1:T3 Arg2:T4	
+T32	Gene 10689 10695	csu1-4
+T33	Phenotype 10696 10765	roundness curve had similar pattern to Col-0 but shifted to the right
+R20	Causation Arg1:T32 Arg2:T33	
+T34	Phenotype 10834 10925	roundness curve shape was almost identical to Col-0 but in this case was shifted to the lef
+R21	Causation Arg1:T17 Arg2:T34	
+T35	Gene 11021 11028	rha1a-1
+T36	Phenotype 11002 11017;11033 11075	Roundness curve neither shifted nor similar to Col-0 curve
+R22	Causation Arg1:T35 Arg2:T36	
+T37	Gene 11744 11750	csu1-4
+T38	Phenotype 11760 11849	similar roundness 2 pattern as Col-0 that is shifted to the right by approximately 2 days
+R23	Causation Arg1:T37 Arg2:T38	
+T39	Gene 11871 11878	rha1a-1
+T40	Phenotype 11890 11909;11928 11997	oscillating pattern roundness 2 values were constantly close to 0.9 with less steep peaks
+R24	Causation Arg1:T39 Arg2:T40	
+T41	Gene 12122 12130	sinal7-2
+T42	Phenotype 12144 12185;12210 12262	oscillating pattern very similar to Col-0 curve had shifted to the left by approximately 1 day
+R25	Causation Arg1:T41 Arg2:T42	
+T43	Gene 16112 16121	AT5G63970
+T44	Phenotype 16172 16187	early flowering
+R26	Causation Arg1:T43 Arg2:T44	
+T45	Gene 16282 16291	AT4G17680
+T46	Phenotype 16297 16311	late flowering
+R27	Causation Arg1:T45 Arg2:T46	
+T47	Gene 16375 16381	cop1-6
+T48	Phenotype 16393 16408	early flowering
+R28	Causation Arg1:T47 Arg2:T48	

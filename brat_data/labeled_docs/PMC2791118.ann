@@ -1,0 +1,25 @@
+T1	Gene 12951 12957	tir1-1
+T2	Phenotype 12870 12929	No significant salt-mediated reduction in average LR length
+R1	Negative Arg1:T1 Arg2:T2	
+T3	Gene 16320 16326	aba2-1
+T4	Phenotype 16334 16439	produced a greater number of first order LRs than the wild type in both unstressed and stressed seedlings
+R2	Causation Arg1:T3 Arg2:T4	
+T5	Gene 16652 16658	aba3-1
+T6	Phenotype 16714 16806	no significant difference in first order LR number between unstressed and stressed seedlings
+R3	Negative Arg1:T5 Arg2:T6	
+T7	Gene 16812 16818	ein2-1
+T8	Phenotype 16882 17026	greater numbers of first order LRs in unstressed and stressed seedlings but no stimulation of first order LR proliferation in stressed seedlings
+R4	Causation Arg1:T7 Arg2:T8	
+T9	Gene 17111 17117	etr1-3
+T10	Gene 17100 17106	abi4-1
+T11	Phenotype 17041 17092	salt stress stimulated first order LR proliferation
+R5	Causation Arg1:T10 Arg2:T11	
+R6	Causation Arg1:T9 Arg2:T11	
+T12	Gene 18179 18185	abi4-1
+T13	Gene 18190 18196	ein2-1
+T14	Phenotype 18215 18239	greater LR proliferation
+R7	Causation Arg1:T13 Arg2:T14	
+R8	Causation Arg1:T12 Arg2:T14	
+T15	Gene 18101 18107	etr1-3
+T16	Phenotype 18127 18165	similar number of LRs to the wild type
+R9	Causation Arg1:T15 Arg2:T16	

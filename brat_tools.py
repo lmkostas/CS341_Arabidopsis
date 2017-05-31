@@ -99,10 +99,15 @@ class Brat(object):
         #   self._parse_documents(input_dir + "/*.txt", num_threads, parser)
 
         # create types
-        self._create_candidate_subclasses(config)
+        # self._create_candidate_subclasses(config)
 
         # create candidates
-        self._create_candidates(annotations, annotator_name)
+        self.pheno_spans = self._create_pheno_spans(annotations)
+        # self.stable_labels_by_type, self.entity_types = self._create_candidates(annotations, annotator_name)
+        
+    def explore(self):
+        return self.pheno_spans
+        
 
     def export_project(self, output_dir, positive_only_labels=True):
         """
@@ -257,42 +262,48 @@ class Brat(object):
                 # parse each entity/relation type
                 if anno_id_prefix == Brat.TEXT_BOUND_ID:
                     anno_id, entity, text = row
+                    # print(anno_id, entity, text)
                     entity_type = entity.split()[0]
                     spans = map(lambda x: map(int, x.split()),
                                 entity.lstrip(entity_type).split(";"))
-                    
+                    # print "spans", spans
                     # discontinuous mentions
                     disc_mentions = {}
-                    if len(spans) != 1:
-                        disc_mentions[anno_id] = len(spans)
-                        print>> sys.stderr, "NotImplementedError: Discontinuous Spans"
-                        #continue
-                    entity = []
+                    # if len(spans) != 1:
+                    #     disc_mentions[anno_id] = len(spans)
+#print>> sys.stderr, ann_filename, spans, "NotImplementedError: Discontinuous Spans"
+#continue           
+                    
+                    
+                    
+                    
+                    # parts = {"sent_id":sent_id,"char_start":i,"char_end":j, "entity_type":entity_type,
+                    #          "idx_span":(word_offset, word_offset + len(tokens)), "span":word_mention}
+                    # if len(spans)>1: anno_id = anno_id.split('-')[0]+'-'+str(k)
+            
+
+                    entity = {"entity_type":entity_type, "parts":[]}
                     for k, (i, j) in enumerate(spans):
-                        
                         if i in char_idx:
                             mention = doc_str[i:j]
                             tokens = mention.split()
                             sent_id, word_offset = char_idx[i]
                             word_mention = doc[sent_id][word_offset:word_offset + len(tokens)]
-                            parts = {"sent_id":sent_id,"char_start":i,"char_end":j, "entity_type":entity_type,
-                                     "idx_span":(word_offset, word_offset + len(tokens)), "span":word_mention}
-                            entity += [parts]
-                            if len(spans)>1: anno_id = anno_id.split('-')[0]+'-'+str(k)
-                            annotations[anno_id] = parts
+                            # print(sent_id)
+                            fragment = {"sent_id":sent_id,"char_start":i,"char_end":j, "idx_span":(word_offset, word_offset + len(tokens)), "span":word_mention}
+                            entity["parts"].append(fragment)
                         else:
                             print>> sys.stderr, "SUB SPAN ERROR", text, (i, j)
                             continue
+                    annotations[anno_id] = entity
                     
-                    # TODO: we assume continuous spans here
-                    #annotations[anno_id] = entity if not entity else entity[0]
 
                 elif anno_id_prefix in [Brat.RELATION_ID,'*']:
                     anno_id, rela = row
                     rela_type, arg1, arg2 = rela.split()
                     arg1 = arg1.split(":")[1] if ":" in arg1 else arg1
                     arg2 = arg2.split(":")[1] if ":" in arg2 else arg2
-                    print rela_type, arg1, arg2
+#print rela_type, arg1, arg2
                     ext1 = 0 if arg1 not in disc_mentions else disc_mentions[arg1]
                     ext2 = 0 if arg2 not in disc_mentions else disc_mentions[arg2]
                     anno_count = 0
@@ -305,17 +316,17 @@ class Brat(object):
                             if ext1 + ext2 != 0:
                                 anno_count += 1
                                 anno_id = anno_id.split('-')[0]+'-'+str(anno_count)
-                            print anno_id, rela_type, arg1, arg2
+#print anno_id, rela_type, arg1, arg2
                             annotations[anno_id] = (rela_type, arg1, arg2)
-                    #annotations[anno_id] = (rela_type, arg1, arg2)
-
+                    # annotations[anno_id] = (rela_type, arg1, arg2)
+                    pass
                 elif anno_id_prefix == Brat.EVENT_ID:
                     print>> sys.stderr, "NotImplementedError: Events"
                     raise NotImplementedError
 
                 elif anno_id_prefix == Brat.ATTRIB_ID:
                     print>> sys.stderr, "NotImplementedError: Attributes"
-        #print annotations
+        # print annotations
         return annotations
 
     def _parse_config(self, filename):
@@ -443,6 +454,33 @@ class Brat(object):
         rela_defs = set(rela_defs)
         return self.brat_tmpl.format("\n".join(entity_defs), "\n".join(rela_defs), "", "")
 
+
+    def _create_pheno_spans(self, annotations):
+        pheno_spans = []
+        for doc_name, entity_dict in annotations.items():
+            doc = self.session.query(Document).filter(Document.name == doc_name).one()
+            abs_offsets = abs_doc_offsets(doc)
+            pheno_dict = {key: entity for key, entity in entity_dict.items() if key[0] == Brat.TEXT_BOUND_ID and entity['entity_type'] == 'Phenotype'}
+            for key, entity in pheno_dict.items():
+                fragments = []
+                for span in entity['parts']:
+                    offset = []
+                    j = 0
+                    for k, (sent_id, sent_offset) in enumerate(abs_offsets.items()):
+                        if span['char_start'] >= sent_offset[0] and span['char_end'] <= sent_offset[1]:
+                            offset = sent_offset
+                            j = k
+                            tc = TemporarySpan(char_start=span['char_start']-offset[0], char_end=span['char_end']-offset[0]-1,
+                                                       sentence=doc.sentences[j])
+                            fragments.append(tc)
+                            break  
+                    else:
+                        print "Couldn't find sentence"
+
+                pheno_spans.append(fragments)
+        return pheno_spans
+
+
     def _create_candidates(self, annotations, annotator_name, clear=True):
         """
         TODO: Add simpler candidate instantiation helper functions
@@ -453,31 +491,41 @@ class Brat(object):
         stable_labels_by_type = defaultdict(list)
 
         for name in annotations:
+            # name is document name, e.g. PMC5130230
             if annotations[name]:
-                spans = [key for key in annotations[name] if key[0] == Brat.TEXT_BOUND_ID]
+                # print "ann", annotations[name]
+                span_keys = [key for key in annotations[name] if key[0] == Brat.TEXT_BOUND_ID]
+                # print "name", name, "spanz", spans
                 relations = [key for key in annotations[name] if key[0] in [Brat.RELATION_ID]]
                               
                     
                 # create span labels
-                spans = {key:"{}::span:{}:{}".format(name, annotations[name][key]["char_start"],
-                                                     annotations[name][key]["char_end"]) for key in spans}
+                # spans = {key:"{}::span:{}:{}".format(name, annotations[name][key]["char_start"],
+                #                                      annotations[name][key]["char_end"]) for key in span_keys}
+
+                # print "spannin", spans
                 g_in_sents = defaultdict(list)
                 p_in_sents = defaultdict(list)
-                for key in spans:
+                for key in span_keys:
                     entity_type = annotations[name][key]['entity_type']
+                    
                     stable_labels_by_type[entity_type].append(spans[key])
                     sent_no = annotations[name][key]['sent_id']
                     if entity_type == 'Gene':
                         g_in_sents[sent_no].append(key)
                     else:
                         p_in_sents[sent_no].append(key)
-                               
+
                 labeled_rels = set()
                 # create relation labels
                 for key in relations:
                     rela_type, arg1, arg2 = annotations[name][key]
-                    rela = sorted([[annotations[name][arg1]["entity_type"], spans[arg1]],
-                                    [annotations[name][arg2]["entity_type"],spans[arg2]]])
+                    try:
+                        rela = sorted([[annotations[name][arg1]["entity_type"], spans[arg1]],
+                                     [annotations[name][arg2]["entity_type"],spans[arg2]]])
+                    except KeyError as e:
+                        print(name, key, rela_type, arg1, arg2, "not found: ", e)
+                        continue
                     stable_labels_by_type[rela_type].append("~~".join(zip(*rela)[1]))
                     labeled_rels.add(tuple(sorted([arg1,arg2])))
 
@@ -498,27 +546,28 @@ class Brat(object):
                         
                     #entity_type = annotations[name][key]['entity_type']
                     #stable_labels_by_type[entity_type].append(spans[key])
-                
+
+    
         # create stable labels
         # NOTE: we store each label class type in a different split so that it is compatible with
         # the current version of 'reload_annotator_labels', where we create candidates by split id
         #for i, class_type in enumerate(stable_labels_by_type):
-        ak = self.session.query(GoldLabelKey).filter(GoldLabelKey.name == annotator_name).first()
-        if ak is None:
-            ak = GoldLabelKey(name=annotator_name)
-            self.session.add(ak)
-            self.session.commit()
+        # ak = self.session.query(GoldLabelKey).filter(GoldLabelKey.name == annotator_name).first()
+        # if ak is None:
+        #     ak = GoldLabelKey(name=annotator_name)
+        #     self.session.add(ak)
+        #     self.session.commit()
 
         labs = stable_labels_by_type['Causation']+stable_labels_by_type['Negative']
         vals = [1]*len(stable_labels_by_type['Causation'])+[-1]*len(stable_labels_by_type['Negative'])
 
-        for i, context_stable_id in enumerate(labs): #stable_labels_by_type[class_type]:
-            query = self.session.query(StableLabel).filter(StableLabel.context_stable_ids == context_stable_id)
-            query = query.filter(StableLabel.annotator_name == annotator_name)
-            if query.count() != 0:
-                continue
-            self.session.add(StableLabel(context_stable_ids=context_stable_id, split=0,
-                                             annotator_name=annotator_name, value=vals[i]))
+        # for i, context_stable_id in enumerate(labs): #stable_labels_by_type[class_type]:
+        #     query = self.session.query(StableLabel).filter(StableLabel.context_stable_ids == context_stable_id)
+        #     query = query.filter(StableLabel.annotator_name == annotator_name)
+        #     if query.count() != 0:
+        #         continue
+        #     self.session.add(StableLabel(context_stable_ids=context_stable_id, split=0,
+        #                                      annotator_name=annotator_name, value=vals[i]))
 
         abs_offsets = {}
         entity_types = defaultdict(list)
@@ -546,7 +595,7 @@ class Brat(object):
                 if name not in abs_offsets:
                     abs_offsets[name] = abs_doc_offsets(doc)
 
-                for j,offset in enumerate(abs_offsets[name]):
+                for j,(sent_id, offset) in enumerate(abs_offsets[name].items()):
                     if span[0] >= offset[0] and span[1] <= offset[1]:
                         try:
 
@@ -568,27 +617,28 @@ class Brat(object):
             else:
                 class_name = self.subclasses[self._get_normed_rela_name(class_type)]
         '''
-        class_type = 'Causation'
-        class_name = self.subclasses[class_type]
-
-        if clear:
-            self.session.query(Candidate).filter(Candidate.split == 0).delete()
+        # class_type = 'Causation'
+        # class_name = self.subclasses[class_type]
+        return stable_labels_by_type, entity_types
+    
+        # if clear:
+        #     self.session.query(Candidate).filter(Candidate.split == 0).delete()
         
-        candidate_args = {'split': 0}
+        # candidate_args = {'split': 0}
 
-        for i, args in enumerate(entity_types[class_type]):
-            for j, arg_name in enumerate(class_name.__argnames__):
-                candidate_args[arg_name + '_id'] = args[j].id
+#         for i, args in enumerate(entity_types[class_type]):
+#             for j, arg_name in enumerate(class_name.__argnames__):
+#                 candidate_args[arg_name + '_id'] = args[j].id
 
-            candidate = class_name(**candidate_args)
-            self.session.add(candidate)
+#             candidate = class_name(**candidate_args)
+#             self.session.add(candidate)
             
-            label = self.session.query(GoldLabel).filter(GoldLabelKey == ak).filter(GoldLabel.candidate == candidate).first()
-            if label is None:
-                label = GoldLabel(candidate=candidate, key=ak, value=vals[i])
-                self.session.add(label)
+#             label = self.session.query(GoldLabel).filter(GoldLabelKey.name == annotator_name).filter(GoldLabelKey == ak).filter(GoldLabel.candidate == candidate).first()
+#             if label is None:
+#                 label = GoldLabel(candidate=candidate, key=ak, value=vals[i])
+#                 self.session.add(label)
 
-        self.session.commit()
+#         self.session.commit()
         
 
 def _group_by_document(candidates):
@@ -610,12 +660,12 @@ def abs_doc_offsets(doc):
     :param doc:
     :return:
     """
-    abs_char_offsets = []
+    abs_char_offsets = {}
     for sent in doc.sentences:
         stable_id = sent.stable_id.split(":")
         name, offsets = stable_id[0], stable_id[-2:]
         offsets = map(int, offsets)
-        abs_char_offsets.append(offsets)
+        abs_char_offsets[sent.id] = offsets
     return abs_char_offsets
 
 

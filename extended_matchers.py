@@ -267,7 +267,6 @@ class RegexMatchEach(RegexMatch):
 class PersonMatcher(RegexMatchEach):
     """
     Matches Spans that are the names of people, as identified by CoreNLP.
-
     A convenience class for setting up a RegexMatchEach to match spans
     for which each token was tagged as a person.
     """
@@ -280,7 +279,6 @@ class PersonMatcher(RegexMatchEach):
 class LocationMatcher(RegexMatchEach):
     """
     Matches Spans that are the names of locations, as identified by CoreNLP.
-
     A convenience class for setting up a RegexMatchEach to match spans
     for which each token was tagged as a location.
     """
@@ -293,7 +291,6 @@ class LocationMatcher(RegexMatchEach):
 class OrganizationMatcher(RegexMatchEach):
     """
     Matches Spans that are the names of organizations, as identified by CoreNLP.
-
     A convenience class for setting up a RegexMatchEach to match spans
     for which each token was tagged as an organization.
     """
@@ -306,7 +303,6 @@ class OrganizationMatcher(RegexMatchEach):
 class DateMatcher(RegexMatchEach):
     """
     Matches Spans that are dates, as identified by CoreNLP.
-
     A convenience class for setting up a RegexMatchEach to match spans
     for which each token was tagged as a date.
     """
@@ -319,7 +315,6 @@ class DateMatcher(RegexMatchEach):
 class NumberMatcher(RegexMatchEach):
     """
     Matches Spans that are numbers, as identified by CoreNLP.
-
     A convenience class for setting up a RegexMatchEach to match spans
     for which each token was tagged as a number.
     """
@@ -332,7 +327,6 @@ class NumberMatcher(RegexMatchEach):
 class MiscMatcher(RegexMatchEach):
     """
     Matches Spans that are miscellaneous named entities, as identified by CoreNLP.
-
     A convenience class for setting up a RegexMatchEach to match spans
     for which each token was tagged as miscellaneous.
     """
@@ -456,17 +450,14 @@ class Contains(NgramMatcher):
         self.attrib      = self.opts.get('attrib', WORDS)
         self.sep         = self.opts.get('sep', " ")
         self.reverse    =self.opts.get('reverse', False)
-
         # Compile regex matcher
         # NOTE: Enforce full span matching by ensuring that regex ends with $!
         if self.type == 'rgx':
             self.rgxs = [rgx if rgx.endswith('$') else rgx + r'$' for rgx in self.query]
             self.r = [re.compile(rgx, flags=re.I if self.ignore_case else 0) for rgx in self.rgxs]
-
         # Check for correct number of child matchers / slots
         if len(self.children) > 1:
             raise ValueError("Number of provided matchers is greater than 1.")
-
     def f(self, c):
         # First, filter candidates by matching splits pattern
         if self.children:

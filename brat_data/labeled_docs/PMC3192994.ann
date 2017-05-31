@@ -1,0 +1,47 @@
+T1	Gene 10005 10012	vdac2-2
+T2	Gene 10017 10024	vdac4-2
+T3	Phenotype 10036 10087	retarded growth rates and had a miniature phenotype
+R1	Causation Arg1:T1 Arg2:T3	
+R2	Causation Arg1:T2 Arg2:T3	
+T4	Gene 10170 10178	vadc2-2,
+T5	Gene 10183 10190	vdac4-2
+T6	Phenotype 10201 10223	lesion mimic phenotype
+R3	Causation Arg1:T5 Arg2:T6	
+R4	Causation Arg1:T4 Arg2:T6	
+T7	Gene 10982 10987	VDAC2
+T8	Gene 10991 10996	VDAC4
+T9	Phenotype 11020 11037	oss of MMP values
+R5	Causation Arg1:T8 Arg2:T9	
+R6	Causation Arg1:T7 Arg2:T9	
+T10	Gene 12083 12090	vdac1-6
+T11	Phenotype 12115 12171	siliques that were slender compared with those of the WT
+R7	Causation Arg1:T10 Arg2:T11	
+T12	Gene 12234 12241	vdac1-6
+T13	Phenotype 12207 12230;12246 12276	pollen germination rate 27% lower compared with the WT
+T14	Gene 12333 12340	vdac1-6
+T15	Phenotype 12282 12311	germinated pollen tube length
+R8	Causation Arg1:T14 Arg2:T15	
+T16	Phenotype 12573 12581;12631 12666	siliques short compared with those of the WT
+T17	Gene 12589 12596	vdac2-2
+R9	Causation Arg1:T17 Arg2:T16	
+T18	Gene 12601 12608	vdac4-2
+R10	Causation Arg1:T18 Arg2:T16	
+T19	Gene 12943 12950	vdac2-2
+T20	Gene 12955 12962	vdac4-2
+T21	Phenotype 12902 12928;12967 13070	germination rate of pollen reduced about one-eighth and germinated pollen tubes were also drastically shorter than those of the WT
+R11	Causation Arg1:T20 Arg2:T21	
+R12	Causation Arg1:T19 Arg2:T21	
+T22	Gene 12742 12749	vdac2-2
+T23	Gene 12754 12761	vdac4-2
+T24	Phenotype 12815 12873	anthers contained fewer pollen grains than those of the WT
+R13	Causation Arg1:T23 Arg2:T24	
+R14	Causation Arg1:T22 Arg2:T24	
+T25	Gene 15497 15504	vdac1-6
+T26	Phenotype 15398 15493	host defence activity against Pst DC3000 (avrRpt2), but not against Pst DC3000, was compromised
+R15	Causation Arg1:T25 Arg2:T26	
+T27	Gene 16487 16494	vdac1-6
+T28	Phenotype 16453 16483	cell death was seldom observed
+R16	Causation Arg1:T27 Arg2:T28	
+T29	Gene 15917 15924	vdac1-6
+T30	Phenotype 15899 15913;15936 15977	amount of H2O2 less than half of that produced by the WT
+R17	Causation Arg1:T29 Arg2:T30	

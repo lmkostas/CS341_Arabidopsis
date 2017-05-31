@@ -1,0 +1,6 @@
+T1	Gene 6197 6209	pin1pin3pin7
+T2	Phenotype 6168 6179;6214 6258	root growth more tolerant to melatonin treatment than WT
+R1	Causation Arg1:T1 Arg2:T2	
+T3	Gene 186 196	WT (Col-0)
+T4	Phenotype 375 408	primary root length was decreased
+T5	Phenotype 576 608	suppress the primary root growth

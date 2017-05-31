@@ -1,0 +1,118 @@
+T1	Gene 41 50	nhx5 nhx6
+T2	Phenotype 11 37	Seed production is altered
+R1	Causation Arg1:T1 Arg2:T2	
+T3	Gene 964 973	nhx5 nhx6
+T4	Phenotype 993 1009	smaller siliques
+T5	Phenotype 920 962	profound defects in growth and development
+R2	Causation Arg1:T3 Arg2:T5	
+R3	Causation Arg1:T3 Arg2:T4	
+T6	Gene 1036 1045	nhx5 nhx6
+T7	Phenotype 1024 1032;1046 1096	siliques were 26% shorter than that of the wild-type plants
+R4	Causation Arg1:T6 Arg2:T7	
+T8	Gene 1121 1130	nhx5 nhx6
+T9	Phenotype 1131 1153;1163 1187	produced less siliques and contained less seeds
+R5	Causation Arg1:T8 Arg2:T9	
+T10	Gene 1228 1237	nhx5 nhx6
+T11	Phenotype 1202 1224;1238 1286	seed yield per silique was reduced 29% compared to the wild-type plants
+R6	Causation Arg1:T10 Arg2:T11	
+T12	Gene 1359 1368	nhx5 nhx6
+T13	Phenotype 1369 1390	produced larger seeds
+R7	Causation Arg1:T12 Arg2:T13	
+T14	Gene 1421 1430	nhx5 nhx6
+T15	Phenotype 1412 1417;1431 1480	seeds were 21% longer than that of the wild-type plants
+R8	Causation Arg1:T14 Arg2:T15	
+T16	Gene 1520 1529	nhx5 nhx6
+T17	Phenotype 1495 1516;1530 1585	thousand grain weight was increased by 43% compared with the wide-type plants
+R9	Causation Arg1:T16 Arg2:T17	
+T18	Gene 1877 1881	nhx5
+T19	Gene 1885 1889	nhx6
+T20	Phenotype 1840 1850;1915 1952	difference in silique growth and seed production
+R10	Negative Arg1:T18 Arg2:T20	
+R11	Negative Arg1:T19 Arg2:T20	
+T21	Gene 2102 2111	nhx5 nhx6
+T22	Phenotype 2071 2098	Seed production was altered
+R12	Causation Arg1:T21 Arg2:T22	
+T23	Gene 2862 2871	nhx5 nhx6
+T24	Phenotype 2813 2858	artificial seed protein GFP-CT24 is missorted
+R13	Causation Arg1:T23 Arg2:T24	
+T25	Gene 4613 4617	nhx5
+T26	Gene 4621 4625	nhx6
+T27	Phenotype 4580 4609	protein transport is impaired
+R14	Causation Arg1:T25 Arg2:T27	
+R15	Causation Arg1:T26 Arg2:T27	
+T28	Gene 4833 4842	nhx5 nhx6
+T29	Phenotype 4767 4829	artificial seed protein GFP-CT24 is missorted out of the cells
+R16	Causation Arg1:T28 Arg2:T29	
+T30	Gene 5112 5121	nhx5 nhx6
+T31	Phenotype 5031 5108	artificial protein GFP-CT24 is missorted out of the cells of the mature seeds
+R17	Causation Arg1:T30 Arg2:T31	
+T32	Gene 5518 5527	nhx5 nhx6
+T33	Phenotype 5528 5622	accumulated a significant amount of the precursor proteins of both 12S globulin and 2S albumin
+R18	Causation Arg1:T32 Arg2:T33	
+T34	Gene 5914 5923	nhx5 nhx6
+T35	Phenotype 5808 5910	striking amount of the unprocessed precursors of 12S globulin were detected in the intercellular space
+R19	Causation Arg1:T34 Arg2:T35	
+T36	Gene 6013 6022	nhx5 nhx6
+T37	Phenotype 5961 6009	PSVs size is reduced but its number is increased
+R20	Causation Arg1:T36 Arg2:T37	
+T38	Gene 10880 10895	nhx5 nhx6 syp22
+T39	Phenotype 10828 10876	Seedling growth and seed development are altered
+R21	Causation Arg1:T38 Arg2:T39	
+T40	Gene 11780 11789	nhx5 nhx6
+T41	Phenotype 11811 11853	profound defects in growth and development
+R22	Causation Arg1:T40 Arg2:T41	
+T42	Gene 9576 9591	nhx5 nhx6 syp22
+T43	Phenotype 9524 9572	Seedling growth and seed development are altered
+R23	Causation Arg1:T42 Arg2:T43	
+T44	Gene 11873 11882	nhx5 nhx6
+T45	Phenotype 11887 11925	smaller rosettes and shorter seedlings
+T46	Phenotype 11931 11957	flowering and bolting late
+T47	Phenotype 11963 11982	produced less seeds
+R24	Causation Arg1:T44 Arg2:T45	
+R25	Causation Arg1:T44 Arg2:T46	
+R26	Causation Arg1:T44 Arg2:T47	
+T48	Gene 12019 12024	syp22
+T49	Phenotype 12035 12069	impaired in growth and development
+R27	Causation Arg1:T48 Arg2:T49	
+T50	Gene 12089 12094	syp22
+T51	Phenotype 12102 12130	multiple abnormal phenotypes
+T52	Phenotype 12142 12224	semi-dwarfism, serrated wavy leaves, late flowering, and resistance to salt stress
+R28	Causation Arg1:T50 Arg2:T51	
+R29	Causation Arg1:T50 Arg2:T52	
+T53	Gene 12263 12278	nhx5 nhx6 syp22
+T54	Phenotype 12300 12350	much more severe defects in growth and development
+R30	Causation Arg1:T53 Arg2:T54	
+T55	Gene 13438 13453	nhx5 nhx6 syp22
+T56	Phenotype 13386 13434	PSVs size is reduced but its number is increased
+R31	Causation Arg1:T55 Arg2:T56	
+T57	Gene 13846 13851	syp22
+T58	Phenotype 13838 13842;13852 13872	PSVs was slightly reduced
+R32	Causation Arg1:T57 Arg2:T58	
+T59	Gene 13957 13966	nhx5 nhx6
+T60	Phenotype 13949 13953;13967 14041	PSVs were fragmented and showed a significant reduction in average vacuole size
+R33	Causation Arg1:T59 Arg2:T60	
+T61	Gene 14957 14962	syp22
+T62	Gene 14967 14976	nhx5 nhx6
+T63	Phenotype 14984 15010	average of 6.6 and 16 PSVs
+R34	Causation Arg1:T61 Arg2:T63	
+R35	Causation Arg1:T62 Arg2:T63	
+T64	Gene 16539 16548	nhx5 nhx6
+T65	Gene 16553 16568	nhx5 nhx6 syp22
+T66	Phenotype 16569 16740	accumulated a significant amount of the precursor proteins of both 12S globulin and 2S albumin, while the mature forms of 12S globulin and 2S albumin were slightly reduced
+R36	Causation Arg1:T65 Arg2:T66	
+R37	Causation Arg1:T64 Arg2:T66	
+T67	Gene 17051 17066	nhx5 nhx6 syp22
+T68	Phenotype 16984 17047	Precursors of the storage proteins are accumulated in the seeds
+R38	Causation Arg1:T67 Arg2:T68	
+T69	Gene 17353 17362	nhx5 nhx6
+T70	Phenotype 17293 17349	Subcellular localization of SYP22 and VAMP727 is altered
+R39	Causation Arg1:T69 Arg2:T70	
+T71	Gene 18340 18349	nhx5 nhx6
+T72	Phenotype 18290 18336	Subcellular localization of AtSYP22 is altered
+R40	Causation Arg1:T71 Arg2:T72	
+T73	Gene 19084 19093	nhx5 nhx6
+T74	Phenotype 19032 19080	Subcellular localization of AtVAMP727 is altered
+R41	Causation Arg1:T73 Arg2:T74	
+T75	Gene 20292 20301	nhx5 nhx6
+T76	Phenotype 20316 20368	cellular distribution pattern of AtSYP22 was altered
+R42	Causation Arg1:T75 Arg2:T76	

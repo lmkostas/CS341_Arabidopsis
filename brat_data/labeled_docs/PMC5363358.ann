@@ -1,0 +1,157 @@
+T1	Gene 173 177	1a3b
+T2	Phenotype 207 240	loss of distinct Rubisco isoforms
+T3	Phenotype 298 328	loss of total Rubisco activity
+R1	Causation Arg1:T1 Arg2:T2	
+R2	Causation Arg1:T1 Arg2:T3	
+T4	Gene 461 472	1a2b mutant
+T5	Phenotype 393 455	lacking expression of rbcS1A and a different minor SSU, rbcS2B
+T6	Gene 1313 1319	rbcS1A
+T8	Phenotype 1693 1733	Untagged SSUs were then stably expressed
+T9	Gene 1753 1757	1a3b
+T10	Gene 2028 2039	1a3b mutant
+T11	Phenotype 2044 2079	no detectable transcript for rbcS1A
+T12	Phenotype 2084 2128	much reduced levels of transcript for rbcS3B
+T13	Phenotype 2164 2227	rbcS1A and rbcS2B transcripts were below the level of detection
+T14	Gene 2235 2239	1a2b
+R3	Causation Arg1:T9 Arg2:T8	
+R4	Causation Arg1:T10 Arg2:T11	
+R5	Causation Arg1:T10 Arg2:T12	
+R6	Causation Arg1:T14 Arg2:T13	
+T15	Gene 2255 2259	1a3b
+T16	Phenotype 2268 2386	transcript levels for the two undisrupted rbcS genes, rbcS1B and rbcS2B, were 50 and 170% of those in wild-type plants
+R7	Causation Arg1:T15 Arg2:T16	
+T17	Gene 2409 2413	1a2b
+T18	Phenotype 2422 2518	rbcS1B and rbcS3B transcript levels were 120 and 140% of those in wild-type plants, respectively
+R8	Causation Arg1:T17 Arg2:T18	
+T19	Phenotype 3377 3436	transgenic genotypes expressing native or heterologous SSUs
+T20	Gene 3444 3448	1a3b
+T21	Phenotype 3568 3587	faster growth rates
+T22	Phenotype 3592 3621	maximum quantum yield of PSII
+T23	Gene 3694 3698	1a3b
+T24	Phenotype 4140 4193	For rbcL, transcript levels were higher in transgenic
+T25	Gene 4202 4206	1a3b
+R9	Causation Arg1:T25 Arg2:T24	
+T26	Gene 4494 4498	1a3b
+T27	Gene 4503 4507	1a2b
+T28	Phenotype 4462 4486	The leaf Rubisco content
+T29	Phenotype 4520 4585	reduced by 70 and 50%, respectively, relative to wild-type plants
+T30	Gene 5897 5901	1a3b
+R10	Causation Arg1:T26 Arg2:T28	
+R11	Causation Arg1:T26 Arg2:T29	
+R12	Causation Arg1:T27 Arg2:T28	
+R13	Causation Arg1:T27 Arg2:T29	
+T31	Phenotype 5909 5958	restored total Rubisco to 75% of wild-type levels
+T32	Gene 5963 5967	1AAt
+T33	Gene 5972 5979	1AAtMOD
+T34	Phenotype 5991 6017	to 65% of wild-type levels
+T35	Gene 6022 6026	S2Cr
+R14	Causation Arg1:T32 Arg2:T31	
+R15	Causation Arg1:T33 Arg2:T31	
+R16	Causation Arg1:T35 Arg2:T34	
+T36	Phenotype 6476 6580	retained the same amount of native SSU (i.e. products of the rbcS1B and rbcS2B genes) as the 1a3b mutant
+T37	Gene 6442 6449	1AAtMOD
+T38	Gene 6454 6458	S2Cr
+R17	Causation Arg1:T38 Arg2:T36	
+R18	Causation Arg1:T37 Arg2:T36	
+T39	Phenotype 6582 6649	Heterologous SSU levels were 2.4-fold higher than native SSU levels
+T40	Gene 6653 6660	1AAtMOD
+R19	Causation Arg1:T40 Arg2:T39	
+T41	Phenotype 6675 6741	heterologous SSU levels were 1.4-fold lower than native SSU levels
+T42	Gene 6745 6749	S2Cr
+R20	Causation Arg1:T42 Arg2:T41	
+T43	Gene 7081 7085	1AAt
+T44	Phenotype 7100 7158	same catalytic properties as Rubisco from wild-type plants
+R21	Causation Arg1:T43 Arg2:T44	
+T45	Phenotype 7285 7332	C/O values were significantly lower for Rubisco
+T46	Gene 7338 7342	S2Cr
+R22	Causation Arg1:T46 Arg2:T45	
+T47	Phenotype 9553 9570	Rosette expansion
+T48	Gene 9600 9604	1a3b
+T49	Gene 9660 9664	1a3b
+T50	Gene 10061 10065	1a3b
+T51	Phenotype 10078 10099	very low growth rates
+R23	Causation Arg1:T50 Arg2:T51	
+T52	Phenotype 10156 10190	greater rates of rosette expansion
+T53	Gene 10196 10200	1a3b
+T54	Gene 10213 10217	1AAt
+T55	Gene 10222 10229	1AAtMOD
+T56	Phenotype 10237 10259	higher expansion rates
+T57	Gene 10265 10269	S2Cr
+R24	Causation Arg1:T54 Arg2:T52	
+R25	Causation Arg1:T54 Arg2:T56	
+R26	Causation Arg1:T55 Arg2:T52	
+R27	Causation Arg1:T55 Arg2:T56	
+R28	Causation Arg1:T57 Arg2:T52	
+T58	Phenotype 10284 10294	dry weight
+T59	Gene 10298 10302	1AAt
+T60	Phenotype 10303 10365	rosettes at 28d was on average 84% of that of wild-type plants
+R29	Causation Arg1:T59 Arg2:T58	
+R30	Causation Arg1:T59 Arg2:T60	
+T61	Gene 10454 10461	1AAtMOD
+T62	Gene 10466 10470	S2Cr
+T63	Phenotype 10478 10557	dry weight was on average 75 and 56%, respectively, of that of wild-type plants
+R31	Causation Arg1:T61 Arg2:T63	
+R32	Causation Arg1:T62 Arg2:T63	
+T64	Phenotype 10720 10797	higher leaf area to weight ratios (rosette area per unit fresh or dry weight)
+T65	Gene 10803 10807	1a3b
+T66	Phenotype 10904 10953	Rosette expansion rates and fresh and dry weights
+T67	Phenotype 10978 11002	greater than in the 1a3b
+T68	Phenotype 11015 11065	lower than those of wild-type and transgenic lines
+T69	Gene 10961 10965	1a2b
+R33	Causation Arg1:T69 Arg2:T66	
+R34	Causation Arg1:T69 Arg2:T67	
+R35	Causation Arg1:T69 Arg2:T68	
+T70	Gene 11080 11084	1a2b
+T71	Phenotype 11098 11153	lower ratio of fresh to dry weight than the 1a3b mutant
+R36	Causation Arg1:T70 Arg2:T71	
+T72	Gene 11142 11146	1a3b
+T73	Gene 10998 11002	1a3b
+T74	Gene 11530 11534	1a3b
+T75	Phenotype 11402 11511	At ambient CO2 and saturating light, all three transgenic genotypes had much higher rates of CO2 assimilation
+T76	Phenotype 11604 11650	A. max was similar to that of wild-type plants
+T77	Gene 11654 11658	1AAt
+T78	Gene 11663 11670	1AAtMOD
+T79	Phenotype 11681 11686	lower
+T80	Gene 11690 11694	S2Cr
+T81	Phenotype 11711 11763	A. max was higher in the 1a2b than in the 1a3b mutan
+T82	Gene 11736 11740	1a2b
+T83	Gene 11753 11757	1a3b
+T84	Phenotype 11774 11787	comparable in
+T85	Gene 11788 11792	1a2b
+T86	Gene 11797 11801	S2Cr
+T87	Phenotype 11822 11952	quantum efficiency (phi) for all three transgenic lines was higher than in the 1a3b mutant and comparable with the wild-type value
+T88	Gene 11901 11905	1a3b
+R37	Causation Arg1:T77 Arg2:T76	
+R38	Causation Arg1:T78 Arg2:T76	
+T89	Gene 18935 18939	1a2b
+T90	Gene 18971 18975	1a3b
+T91	Gene 19019 19023	S2Cr
+T92	Phenotype 18922 18927	NADPH
+T93	Phenotype 18952 18982	higher than in the 1a3b mutant
+T94	Phenotype 18988 19029	comparable with values for the S2Cr lines
+T95	Gene 19439 19443	1a3b
+T96	Phenotype 19456 19498	higher levels of NPQ than wild-type plants
+T97	Phenotype 19504 19576	NPQ in transgenic genotypes was comparable with that of wild-type plants
+R39	Causation Arg1:T95 Arg2:T96	
+R40	Causation Arg1:T89 Arg2:T92	
+R41	Causation Arg1:T89 Arg2:T93	
+R42	Causation Arg1:T89 Arg2:T94	
+T98	Gene 19621 19625	1a2b
+T99	Phenotype 19603 19612	NPQ value
+T100	Phenotype 19637 19672	lower than that of wild-type plants
+T101	Phenotype 20069 20135	qI was lower in both transgenic genotypes that in wild-type plants
+T102	Phenotype 20141 20156	qE was elevated
+T103	Gene 20164 20168	1a3b
+R43	Causation Arg1:T103 Arg2:T102	
+T104	Phenotype 20180 20187	reduced
+T105	Gene 20195 20199	1a2b
+R44	Causation Arg1:T105 Arg2:T104	
+T106	Phenotype 20212 20236	qE:qI ratio was higher i
+T107	Gene 20242 20246	1a3b
+R45	Causation Arg1:T107 Arg2:T106	
+T109	Gene 20271 20275	1a2b
+T7	Phenotype 1335 1389	highest expression level of the Arabidopsis rbcS genes
+R46	Causation Arg1:T6 Arg2:T7	
+T108	Gene 4326 4330	1a3b
+T110	Phenotype 4340 4442	transcript levels for rbcS2B in transgenic plants were generally higher than those in wild-type plants
+R47	Causation Arg1:T108 Arg2:T110	
