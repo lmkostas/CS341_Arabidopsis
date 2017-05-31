@@ -99,13 +99,14 @@ class Brat(object):
         #   self._parse_documents(input_dir + "/*.txt", num_threads, parser)
 
         # create types
-        self._create_candidate_subclasses(config)
+        # self._create_candidate_subclasses(config)
 
         # create candidates
-        self.stable_labels_by_type, self.entity_types = self._create_candidates(annotations, annotator_name)
+        self.pheno_spans = self._create_pheno_spans(annotations)
+        # self.stable_labels_by_type, self.entity_types = self._create_candidates(annotations, annotator_name)
         
     def explore(self):
-        return self.stable_labels_by_type, self.entity_types
+        return self.pheno_spans
         
 
     def export_project(self, output_dir, positive_only_labels=True):
@@ -272,23 +273,29 @@ class Brat(object):
                     #     disc_mentions[anno_id] = len(spans)
 #print>> sys.stderr, ann_filename, spans, "NotImplementedError: Discontinuous Spans"
 #continue           
-                    i = min([span[0] for span in spans])
-                    j = max([span[1] for span in spans])
-                    i, j
-                        
-                    if i in char_idx:
-                        mention = doc_str[i:j]
-                        tokens = mention.split()
-                        sent_id, word_offset = char_idx[i]
-                        word_mention = doc[sent_id][word_offset:word_offset + len(tokens)]
-                        parts = {"sent_id":sent_id,"char_start":i,"char_end":j, "entity_type":entity_type,
-                                 "idx_span":(word_offset, word_offset + len(tokens)), "span":word_mention}
-                        # if len(spans)>1: anno_id = anno_id.split('-')[0]+'-'+str(k)
-                
-                        annotations[anno_id] = parts
-                    else:
-                        print>> sys.stderr, "SUB SPAN ERROR", text, (i, j)
-                        continue
+                    
+                    
+                    
+                    
+                    # parts = {"sent_id":sent_id,"char_start":i,"char_end":j, "entity_type":entity_type,
+                    #          "idx_span":(word_offset, word_offset + len(tokens)), "span":word_mention}
+                    # if len(spans)>1: anno_id = anno_id.split('-')[0]+'-'+str(k)
+            
+
+                    entity = {"entity_type":entity_type, "parts":[]}
+                    for k, (i, j) in enumerate(spans):
+                        if i in char_idx:
+                            mention = doc_str[i:j]
+                            tokens = mention.split()
+                            sent_id, word_offset = char_idx[i]
+                            word_mention = doc[sent_id][word_offset:word_offset + len(tokens)]
+                            # print(sent_id)
+                            fragment = {"sent_id":sent_id,"char_start":i,"char_end":j, "idx_span":(word_offset, word_offset + len(tokens)), "span":word_mention}
+                            entity["parts"].append(fragment)
+                        else:
+                            print>> sys.stderr, "SUB SPAN ERROR", text, (i, j)
+                            continue
+                    annotations[anno_id] = entity
                     
 
                 elif anno_id_prefix in [Brat.RELATION_ID,'*']:
@@ -447,6 +454,33 @@ class Brat(object):
         rela_defs = set(rela_defs)
         return self.brat_tmpl.format("\n".join(entity_defs), "\n".join(rela_defs), "", "")
 
+
+    def _create_pheno_spans(self, annotations):
+        pheno_spans = []
+        for doc_name, entity_dict in annotations.items():
+            doc = self.session.query(Document).filter(Document.name == doc_name).one()
+            abs_offsets = abs_doc_offsets(doc)
+            pheno_dict = {key: entity for key, entity in entity_dict.items() if key[0] == Brat.TEXT_BOUND_ID and entity['entity_type'] == 'Phenotype'}
+            for key, entity in pheno_dict.items():
+                fragments = []
+                for span in entity['parts']:
+                    offset = []
+                    j = 0
+                    for k, (sent_id, sent_offset) in enumerate(abs_offsets.items()):
+                        if span['char_start'] >= sent_offset[0] and span['char_end'] <= sent_offset[1]:
+                            offset = sent_offset
+                            j = k
+                            tc = TemporarySpan(char_start=span['char_start']-offset[0], char_end=span['char_end']-offset[0]-1,
+                                                       sentence=doc.sentences[j])
+                            fragments.append(tc)
+                            break  
+                    else:
+                        print "Couldn't find sentence"
+
+                pheno_spans.append(fragments)
+        return pheno_spans
+
+
     def _create_candidates(self, annotations, annotator_name, clear=True):
         """
         TODO: Add simpler candidate instantiation helper functions
@@ -457,27 +491,31 @@ class Brat(object):
         stable_labels_by_type = defaultdict(list)
 
         for name in annotations:
+            # name is document name, e.g. PMC5130230
             if annotations[name]:
-
-                spans = [key for key in annotations[name] if key[0] == Brat.TEXT_BOUND_ID]
-                # print "spanz", spans
+                # print "ann", annotations[name]
+                span_keys = [key for key in annotations[name] if key[0] == Brat.TEXT_BOUND_ID]
+                # print "name", name, "spanz", spans
                 relations = [key for key in annotations[name] if key[0] in [Brat.RELATION_ID]]
                               
                     
                 # create span labels
-                spans = {key:"{}::span:{}:{}".format(name, annotations[name][key]["char_start"],
-                                                     annotations[name][key]["char_end"]) for key in spans}
+                # spans = {key:"{}::span:{}:{}".format(name, annotations[name][key]["char_start"],
+                #                                      annotations[name][key]["char_end"]) for key in span_keys}
+
+                # print "spannin", spans
                 g_in_sents = defaultdict(list)
                 p_in_sents = defaultdict(list)
-                for key in spans:
+                for key in span_keys:
                     entity_type = annotations[name][key]['entity_type']
+                    
                     stable_labels_by_type[entity_type].append(spans[key])
                     sent_no = annotations[name][key]['sent_id']
                     if entity_type == 'Gene':
                         g_in_sents[sent_no].append(key)
                     else:
                         p_in_sents[sent_no].append(key)
-                               
+
                 labeled_rels = set()
                 # create relation labels
                 for key in relations:
@@ -557,7 +595,7 @@ class Brat(object):
                 if name not in abs_offsets:
                     abs_offsets[name] = abs_doc_offsets(doc)
 
-                for j,offset in enumerate(abs_offsets[name]):
+                for j,(sent_id, offset) in enumerate(abs_offsets[name].items()):
                     if span[0] >= offset[0] and span[1] <= offset[1]:
                         try:
 
@@ -622,12 +660,12 @@ def abs_doc_offsets(doc):
     :param doc:
     :return:
     """
-    abs_char_offsets = []
+    abs_char_offsets = {}
     for sent in doc.sentences:
         stable_id = sent.stable_id.split(":")
         name, offsets = stable_id[0], stable_id[-2:]
         offsets = map(int, offsets)
-        abs_char_offsets.append(offsets)
+        abs_char_offsets[sent.id] = offsets
     return abs_char_offsets
 
 
