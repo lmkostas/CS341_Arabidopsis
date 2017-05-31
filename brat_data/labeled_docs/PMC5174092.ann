@@ -1,0 +1,73 @@
+T1	Phenotype 1354 1382	Stem Gravitropism is Altered
+T2	Gene 1386 1396	Myosin XI1
+T3	Gene 1398 1401	XI2
+T4	Gene 1407 1410	XIK
+R1	Causation Arg1:T2 Arg2:T1	
+R2	Causation Arg1:T3 Arg2:T1	
+R3	Causation Arg1:T4 Arg2:T1	
+T5	Gene 1886 1897	xi1 xi2 xik
+T6	Phenotype 1938 2000	delay of bending and shallower curvature compared to wild type
+R4	Causation Arg1:T5 Arg2:T6	
+T7	Gene 2148 2159	xi1 xi2 xik
+T8	Phenotype 2171 2199	curve up only within 130 min
+R5	Causation Arg1:T7 Arg2:T8	
+T9	Phenotype 2316 2343	average translocation speed
+T10	Phenotype 2365 2378	fourfold less
+T11	Gene 2347 2360	triple mutant
+R6	Causation Arg1:T11 Arg2:T9	
+R7	Causation Arg1:T11 Arg2:T10	
+T12	Gene 2453 2461	class XI
+T13	Phenotype 2493 2523	required for stem gravitropism
+R8	Causation Arg1:T12 Arg2:T13	
+T14	Gene 2470 2488	class VIII myosins
+T16	Phenotype 2811 2832	Gravitropic phenotype
+T15	Gene 2850 2853	xi1
+T17	Gene 2854 2857	xi2
+T18	Gene 2858 2861	xik
+T19	Gene 4191 4202	xi1 xi2 xik
+T20	Phenotype 4212 4265	Reduced Growth Rate and More Rigid Inflorescence Stem
+T21	Gene 4316 4327	xi1 xi2 xik
+R9	Causation Arg1:T19 Arg2:T20	
+T22	Phenotype 4267 4312	Delayed and insufficient gravitropic response
+T23	Phenotype 4345 4392	physical features of the stem might be impaired
+R10	Causation Arg1:T21 Arg2:T23	
+R11	Causation Arg1:T21 Arg2:T22	
+T24	Gene 5612 5623	xi1 xi2 xik
+T25	Phenotype 5630 5693	28% increase in bending stiffness and slightly reduced diameter
+R12	Causation Arg1:T24 Arg2:T25	
+T26	Gene 5745 5762	XI1, XI2, and XIK
+T27	Phenotype 5770 5872	role in growth and rigidity formation of the inflorescence stem that likely affect gravitropic bending
+R13	Causation Arg1:T26 Arg2:T27	
+T28	Gene 6518 6529	xi1 xi2 xik
+T29	Phenotype 6535 6585	alterations in the architecture of actin filaments
+R14	Causation Arg1:T28 Arg2:T29	
+T30	Gene 8213 8224	xi1 xi2 xik
+T31	Phenotype 8161 8190	Amyloplasts stained intensely
+R15	Causation Arg1:T30 Arg2:T31	
+T32	Phenotype 8273 8333	significant difference in the level of starch in amyloplasts
+R16	Causation Arg1:T30 Arg2:T32	
+T33	Gene 9249 9266	XI1, XI2, and XIK
+T34	Phenotype 9276 9328	required for the proper sedimentation of amyloplasts
+R17	Causation Arg1:T33 Arg2:T34	
+T35	Gene 9802 9804	XI
+T36	Phenotype 9740 9769	general functional redundancy
+R18	Causation Arg1:T35 Arg2:T36	
+T37	Gene 9834 9837	XIK
+T38	Phenotype 9844 9956	principal roles in such myosin-dependent processes as intracellular trafficking, cell expansion and plant growth
+R19	Causation Arg1:T37 Arg2:T38	
+T39	Gene 10177 10202	xi1 xi2 xik triple mutant
+T40	Gene 10262 10270	XIK gene
+T41	Gene 10355 10374	xi1 xi2 xik XIK:YFP
+T42	Phenotype 10404 10431	normal gravitropic response
+R20	Causation Arg1:T41 Arg2:T42	
+T43	Gene 10679 10691	xi1 xi2 xik,
+T44	Phenotype 10588 10637	relative average speed of stem movement increased
+T45	Gene 10706 10725	xi1 xi2 xik XIK:YFP
+R21	Causation Arg1:T45 Arg2:T44	
+T46	Gene 11068 11087	xi1 xi2 xik XIK:YFP
+T47	Phenotype 11141 11179	translocation was massive after 20 min
+R22	Causation Arg1:T46 Arg2:T47	
+T48	Gene 11217 11224	XIK:YFP
+T49	Phenotype 11273 11321	gravitropic bending and amyloplast sedimentation
+R23	Causation Arg1:T48 Arg2:T49	
+T50	Gene 11505 11524	xi1 xi2 xik XIK:YFP

@@ -1,0 +1,95 @@
+T1	Gene 3176 3185	aba2/isi4
+T2	Gene 3190 3199	abi4/isi3
+T3	Phenotype 3219 3255	impaired sucrose induction phenotype
+#1	AnnotatorNotes T1	double mutant, two genes affected
+#2	AnnotatorNotes T2	double mutant, two genes affected
+R1	Causation Arg1:T1 Arg2:T3	
+R2	Causation Arg1:T2 Arg2:T3	
+T4	Gene 3704 3710	aba2-1
+T5	Phenotype 3666 3696	induction of ApL3 is 25% lower
+R3	Causation Arg1:T4 Arg2:T5	
+T6	Gene 15420 15426	abi3-1
+T7	Phenotype 15455 15485	greening on high glucose media
+T8	Gene 15431 15437	abi3-5
+R4	Causation Arg1:T6 Arg2:T7	
+R5	Causation Arg1:T8 Arg2:T7	
+T9	Gene 15686 15690	abi3
+T10	Phenotype 15655 15668	gin phenotype
+R6	Causation Arg1:T9 Arg2:T10	
+T11	Gene 15960 15966	aba1-1
+T12	Phenotype 16039 16052	gin phenotype
+R7	Causation Arg1:T11 Arg2:T12	
+T13	Gene 17382 17388	abi3-8
+T14	Gene 17390 17396	abi3-9
+T15	Gene 17398 17405	abi3-10
+T16	Gene 17407 17413	abi4-3
+T17	Gene 17418 17424	abi5-7
+T18	Phenotype 17439 17463	strong ABA insensitivity
+R8	Causation Arg1:T13 Arg2:T18	
+R9	Causation Arg1:T14 Arg2:T18	
+R10	Causation Arg1:T15 Arg2:T18	
+R11	Causation Arg1:T16 Arg2:T18	
+R12	Causation Arg1:T17 Arg2:T18	
+T19	Gene 18175 18179	abi3
+T20	Phenotype 18137 18157	strong gin phenotype
+R13	Causation Arg1:T19 Arg2:T20	
+T21	Gene 18442 18446	abi3
+T22	Phenotype 18459 18477	strong gin mutants
+R14	Causation Arg1:T21 Arg2:T22	
+T23	Gene 18684 18691	abi3-11
+T24	Phenotype 18708 18733	ABI insensitive phenotype
+R15	Negative Arg1:T23 Arg2:T24	
+T25	Phenotype 18753 18766	gin phenotype
+R16	Negative Arg1:T23 Arg2:T25	
+T26	Gene 18617 18624	abi3-13
+T27	Phenotype 18633 18651	weak abi phenotype
+T28	Phenotype 18658 18678	strong gin phenotype
+R17	Causation Arg1:T26 Arg2:T27	
+R18	Causation Arg1:T26 Arg2:T28	
+T29	Gene 18882 18886	abi3
+T30	Phenotype 18848 18877	glucose insensitive phenotype
+R19	Causation Arg1:T29 Arg2:T30	
+T31	Gene 19804 19808	abi3
+T32	Phenotype 19739 19789	Glucose-induced expression of ABI4, ABI5 and RAB18
+R20	Causation Arg1:T31 Arg2:T32	
+T33	Gene 21013 21017	abi3
+T34	Phenotype 20969 21005;21037 21059	ABI4 transcripts were 2-8 fold lower upon glucose treatment
+R21	Causation Arg1:T33 Arg2:T34	
+T35	Gene 24014 24018	abi3
+T36	Phenotype 24034 24063	sucrose insensitive phenotype
+R22	Causation Arg1:T35 Arg2:T36	
+T37	Gene 24144 24150	abi3-1
+T38	Phenotype 24175 24199	sugar signalling defects
+R23	Causation Arg1:T37 Arg2:T38	
+T39	Gene 27095 27099	abi4
+T40	Phenotype 27120 27201	nine fold increased PC expression level in sugar-treated seedlings compared to WT
+R24	Causation Arg1:T39 Arg2:T40	
+T41	Gene 27210 27214	abi3
+T42	Phenotype 27227 27273	PC expression level is only two fold increased
+R25	Causation Arg1:T41 Arg2:T42	
+T43	Gene 27710 27719	gin6/abi4
+T44	Gene 27724 27733	gin2/hxk1
+T45	Phenotype 27743 27813	insensitive to the glucose-induced early seedling developmental arrest
+T46	Phenotype 27818 27857	sensitive to glucose during germination
+R26	Causation Arg1:T43 Arg2:T45	
+R27	Causation Arg1:T44 Arg2:T45	
+R28	Causation Arg1:T43 Arg2:T46	
+R29	Causation Arg1:T44 Arg2:T46	
+T47	Gene 29831 29837	abi3-1
+T48	Phenotype 29869 29918	reduced sensitivity to glucose during germination
+R30	Causation Arg1:T47 Arg2:T48	
+T49	Gene 31453 31459	abi2-1
+T50	Phenotype 31479 31492	gin phenotype
+R31	Causation Arg1:T49 Arg2:T50	
+T51	Gene 32570 32576	era1-2
+T52	Phenotype 32591 32619	ABA hypersensitive phenotype
+R32	Causation Arg1:T51 Arg2:T52	
+T53	Gene 33110 33116	era1-2
+T54	Phenotype 33063 33092	after eleven days no greening
+R33	Causation Arg1:T53 Arg2:T54	
+T55	Gene 33723 33729	era1-2
+T56	Phenotype 33701 33719	slower germination
+R34	Causation Arg1:T55 Arg2:T56	
+T57	Gene 33566 33572	era1-2
+T58	Phenotype 33552 33565;33645 33677	On 6% glucose germination was 1-2 days delayed
+R35	Causation Arg1:T57 Arg2:T58	

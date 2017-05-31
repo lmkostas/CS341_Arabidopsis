@@ -1,0 +1,9 @@
+T1	Gene 217 223	RACK1B
+T2	Gene 227 233	RACK1C
+T3	Phenotype 257 341	defects in plant development, including rosette leaf production and root development
+R1	Negative Arg1:T2 Arg2:T3	
+R2	Negative Arg1:T1 Arg2:T3	
+T4	Gene 571 591	rack1a rack1b rack1c
+#1	AnnotatorNotes T4	triple mutant, three genes affected
+T5	Phenotype 511 553	extreme developmental defect and lethality
+R3	Causation Arg1:T4 Arg2:T5	

@@ -1,0 +1,6 @@
+T1	Gene 1056 1062	lsd1-2
+T2	Phenotype 1034 1054;1063 1105	5 days post-SA spray leaves were collapsed and completely dried
+R1	Causation Arg1:T1 Arg2:T2	
+T3	Gene 1347 1353	lsd1-2
+T4	Phenotype 1366 1402	significant increase in conductivity
+R2	Causation Arg1:T3 Arg2:T4	

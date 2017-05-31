@@ -1,0 +1,43 @@
+T1	Gene 334 341	yuc6-1D
+T2	Phenotype 369 396	elevated levels of free IAA
+R1	Causation Arg1:T1 Arg2:T2	
+T3	Phenotype 520 561	curled rosette leaves and long hypocotyls
+R2	Causation Arg1:T1 Arg2:T3	
+T4	Gene 586 593	yuc6-1D
+T5	Phenotype 612 653	dramatically delayed senescence phenotype
+R3	Causation Arg1:T4 Arg2:T5	
+T6	Gene 675 682	yuc6-1D
+T7	Phenotype 710 729	prolonged life span
+R4	Causation Arg1:T6 Arg2:T7	
+T8	Gene 845 852	yuc6-1D
+T9	Phenotype 808 841;842 844;853 947	loss of total chlorophyll content in leaves during the natural senescence process is delayed compared with that in wild-type leaves
+R5	Causation Arg1:T8 Arg2:T9	
+R6	Causation Arg1:T8 Arg2:T9	
+T10	Gene 2029 2036	yuc6-1D
+T11	Phenotype 1914 2023;2050 2056;2057 2104	loss of total chlorophyll content and photosystem II efficiency during dark-induced senescence was delayed in leaves compared with their isogenic wild-type controls
+R7	Causation Arg1:T10 Arg2:T11	
+T12	Gene 2362 2369	yuc6-1D
+T13	Phenotype 2298 2361;2383 2451	accumulation of the SAG12 transcript was found to be delayed in leaves during dark-induced senescence compared with wild-type leaves
+R8	Causation Arg1:T12 Arg2:T13	
+T14	Gene 5831 5838	yuc6-1D
+T15	Phenotype 5851 5872	over-expresses YUCCA6
+T16	Phenotype 5877 5901	elevated free IAA levels
+R9	Causation Arg1:T14 Arg2:T15	
+R10	Causation Arg1:T14 Arg2:T16	
+T17	Gene 6602 6609	yuc6-1D
+T18	Phenotype 6559 6598	expression of IAA2 was highly increased
+R11	Causation Arg1:T17 Arg2:T18	
+T19	Gene 8074 8081	yuc6-1D
+T20	Phenotype 8033 8070	Delay of dark-induced leaf senescence
+R12	Causation Arg1:T19 Arg2:T20	
+T21	Gene 8152 8159	yuc6-1D
+T22	Phenotype 8181 8209	delayed senescence phenotype
+R13	Causation Arg1:T21 Arg2:T22	
+T23	Gene 9012 9019	yuc6-1D
+T24	Phenotype 9035 9050	long hypocotyls
+T25	Phenotype 9055 9083	increased expression of IAA2
+R14	Causation Arg1:T23 Arg2:T24	
+R15	Causation Arg1:T23 Arg2:T25	
+T26	Gene 15854 15861	yuc6-1D
+T27	Phenotype 15825 15846;15869 15927	mature rosette leaves have a higher auxin content than those of wild-type plants
+R16	Causation Arg1:T26 Arg2:T27	

@@ -1,0 +1,47 @@
+T1	Gene 246 249	sg1
+T2	Phenotype 220 242;255 300	initial rosette leaves completely albino, but gradually became green
+R1	Causation Arg1:T1 Arg2:T2	
+T3	Gene 482 485	sg1
+T4	Phenotype 413 436	slow-greening phenotype
+R2	Causation Arg1:T3 Arg2:T4	
+T5	Gene 579 582	sg1
+T6	Phenotype 542 575;588 641	young inflorescences and siliques white or pale green, and became green as they matured
+R3	Causation Arg1:T5 Arg2:T6	
+T7	Gene 2343 2346	sg1
+T8	Phenotype 2326 2339;2370 2381	embryogenesis was delayed
+R4	Causation Arg1:T7 Arg2:T8	
+T9	Gene 2629 2632	sg1
+T10	Phenotype 2641 2675	defective chloroplast development.
+R5	Causation Arg1:T9 Arg2:T10	
+T11	Gene 3494 3497	sg1
+T12	Phenotype 3576 3626	smaller, abnormal, irregularly shaped chloroplasts
+R6	Causation Arg1:T11 Arg2:T12	
+T13	Gene 4217 4220	sg1
+T14	Phenotype 4241 4348	differentiated chloroplasts that were smaller and had fewer thylakoid membranes than did chloroplasts of WT
+R7	Causation Arg1:T13 Arg2:T14	
+T15	Gene 16160 16163	sg1
+T16	Phenotype 16095 16156	expression of psbB, ycf2.2, RbcS, and CAO was a little higher
+R8	Causation Arg1:T15 Arg2:T16	
+T17	Gene 18622 18630	sg1 gun1
+T18	Phenotype 18608 18614;18655 18699	leaves similar green colour to the leaves of the WT
+R9	Causation Arg1:T17 Arg2:T18	
+T19	Gene 18928 18936	sg1 gun4
+T20	Phenotype 18897 18910	albino leaves
+R10	Negative Arg1:T19 Arg2:T20	
+T21	Gene 19018 19024	gun4-1
+T22	Phenotype 18994 19014	pale-green phenotype
+R11	Causation Arg1:T21 Arg2:T22	
+T23	Gene 19474 19478	gun4
+T24	Phenotype 19493 19512	chlorophyll defects
+R12	Causation Arg1:T23 Arg2:T24	
+T25	Gene 19555 19563	sg1 gun4
+T26	Phenotype 19527 19538;19583 19602	chlorophyll considerably higher
+R13	Causation Arg1:T25 Arg2:T26	
+T27	Gene 19919 19923	gun4
+T28	Gene 19910 19914	gun1
+T29	Phenotype 19932 19980	alleviated the delayed greening phenotype of sg1
+R14	Causation Arg1:T27 Arg2:T29	
+R15	Causation Arg1:T28 Arg2:T29	
+T30	Gene 21047 21055	sg1 gun4
+T31	Phenotype 21109 21185	abundance of thylakoid membranes was lower than that in the corresponding WT
+R16	Causation Arg1:T30 Arg2:T31	

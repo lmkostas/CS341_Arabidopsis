@@ -1,0 +1,85 @@
+T1	Gene 1247 1282	Double knock-out of MYB28 and MYB29
+#1	AnnotatorNotes T1	double mutant, two genes affected
+T2	Phenotype 1292 1337	complete absence of aliphatic glucosinolates.
+R1	Causation Arg1:T1 Arg2:T2	
+T3	Gene 3843 3848	myb28
+T4	Gene 3853 3858	myb29
+T5	Phenotype 3884 3906	pleiotropic phenotypes
+R2	Negative Arg1:T4 Arg2:T5	
+R3	Negative Arg1:T3 Arg2:T5	
+T6	Gene 9994 9999	myb29
+T7	Gene 10004 10014	myb28myb29
+#2	AnnotatorNotes T7	double mutant, two genes affected
+T8	Phenotype 9938 9986	MYB29 transcript levels were 4 to 6-fold reduced
+T9	Gene 10733 10743	myb29myb28
+#3	AnnotatorNotes T9	double mutant, two genes affected
+T10	Phenotype 10663 10725	Biosynthetic genes are dramatically more reduced in expression
+T11	Gene 10860 10865	myb28
+T12	Phenotype 10794 10852	Expression of MAM3 was already strongly (>10-fold) reduced
+T13	Phenotype 10878 10907	even more (>100-fold) reduced
+T14	Gene 10915 10925	myb28myb29
+#4	AnnotatorNotes T14	double mutant, two genes affected
+R4	Causation Arg1:T11 Arg2:T12	
+#5	AnnotatorNotes T13	full phenotype for the double mutant would be "Expression of MAM3 was...reduced...even more (>100-fold)"
+T15	Phenotype 11023 11067	MAM1, CYP83A1 and Aconitase transcripts were
+#6	AnnotatorNotes T15	split phenotype, join with other one
+T16	Phenotype 11121 11184	strongly reduced (140-fold, 30-fold and 300-fold, respectively)
+#7	AnnotatorNotes T16	split phenotype, join with other one
+T17	Gene 11192 11202	myb28myb29
+#8	AnnotatorNotes T17	double mutant, two genes affected
+T18	Gene 15156 15195	Knocking out both MYB28 and MYB29 genes
+#9	AnnotatorNotes T18	double mutant, two genes affected
+T19	Phenotype 15217 15274	significant positive effect on growth of Mamestra larvae,
+R5	Causation Arg1:T18 Arg2:T19	
+T20	Gene 17547 17552	myb28
+T21	Phenotype 17565 17627	concentration of glucoraphanin (4MSOB) is 41% of that in Col-0
+T22	Phenotype 17640 17727	insect-damaged plants glucoraphanin (4MSOB) doubles to 98% of the undamaged Col-0 value
+T23	Gene 17754 17764	myb28myb29
+T24	Phenotype 17780 17905	some traces of short-chain aliphatic glucosinolates could be observed after herbivory, up to 3% of the undamaged Col-0 levels
+T25	Gene 18253 18263	myb28myb29
+T26	Phenotype 18280 18334	strongly inhibits aliphatic glucosinolate biosynthesis
+T27	Gene 7055 7060	myb28
+T28	Gene 7065 7070	myb29
+T29	Phenotype 6886 7046	Short-chain aliphatic methylsulphinylalkyl glucosinolates, such as glucoiberin (3MSOP), glucoraphanin (4MSOB) and glucoalyssin (5MSOP), are reduced by about 50%
+R6	Causation Arg1:T6 Arg2:T8	
+R7	Causation Arg1:T7 Arg2:T8	
+R8	Causation Arg1:T27 Arg2:T29	
+R9	Causation Arg1:T28 Arg2:T29	
+T30	Gene 7286 7291	myb28
+T31	Phenotype 7256 7282	has completely disappeared
+#10	AnnotatorNotes T31	split phenotype
+T32	Phenotype 7134 7203	long-chain aliphatic methylsulphinylalkyl glucosinolate glucohirsutin
+#11	AnnotatorNotes T32	split phenotype
+T33	Gene 7802 7817	MYB28 and MYB29
+T34	Phenotype 7823 7904	completely suppressed synthesis of aliphatic glucosinolates below detection level
+R10	Causation Arg1:T33 Arg2:T34	
+#12	AnnotatorNotes T33	double mutant, two genes affected
+T35	Gene 9283 9298	MYB28 and MYB29
+#13	AnnotatorNotes T35	double mutant, two genes affected
+T36	Phenotype 9314 9371	complete collapse of aliphatic glucosinolate biosynthesis
+R11	Causation Arg1:T35 Arg2:T36	
+T37	Gene 10049 10054	myb29
+T38	Phenotype 10120 10153	some residual expression of MYB29
+R12	Causation Arg1:T37 Arg2:T38	
+T39	Gene 11424 11439	MYB28 and MYB29
+#14	AnnotatorNotes T39	double mutant, two genes affected
+T40	Phenotype 11440 11531	interfered much more severely with expression of aliphatic glucosinolate biosynthesis genes
+R13	Causation Arg1:T39 Arg2:T40	
+T41	Gene 11828 11838	myb28myb29
+#15	AnnotatorNotes T41	double mutant, two genes affected
+T42	Phenotype 11877 11936	first Arabidopsis genotype without aliphatic glucosinolates
+R14	Causation Arg1:T41 Arg2:T42	
+T43	Gene 12999 13004	MYB28
+T44	Gene 13009 13014	MYB29
+T45	Phenotype 13027 13060	enhanced growth rates of Mamestra
+R15	Causation Arg1:T44 Arg2:T45	
+R16	Causation Arg1:T43 Arg2:T45	
+T46	Gene 16075 16085	myb28myb29
+#16	AnnotatorNotes T46	double mutant, two genes affected
+T47	Phenotype 16036 16067	higher weight of larvae feeding
+R17	Causation Arg1:T46 Arg2:T47	
+R18	Causation Arg1:T20 Arg2:T21	
+R19	Causation Arg1:T20 Arg2:T22	
+R20	Causation Arg1:T23 Arg2:T24	
+R21	Causation Arg1:T25 Arg2:T26	
+T48	Gene 7245 7250	myb29
