@@ -261,35 +261,35 @@ class Brat(object):
                 # parse each entity/relation type
                 if anno_id_prefix == Brat.TEXT_BOUND_ID:
                     anno_id, entity, text = row
+                    # print(anno_id, entity, text)
                     entity_type = entity.split()[0]
                     spans = map(lambda x: map(int, x.split()),
                                 entity.lstrip(entity_type).split(";"))
-                    
+                    # print "spans", spans
                     # discontinuous mentions
                     disc_mentions = {}
-                    if len(spans) != 1:
-                        disc_mentions[anno_id] = len(spans)
+                    # if len(spans) != 1:
+                    #     disc_mentions[anno_id] = len(spans)
 #print>> sys.stderr, ann_filename, spans, "NotImplementedError: Discontinuous Spans"
-#continue
-                    entity = []
-                    for k, (i, j) in enumerate(spans):
+#continue           
+                    i = min([span[0] for span in spans])
+                    j = max([span[1] for span in spans])
+                    i, j
                         
-                        if i in char_idx:
-                            mention = doc_str[i:j]
-                            tokens = mention.split()
-                            sent_id, word_offset = char_idx[i]
-                            word_mention = doc[sent_id][word_offset:word_offset + len(tokens)]
-                            parts = {"sent_id":sent_id,"char_start":i,"char_end":j, "entity_type":entity_type,
-                                     "idx_span":(word_offset, word_offset + len(tokens)), "span":word_mention}
-                            entity += [parts]
-                            if len(spans)>1: anno_id = anno_id.split('-')[0]+'-'+str(k)
-                            annotations[anno_id] = parts
-                        else:
-                            print>> sys.stderr, "SUB SPAN ERROR", text, (i, j)
-                            continue
+                    if i in char_idx:
+                        mention = doc_str[i:j]
+                        tokens = mention.split()
+                        sent_id, word_offset = char_idx[i]
+                        word_mention = doc[sent_id][word_offset:word_offset + len(tokens)]
+                        parts = {"sent_id":sent_id,"char_start":i,"char_end":j, "entity_type":entity_type,
+                                 "idx_span":(word_offset, word_offset + len(tokens)), "span":word_mention}
+                        # if len(spans)>1: anno_id = anno_id.split('-')[0]+'-'+str(k)
+                
+                        annotations[anno_id] = parts
+                    else:
+                        print>> sys.stderr, "SUB SPAN ERROR", text, (i, j)
+                        continue
                     
-                    # TODO: we assume continuous spans here
-                    #annotations[anno_id] = entity if not entity else entity[0]
 
                 elif anno_id_prefix in [Brat.RELATION_ID,'*']:
                     anno_id, rela = row
@@ -311,15 +311,15 @@ class Brat(object):
                                 anno_id = anno_id.split('-')[0]+'-'+str(anno_count)
 #print anno_id, rela_type, arg1, arg2
                             annotations[anno_id] = (rela_type, arg1, arg2)
-                    #annotations[anno_id] = (rela_type, arg1, arg2)
-
+                    # annotations[anno_id] = (rela_type, arg1, arg2)
+                    pass
                 elif anno_id_prefix == Brat.EVENT_ID:
                     print>> sys.stderr, "NotImplementedError: Events"
                     raise NotImplementedError
 
                 elif anno_id_prefix == Brat.ATTRIB_ID:
                     print>> sys.stderr, "NotImplementedError: Attributes"
-        #print annotations
+        # print annotations
         return annotations
 
     def _parse_config(self, filename):
@@ -458,7 +458,9 @@ class Brat(object):
 
         for name in annotations:
             if annotations[name]:
+
                 spans = [key for key in annotations[name] if key[0] == Brat.TEXT_BOUND_ID]
+                # print "spanz", spans
                 relations = [key for key in annotations[name] if key[0] in [Brat.RELATION_ID]]
                               
                     
@@ -577,8 +579,8 @@ class Brat(object):
             else:
                 class_name = self.subclasses[self._get_normed_rela_name(class_type)]
         '''
-        class_type = 'Causation'
-        class_name = self.subclasses[class_type]
+        # class_type = 'Causation'
+        # class_name = self.subclasses[class_type]
         return stable_labels_by_type, entity_types
     
         # if clear:
