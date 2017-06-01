@@ -239,7 +239,7 @@ class Brat(object):
             for line in fp:
                 line = re.split('(\.\s+)', line)
                 doc.extend([re.split('(\s+)',l) for l in line]) 
-                #doc += [line.strip().split()]
+                # doc += [line.strip().split()]
         
         # build doc string and char to word index
         doc_str = ""
@@ -250,8 +250,8 @@ class Brat(object):
                 for ch in sent[j]:
                     doc_str += ch
                     char_idx[len(doc_str)] = (i, j)
-                #doc_str += " " if j != len(sent) - 1 else "\n"
-        #doc_str = doc_str.strip()
+        #         doc_str += " " if j != len(sent) - 1 else "\n"
+        # doc_str = doc_str.strip()
         
         # load annotations
         with codecs.open(ann_filename, "rU", encoding=self.encoding) as fp:
@@ -289,13 +289,23 @@ class Brat(object):
                             tokens = mention.split()
                             sent_id, word_offset = char_idx[i]
                             word_mention = doc[sent_id][word_offset:word_offset + len(tokens)]
+                            # print anno_id, mention, word_mention, sent_id, word_offset
                             # print(sent_id)
-                            fragment = {"sent_id":sent_id,"char_start":i,"char_end":j, "idx_span":(word_offset, word_offset + len(tokens)), "span":word_mention}
+                            
+
+                            fragment = {"sent_id":sent_id,"char_start":i,"char_end":j,
+                                "idx_span":(word_offset, word_offset + len(tokens)),
+                                "span":word_mention, "mention": mention}
                             entity["parts"].append(fragment)
+                            
                         else:
                             print>> sys.stderr, "SUB SPAN ERROR", text, (i, j)
                             continue
                     annotations[anno_id] = entity
+                    built_text = " ".join([frag['mention'] for frag in entity['parts']])
+                    if built_text != text:
+                        print(entity)
+                        print "wtf", ann_filename, "built_text:", built_text, "text:", text
                     
 
                 elif anno_id_prefix in [Brat.RELATION_ID,'*']:
@@ -457,6 +467,7 @@ class Brat(object):
 
     def _create_pheno_spans(self, annotations):
         pheno_spans = []
+        mentions = []
         for doc_name, entity_dict in annotations.items():
             doc = self.session.query(Document).filter(Document.name == doc_name).one()
             abs_offsets = abs_doc_offsets(doc)
@@ -465,17 +476,20 @@ class Brat(object):
                 fragments = []
                 for span in entity['parts']:
                     offset = []
-                    j = 0
-                    for k, (sent_id, sent_offset) in enumerate(abs_offsets.items()):
+                    for k, sent_offset in enumerate(abs_offsets):
                         if span['char_start'] >= sent_offset[0] and span['char_end'] <= sent_offset[1]:
                             offset = sent_offset
-                            j = k
                             tc = TemporarySpan(char_start=span['char_start']-offset[0], char_end=span['char_end']-offset[0]-1,
-                                                       sentence=doc.sentences[j])
+                                                       sentence=doc.sentences[k])
+
+                            tc.load_id_or_insert(self.session)
+                            # print doc_name, tc
                             fragments.append(tc)
-                            break  
+                            if (tc.get_span() != span['mention']):
+                                print "??", doc_name, "actual:", tc.get_span(), "expected:", span['mention']
+                            break
                     else:
-                        print "Couldn't find sentence"
+                        print doc_name, span, "Couldn't find sentence"
 
                 pheno_spans.append(fragments)
         return pheno_spans
@@ -500,8 +514,8 @@ class Brat(object):
                               
                     
                 # create span labels
-                # spans = {key:"{}::span:{}:{}".format(name, annotations[name][key]["char_start"],
-                #                                      annotations[name][key]["char_end"]) for key in span_keys}
+                spans = {key:"{}::span:{}:{}".format(name, annotations[name][key]["parts"][0]["char_start"],
+                                                     annotations[name][key]["parts"][0]["char_end"]) for key in span_keys}
 
                 # print "spannin", spans
                 g_in_sents = defaultdict(list)
@@ -510,7 +524,7 @@ class Brat(object):
                     entity_type = annotations[name][key]['entity_type']
                     
                     stable_labels_by_type[entity_type].append(spans[key])
-                    sent_no = annotations[name][key]['sent_id']
+                    sent_no = annotations[name][key]['parts'][0]['sent_id']
                     if entity_type == 'Gene':
                         g_in_sents[sent_no].append(key)
                     else:
@@ -601,6 +615,7 @@ class Brat(object):
 
                             tc = TemporarySpan(char_start=span[0]-offset[0], char_end=span[1]-offset[0]-1,
                                                    sentence=doc.sentences[j])
+                            print(tc)
                             tc.load_id_or_insert(self.session)
                             spans.append(tc)
                         except Exception as e:
@@ -660,12 +675,12 @@ def abs_doc_offsets(doc):
     :param doc:
     :return:
     """
-    abs_char_offsets = {}
+    abs_char_offsets = []
     for sent in doc.sentences:
         stable_id = sent.stable_id.split(":")
         name, offsets = stable_id[0], stable_id[-2:]
         offsets = map(int, offsets)
-        abs_char_offsets[sent.id] = offsets
+        abs_char_offsets.append(offsets)
     return abs_char_offsets
 
 
