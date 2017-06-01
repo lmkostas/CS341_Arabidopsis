@@ -1,9 +1,0 @@
-T1	Gene 15579 15585	coi1-1
-T2	Phenotype 15556 15578	JA-signaling deficient
-R1	Causation Arg1:T1 Arg2:T2	
-T3	Gene 16770 16776	npr1-1
-T4	Phenotype 16726 16740	SA-insensitive
-R2	Causation Arg1:T3 Arg2:T4	
-T5	Gene 17015 17021	npr1-1
-T6	Phenotype 16961 17011	MeJA repressed low light-induced hyponastic growth
-R3	Causation Arg1:T5 Arg2:T6	

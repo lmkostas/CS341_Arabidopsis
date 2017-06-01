@@ -1,6 +1,0 @@
-T1	Gene 1570 1593	AtAPY1 and AtAPY2 (DKO)
-T2	Phenotype 1597 1612	seedling-lethal
-R1	Causation Arg1:T1 Arg2:T2	
-T3	Gene 4878 4881	DKO
-T4	Phenotype 4882 4891;4946 4999	seedlings abnormal phenotype with fleshy cotyledons and no root
-R2	Causation Arg1:T3 Arg2:T4	

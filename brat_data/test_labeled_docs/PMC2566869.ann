@@ -1,9 +1,0 @@
-T1	Gene 8664 8668	dcl4
-T2	Phenotype 8604 8656	accumulation of most TAS1-derived RNAs was perturbed
-R1	Causation Arg1:T1 Arg2:T2	
-T3	Gene 9555 9559	rdr6
-T4	Phenotype 9492 9551	none of the precursors or mature TAS1 tasiRNAs was detected
-R2	Causation Arg1:T3 Arg2:T4	
-T5	Gene 22377 22381	rdr6
-T6	Phenotype 22445 22524	eliminate the secondary siRNAs without affecting accumulation of primary siRNAs
-R3	Causation Arg1:T5 Arg2:T6	

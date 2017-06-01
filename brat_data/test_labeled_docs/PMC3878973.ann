@@ -1,6 +1,0 @@
-T1	Gene 4407 4413	npr3-3
-T2	Phenotype 4424 4501	normal silique and seed development regardless of the inoculation of pathogen
-R1	Causation Arg1:T1 Arg2:T2	
-T3	Gene 5042 5048	npr3-3
-T4	Phenotype 5077 5125	impaired flower development and shorter siliques
-R2	Causation Arg1:T3 Arg2:T4	

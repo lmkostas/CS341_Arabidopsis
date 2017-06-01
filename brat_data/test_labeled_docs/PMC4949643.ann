@@ -1,6 +1,0 @@
-T1	Gene 6140 6154	aux1/lax1/lax2
-T2	Phenotype 6164 6212;6226 6263	serrations were not visible at early leaf stages but were apparent during later stages
-R1	Causation Arg1:T1 Arg2:T2	
-T3	Gene 6964 6978	aux1/lax1/lax2
-T4	Phenotype 6945 6959;6988 7017	growth rate of leaves was slower than for WT
-R2	Causation Arg1:T3 Arg2:T4	

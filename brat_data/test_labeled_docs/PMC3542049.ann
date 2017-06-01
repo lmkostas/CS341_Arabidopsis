@@ -1,8 +1,0 @@
-T1	Gene 1666 1671	AtFH1
-T2	Phenotype 1680 1750	thicker, slower growing roots than the wt when treated with 0.1 M LatB
-R1	Causation Arg1:T1 Arg2:T2	
-T3	Gene 8154 8157	fh1
-T4	Phenotype 8171 8271	fewer weakly labelled thin bundles or single filaments, and more bright thick bundles than wt plants
-T5	Gene 12401 12404	fh1
-T6	Phenotype 12364 12397;12405 12440	higher proportion of microtubules cells grew more slowly than average
-R2	Causation Arg1:T5 Arg2:T6	

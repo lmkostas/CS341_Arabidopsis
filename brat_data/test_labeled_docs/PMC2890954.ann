@@ -1,7 +1,0 @@
-T1	Gene 551 557	old3-1
-T2	Phenotype 578 594	early leaf death
-T3	Gene 874 880	old3-1
-T4	Phenotype 881 897	early leaf death
-T5	Gene 926 933	odd-ler
-R1	Causation Arg1:T5 Arg2:T4	
-R2	Causation Arg1:T3 Arg2:T4	
