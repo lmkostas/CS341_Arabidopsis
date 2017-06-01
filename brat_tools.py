@@ -490,8 +490,8 @@ class Brat(object):
                             break
                     else:
                         print doc_name, span, "Couldn't find sentence"
-
-                pheno_spans.append(fragments)
+                if fragments:
+                    pheno_spans.append(fragments)
         return pheno_spans
 
 
