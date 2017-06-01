@@ -1,0 +1,8 @@
+T1	Gene 1614 1617	sag
+T2	Phenotype 1628 1700	hypersensitive to ABA during seed germination and seedling establishment
+T3	Phenotype 1702 1723;1765 1782	In the absence of ABA germination rates
+T4	Gene 1798 1801	sag
+R1	Negative Arg1:T4 Arg2:T3	
+T7	Gene 2739 2742	sag
+T8	Phenotype 2756 2826	hypersensitive to ABA during seed germination and seedling development
+R3	Causation Arg1:T7 Arg2:T8	

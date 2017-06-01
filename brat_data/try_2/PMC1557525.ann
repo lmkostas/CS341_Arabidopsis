@@ -1,0 +1,7 @@
+T2	Gene 118 124	AtMND1
+T3	Phenotype 125 301	did not affect normal vegetative development but caused fragmentation and missegregation of chromosomes in male and female meiosis, formation of inviable gametes, and sterility
+R1	Causation Arg1:T2 Arg2:T3	
+T1	Gene 319 335	Atmnd1 Atspo11-1
+#1	AnnotatorNotes T1	double mutant, two genes affected
+T4	Phenotype 365 435	chromosome fragmentation in Atmnd1 was suppressed by loss of Atspo11-1
+R2	Causation Arg1:T1 Arg2:T4	

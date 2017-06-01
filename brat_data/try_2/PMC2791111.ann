@@ -1,0 +1,6 @@
+T1	Gene 4303 4307	aap6
+T2	Phenotype 4259 4299;4319 4365	total amino acid concentration of SE sap significantly lower than that of the wild-type
+R1	Causation Arg1:T1 Arg2:T2	
+T3	Gene 5218 5222	aap6
+T4	Phenotype 5119 5214	Lysine, phenylalanine, leucine, and aspartic acid were all significantly lower in concentration
+R2	Causation Arg1:T3 Arg2:T4	

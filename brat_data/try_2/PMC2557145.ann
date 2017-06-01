@@ -1,0 +1,84 @@
+T1	Gene 1757 1767	pop2 ssadh
+#1	AnnotatorNotes T1	double mutant, two genes affected
+T3	Phenotype 1877 1896	produced less seeds
+T4	Gene 3156 3170	pop2-5 ssadh-2
+#2	AnnotatorNotes T4	double mutant, two genes affected
+T5	Phenotype 3191 3231	phenotype characteristic of pop2 mutants
+T6	Gene 7511 7516	ssadh
+T7	Phenotype 7524 7539	accumulate H2O2
+T8	Gene 11521 11526	ssadh
+T9	Phenotype 11538 11581	more sensitive to SSA than wild type plants
+T10	Gene 12037 12047	pop2 ssadh
+T11	Phenotype 12016 12022;12059 12112	growth severely affected on low concentrations of SSA or GHB
+#3	AnnotatorNotes T11	split phenotype, join with other
+T13	Gene 12443 12447	pop2
+T14	Phenotype 12526 12628	increased inhibition of plant growth was correlated with increased amounts of SSA or GHB in the medium
+T15	Gene 12649 12659	pop2 ssadh
+#5	AnnotatorNotes T15	double mutant, two genes affected
+T16	Phenotype 12671 12745	more sensitive to GHB or SSA added to the medium than pop2 single mutants.
+T2	Phenotype 1822 1842	form mature siliques
+R1	Negative Arg1:T1 Arg2:T2	
+R2	Causation Arg1:T1 Arg2:T3	
+R3	Causation Arg1:T4 Arg2:T5	
+T17	Gene 1668 1682	pop2-4 ssadh-3
+T18	Phenotype 1733 1747	pop2 phenotype
+R4	Causation Arg1:T17 Arg2:T18	
+T19	Gene 3325 3339	pop2-4 ssadh-3
+T20	Gene 3344 3358	pop2-5 ssadh-2
+T21	Phenotype 3378 3401	similar to pop2 mutants
+R5	Causation Arg1:T20 Arg2:T21	
+R6	Causation Arg1:T19 Arg2:T21	
+T22	Gene 6909 6914	ssadh
+T23	Phenotype 6885 6905	Peroxides accumulate
+R7	Causation Arg1:T22 Arg2:T23	
+T24	Gene 6934 6938	pop2
+T25	Gene 6942 6952	pop2 ssadh
+R8	Negative Arg1:T24 Arg2:T23	
+R9	Negative Arg1:T25 Arg2:T23	
+T26	Gene 6990 6995	ssadh
+T27	Phenotype 7004 7034	accumulate high levels of ROIs
+R10	Causation Arg1:T26 Arg2:T27	
+R11	Causation Arg1:T6 Arg2:T7	
+T28	Gene 7569 7573	pop2
+T29	Gene 7577 7587	pop2 ssadh
+R12	Negative Arg1:T28 Arg2:T7	
+R13	Negative Arg1:T29 Arg2:T7	
+T30	Gene 9218 9223	ssadh
+T31	Phenotype 9152 9214;9232 9278	thermoluminescence measured at 135C is about four times higher than in wild type or pop2 or pop2 ssadh plants
+R14	Causation Arg1:T30 Arg2:T31	
+T32	Gene 9691 9696	ssadh
+T33	Phenotype 9661 9687	photosystem II is impaired
+R15	Causation Arg1:T32 Arg2:T33	
+T34	Gene 10750 10760	pop2 ssadh
+T35	Phenotype 10772 10801	hypersensitive to SSA and GHB
+R16	Causation Arg1:T34 Arg2:T35	
+T36	Gene 11272 11279	ssadh-3
+T37	Phenotype 11257 11268;11290 11369	development was significantly affected when plants were grown on plates containing 1 mM SSA
+R17	Causation Arg1:T36 Arg2:T37	
+R18	Causation Arg1:T8 Arg2:T9	
+R19	Causation Arg1:T10 Arg2:T11	
+R20	Causation Arg1:T13 Arg2:T14	
+R21	Causation Arg1:T15 Arg2:T16	
+T12	Gene 14418 14428	pop2 ssadh
+T38	Phenotype 14451 14528	accumulate GHB in vast amounts even in response to moderate quantities of SSA
+R22	Causation Arg1:T12 Arg2:T38	
+T39	Gene 14586 14596	pop2 ssadh
+T40	Phenotype 14604 14681	accumulate much more GHB in response to either SSA or GHB added to the medium
+R23	Causation Arg1:T39 Arg2:T40	
+T41	Gene 16371 16381	pop2 ssadh
+T42	Phenotype 16409 16424	accumulate GABA
+R24	Causation Arg1:T41 Arg2:T42	
+T43	Gene 16458 16465	ssadh-2
+T44	Phenotype 16426 16430;16436 16447	GABA accumulates
+R25	Causation Arg1:T43 Arg2:T44	
+T45	Gene 16711 16715	pop2
+T46	Gene 16720 16730	pop2 ssadh
+T47	Phenotype 16741 16770;16786 16818;16831 16837	four and five times more GABA when grown on medium without SSA or GHB
+R26	Causation Arg1:T46 Arg2:T47	
+R27	Causation Arg1:T45 Arg2:T47	
+T48	Gene 17471 17475	pop2
+T49	Phenotype 17483 17539	accumulated higher amounts of GABA than wild type plants
+R28	Causation Arg1:T48 Arg2:T49	
+T50	Gene 17652 17662	pop2 ssadh
+T51	Phenotype 17671 17761;17782 17788	accumulated enormous amounts of GABA in leaves in response to even moderate amounts of SSA or GHB
+R29	Causation Arg1:T50 Arg2:T51	

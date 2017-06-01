@@ -1,0 +1,12 @@
+T1	Gene 1676 1682	clv3-2
+T2	Phenotype 1647 1672	reduced sizes of the SAMs
+R1	Causation Arg1:T1 Arg2:T2	
+T3	Gene 2306 2312	clv3-2
+T4	Phenotype 2363 2395	significant reduced sizes of SAM
+R2	Causation Arg1:T3 Arg2:T4	
+T5	Gene 2470 2476	clv1-1
+T6	Phenotype 2425 2466	no evident reduction was observed in SAMs
+R3	Negative Arg1:T5 Arg2:T6	
+T7	Gene 3078 3084	clv2-1
+T8	Phenotype 3033 3061	no evident growth inhibition
+R4	Negative Arg1:T7 Arg2:T8	
