@@ -2,6 +2,7 @@
 *.pyc
 *.db
 prod_env.sh
+prod_env*.sh
 venv/
 data/data_full.xml
 small_data/20k_files/data_20k.xml
