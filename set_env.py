@@ -3,10 +3,8 @@
 import os
 import subprocess
 
-def set_env(n):
-    print "Using postgres {}".format(n)
-    source_env("prod_env{}.sh".format(n))
-
+def set_env():
+    source_env("prod_env.sh")
 
 def source_env(filename):
     if os.path.isfile(filename):
@@ -15,4 +13,7 @@ def source_env(filename):
             if line:
                 key, value = line.split("=")
                 os.environ[key]= value
+                if 'postgres' in value:
+                    ip = value.split('@')[-1]
+                    print "Using postgres {}".format(ip)
 
