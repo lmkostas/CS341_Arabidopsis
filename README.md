@@ -26,9 +26,10 @@ jupyter notebook
 
 ## Files
 ```
-BRAT Import-complexPheno.ipynb - import labels from brat annotations
-LabelingFunctions-complexPheno.ipynb - Run through generative and discriminative models
-small_matcher_test-complexPheno.ipynb - Candidate extraction
+Follow the instructions in the section below to download the necessary data. Then proceed through the following notebooks in the specified order:
+1. small_matcher_test-complexPheno.ipynb - Candidate extraction
+2. BRAT Import-complexPheno.ipynb - import labels from brat annotations
+3. LabelingFunctions-complexPheno.ipynb - Run through generative and discriminative models
 ```
 
 ## Data
