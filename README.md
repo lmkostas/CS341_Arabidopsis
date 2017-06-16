@@ -26,7 +26,12 @@ jupyter notebook
 
 ## Files
 ```
-Follow the instructions in the section below to download the necessary data. Then proceed through the following notebooks in the specified order:
+Follow the instructions in the section below to download the necessary data.
+Then run the following python scripts to process the data:
+1. preprocess_results.py (to obtain only th results sections from the selected papers - use preprocess.py to get full text)
+2. split_docs.py (transform the processed data into a form that is compatible with snorkel)
+
+Finally, proceed through the following notebooks in the specified order:
 1. small_matcher_test-complexPheno.ipynb - Candidate extraction
 2. BRAT Import-complexPheno.ipynb - import labels from brat annotations
 3. LabelingFunctions-complexPheno.ipynb - Run through generative and discriminative models
