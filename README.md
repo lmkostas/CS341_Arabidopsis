@@ -2,13 +2,32 @@
 cs341 Spring 2017 project. Learning relationships between genes and phenotypes using snorkel.
 
 ## Environment
-Run one of the following to set up the environment:
+Clone the snorkel repository. Checkout the brat branch.
+Create a virtualenv.
+Install snorkel python requirements.
+Run the following to install arabidopsis requirements:
 ```
+pip install -r requirements.txt
+```
+Set up snorkel env:
+```
+source ../snorkel/set_env.sh
 source agp_env.sh small-data
 ```
+Modify snorkel files:
 ```
-source agp_env.sh full-data
+cp brat/brat_tools.py ../snorkel/snorkel/contrib/brat/tools.py
+cp extended_matchers.py ../snorkel/snorkel/matchers.py
 ```
+Run Jupyter Notebook
+```
+jupyter notebook
+```
+
+## Files
+BRAT Import-complexPheno.ipynb - import labels from brat annotations
+LabelingFunctions-complexPheno.ipynb - Run through generative and discriminative models
+small_matcher_test-complexPheno.ipynb - Candidate extraction
 
 ## Data
 Follow the steps below to retrive the data. This will take a while.
