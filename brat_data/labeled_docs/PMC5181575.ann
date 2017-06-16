@@ -1,0 +1,93 @@
+T1	Gene 61 67	aba1-6
+T2	Phenotype 68 126	were later flowering compared with the wild type under LDs
+R1	Causation Arg1:T1 Arg2:T2	
+T3	Gene 191 197	aba2-1
+T4	Phenotype 163 255	late flowering phenotype in aba2-1 mutants, defective in the final steps of ABA biosynthesis
+R2	Causation Arg1:T3 Arg2:T4	
+T5	Gene 1099 1110	gi-2 aba1-6
+T6	Phenotype 1111 1189	displayed a similar flowering time compared with gi-2 single mutants under LDs
+R3	Causation Arg1:T5 Arg2:T6	
+T7	Gene 1376 1394	tsf-1 ft-10 aba1-6
+T8	Phenotype 1410 1471	were slightly later flowering than tsf-1 ft-10 double mutants
+R4	Causation Arg1:T7 Arg2:T8	
+T9	Gene 1692 1704	co-10 aba1-6
+T10	Phenotype 1705 1741	were similar to co-10 single mutants
+R5	Causation Arg1:T9 Arg2:T10	
+T11	Gene 5055 5062	cdf1235
+T12	Phenotype 5071 5170	flowered early and produced a DE response quantitatively similar to that of the wild type under LDs
+R6	Causation Arg1:T11 Arg2:T12	
+T13	Gene 5233 5240	cdf1235
+T14	Phenotype 5182 5231	Despite their early flowering phenotype under SDs
+T15	Phenotype 5248 5279	did not produce any DE response
+R7	Causation Arg1:T13 Arg2:T14	
+R8	Causation Arg1:T13 Arg2:T15	
+T16	Gene 5591 5598	cdf1235
+T17	Phenotype 5599 5678	are slightly earlier flowering than gi cdf1235 under normal watering conditions
+R9	Causation Arg1:T16 Arg2:T17	
+T18	Gene 5722 5729	cdf1235
+T19	Phenotype 5738 5760	produced a DE response
+R10	Causation Arg1:T18 Arg2:T19	
+T20	Gene 6313 6320	cdf1235
+T21	Gene 6325 6335	gi cdf1235
+T22	Phenotype 6260 6309	the levels of CO transcript were generally higher
+R11	Causation Arg1:T20 Arg2:T22	
+R12	Causation Arg1:T21 Arg2:T22	
+T23	Gene 7357 7367	gi cdf1235
+T24	Phenotype 7139 7349	while both the wild type and the cdf1235 mutants showed a significant and similar up-regulation of FT and TSF under drought stress conditions at ZT12 (2- to 4-fold, respectively), no such up-regulation occurred
+R13	Causation Arg1:T23 Arg2:T24	
+T25	Gene 10730 10751	hab1-1 abi1-2 pp2ca-1
+T26	Gene 10931 10952	hab1-1 abi1-2 pp2ca-1
+T27	Phenotype 10953 11037	had much increased (up to 6-fold) levels of FT compared with the wild type under LDs
+R14	Causation Arg1:T26 Arg2:T27	
+T28	Gene 11283 11304	hab1-1 abi1-2 pp2ca-1
+T29	Gene 11423 11444	hab1-1 abi1-2 pp2ca-1
+T30	Gene 11543 11564	hab1-1 abi1-2 pp2ca-1
+T31	Gene 11735 11756	hab1-1 abi1-2 pp2ca-1
+T32	Gene 12523 12529	aba1-1
+T33	Gene 12534 12540	aba1-3
+T34	Gene 12033 12039	abi1-1
+T35	Gene 12204 12210	abi1-1
+T36	Gene 12757 12761	aba1
+T37	Gene 12882 12888	abi1-1
+T38	Gene 12950 12954	aba1
+T39	Gene 13976 13982	abi1-1
+T40	Phenotype 11239 11279	TSF expression was not clearly increased
+R15	Causation Arg1:T28 Arg2:T40	
+T41	Phenotype 12225 12265	did not show flowering defects under LDs
+T42	Phenotype 12271 12319	exhibited an early flowering phenotype under SDs
+R16	Causation Arg1:T35 Arg2:T41	
+R17	Causation Arg1:T35 Arg2:T42	
+T43	Phenotype 12558 12638	showed a marginal late flowering phenotype compared with the wild type under LDs
+R18	Causation Arg1:T32 Arg2:T43	
+R19	Causation Arg1:T33 Arg2:T43	
+T44	Phenotype 12723 12747	late flowering phenotype
+R20	Causation Arg1:T36 Arg2:T44	
+T45	Gene 14358 14364	aba1-1
+T46	Gene 14584 14590	abi1-1
+T47	Gene 14854 14860	abi1-1
+T48	Gene 16402 16423	hab1-1 abi1-2 pp2ca-1
+T49	Phenotype 16425 16472	results in increased FT transcript accumulation
+R21	Causation Arg1:T48 Arg2:T49	
+T50	Gene 16533 16539	abi1-1
+T51	Gene 17891 17905	abi1-1 35S::GI
+T52	Gene 18742 18756	abi1-1 35S::GI
+T53	Gene 18900 18914	abi1-1 35S::GI
+T54	Gene 19024 19030	abi1-1
+T55	Gene 20172 20178	abi1-1
+T56	Gene 20597 20603	abi1-1
+T57	Phenotype 20612 20661	showed no increase in FT and TSF levels under SDs
+R22	Causation Arg1:T56 Arg2:T57	
+T58	Gene 20459 20480	hab1-1 abi1-2 pp2ca-1
+T59	Gene 20522 20542	hab1-1 abi1-2 abi2-2
+T60	Phenotype 20411 20444	delay of flowering time under SDs
+R23	Causation Arg1:T59 Arg2:T60	
+R24	Causation Arg1:T58 Arg2:T60	
+T61	Gene 10188 10201	elf3-1 aba1-6
+T62	Phenotype 10202 10255	had a significant reduction in both FT and TSF levels
+R25	Causation Arg1:T61 Arg2:T62	
+T63	Gene 9856 9869	elf3-1 aba1-6
+T64	Phenotype 9885 9955	were significantly later flowering compared with elf3-1 single mutants
+R26	Causation Arg1:T63 Arg2:T64	
+T65	Gene 10046 10052	aba1-6
+T66	Phenotype 9970 10042	FT and TSF transcript levels were slightly but not significantly reduced
+R27	Causation Arg1:T65 Arg2:T66	

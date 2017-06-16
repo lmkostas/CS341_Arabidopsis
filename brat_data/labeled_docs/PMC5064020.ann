@@ -1,0 +1,98 @@
+T1	Gene 11 15	NLP8
+T2	Phenotype 32 65	nitrate-promoted seed germination
+T3	Gene 67 83	Columbia (Col-0)
+R1	Causation Arg1:T1 Arg2:T2	
+T4	Gene 194 205	Col-0 seeds
+T5	Phenotype 206 289	did not germinate when imbibed in water, but germinated in the presence of 1mM KNO3
+T6	Gene 442 461	6-h imbibed seeds25
+T7	Phenotype 400 431	nitrate-induced gene expression
+R2	Causation Arg1:T6 Arg2:T7	
+R3	Causation Arg1:T4 Arg2:T5	
+T8	Gene 888 926	mutants defective in NIN-like protein8
+T9	Phenotype 945 990	did not germinate in the presence of 1mM KNO3
+R4	Causation Arg1:T8 Arg2:T9	
+T10	Gene 1515 1537	Col-0 and nlp9 mutants
+T11	Phenotype 1545 1573	nitrate-promoted germination
+R5	Causation Arg1:T10 Arg2:T11	
+T12	Gene 1624 1650	nlp8-2nlp9-1 double mutant
+T13	Phenotype 1658 1696	no germination in the presence of KNO3
+R6	Causation Arg1:T12 Arg2:T13	
+T14	Gene 1736 1740	NLP8
+T15	Phenotype 1744 1790	required for nitrate-promoted seed germination
+R7	Causation Arg1:T14 Arg2:T15	
+T16	Gene 2183 2193	Ws-4 seeds
+T17	Phenotype 2217 2237	responded to nitrate
+R8	Causation Arg1:T16 Arg2:T17	
+T18	Gene 2203 2215	nlp8-5 seeds
+R9	Negative Arg1:T18 Arg2:T17	
+T19	Gene 2582 2597	nlp8-2 mutation
+T20	Phenotype 2598 2653	reduced the seed nitrate response in the Cvi background
+R10	Causation Arg1:T19 Arg2:T20	
+T21	Gene 2963 2994	nlp8-1, nlp8-2 and nlp8-2nlp9-1
+T22	Phenotype 3008 3045	germinate without application of KNO3
+R11	Causation Arg1:T21 Arg2:T22	
+T23	Gene 3134 3146	nlp8 mutants
+T24	Phenotype 3159 3198	respond to the stratification treatment
+R12	Causation Arg1:T23 Arg2:T24	
+T25	Gene 3201 3211	NR mutants
+T26	Phenotype 3216 3287	defective in both nitrate assimilation and nitric oxide (NO) production
+T27	Gene 3627 3655	nlp8-2nia1nia2 triple mutant
+T28	Phenotype 3656 3682	did not respond to nitrate
+R13	Causation Arg1:T27 Arg2:T28	
+T29	Gene 4099 4124	prt6 and ate1ate2 mutants
+T30	Phenotype 4136 4182	sensitive to nitrate-promoted seed germination
+T31	Gene 4301 4305	CHL1
+T32	Phenotype 4329 4343	nitrate sensor
+R14	Causation Arg1:T29 Arg2:T30	
+R15	Causation Arg1:T31 Arg2:T32	
+R16	Causation Arg1:T25 Arg2:T26	
+T33	Gene 4443 4454	chl1 mutant
+T34	Phenotype 4471 4522	less sensitive to nitrate during seed germination10
+R17	Causation Arg1:T33 Arg2:T34	
+T35	Gene 4959 4965	chl1-5
+T36	Phenotype 4969 5020	less sensitive to nitrate-promoted seed germination
+R18	Causation Arg1:T35 Arg2:T36	
+T37	Gene 5170 5176	nlp8-2
+T38	Phenotype 5194 5228	prominent insensitivity to nitrate
+R19	Causation Arg1:T37 Arg2:T38	
+T39	Gene 5094 5100	chl1-5
+T40	Gene 5260 5264	NLP8
+T41	Phenotype 5277 5348	wider range of nitrate responses than CHL1 does during seed germination
+R20	Causation Arg1:T40 Arg2:T41	
+T42	Phenotype 7460 7511	nitrate had no effect on the expression of CYP707A2
+T43	Gene 7515 7521	nlp8-2
+T44	Gene 8995 9009	cyp707a1nlp8-2
+T45	Gene 9014 9028	cyp707a2nlp8-2
+T46	Phenotype 8942 8970	Nitrate-promoted germination
+R21	Negative Arg1:T44 Arg2:T46	
+R22	Negative Arg1:T45 Arg2:T46	
+T47	Gene 8498 8514	aba2 mutant line
+T48	Phenotype 8610 8653	able to germinate in the absence of nitrate
+T49	Phenotype 8560 8600	non-dormant even when harvested from 16C
+R23	Causation Arg1:T47 Arg2:T49	
+R24	Causation Arg1:T47 Arg2:T48	
+T50	Gene 9149 9162	35S::CYP707A2
+T51	Phenotype 9170 9201	nitrate-independent germination
+R25	Causation Arg1:T50 Arg2:T51	
+T52	Gene 9256 9291	NLP8-mediated induction of CYP707A2
+T53	Phenotype 9301 9340	seed germination in response to nitrate
+R26	Causation Arg1:T52 Arg2:T53	
+T54	Gene 9761 9773	A2-GUS lines
+T55	Phenotype 9796 9831	nitrate-induced reporter expression
+R27	Causation Arg1:T54 Arg2:T55	
+T56	Gene 10164 10170	d1-GUS
+T57	Phenotype 10192 10227	nitrate-induced reporter expression
+R28	Causation Arg1:T56 Arg2:T57	
+T58	Gene 10283 10289	d2-GUS
+T59	Gene 10303 10309	d3-GUS
+T60	Phenotype 10323 10371	did not show nitrate-induced reporter expression
+R29	Negative Arg1:T59 Arg2:T60	
+R30	Negative Arg1:T58 Arg2:T60	
+T61	Gene 11981 12036	d1.2-LUC(-1,638), d1.3-LUC(-1,615) and d1.4-LUC(-1,589)
+T62	Phenotype 11924 11959	Nitrate-induced reporter expression
+R31	Causation Arg1:T61 Arg2:T62	
+T63	Gene 12048 12064	d1.5-LUC(-1,549)
+R32	Negative Arg1:T63 Arg2:T62	
+T64	Gene 13603 13618	NLP8-GFP nlp8-2
+T65	Phenotype 13623 13667	able to germinate in the presence of nitrate
+R33	Causation Arg1:T64 Arg2:T65	

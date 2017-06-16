@@ -1,0 +1,90 @@
+T1	Phenotype 8567 8605	normal or near-normal plant morphology
+T2	Gene 8728 8734	hua2-7
+T3	Phenotype 8744 8772;8793 8902	lower earlier than wild-type reduced number of rosette leaves initiated during vegetative development prior to the transition to flowering
+R1	Causation Arg1:T2 Arg2:T3	
+T4	Gene 9142 9160	hua2-7 hulk2 hulk3
+T5	Phenotype 9185 9203	frequent lethality
+R2	Causation Arg1:T4 Arg2:T5	
+T6	Gene 9616 9622	hua2-7
+T7	Phenotype 9641 9661	accelerate flowering
+R3	Causation Arg1:T6 Arg2:T7	
+T8	Gene 10179 10183	HUA2
+T9	Phenotype 10193 10238	flowered earlier by approximately five leaves
+R4	Causation Arg1:T8 Arg2:T9	
+T10	Gene 10267 10274	HULK1-3
+T11	Phenotype 10275 10345	did not differ significantly from wild-type in terms of flowering time
+R5	Causation Arg1:T10 Arg2:T11	
+T12	Gene 10457 10468	hulk2 hulk3
+T13	Gene 10473 10490	hulk1 hulk2 hulk3
+T14	Phenotype 10493 10551	flowered later than wild-type by approximately five leaves
+R6	Causation Arg1:T13 Arg2:T14	
+R7	Causation Arg1:T12 Arg2:T14	
+T15	Gene 12623 12635	hua2-7 hulk1
+T16	Phenotype 12579 12619	no obvious changes in basic plant growth
+R8	Causation Arg1:T15 Arg2:T16	
+T17	Phenotype 12655 12696	sporadic alterations in flower phyllotaxy
+R9	Causation Arg1:T15 Arg2:T17	
+T18	Gene 12860 12872	hua2-7 hulk1
+T19	Phenotype 12843 12856;12880 12892	early flowers were sterile
+R10	Causation Arg1:T18 Arg2:T19	
+T20	Gene 13048 13060	hua2-7 hulk1
+T21	Phenotype 13039 13044;13113 13137	seeds had disrupted developmen
+R11	Causation Arg1:T20 Arg2:T21	
+T22	Gene 13080 13086	hua2-7
+T23	Gene 13091 13096	hulk1
+R12	Negative Arg1:T23 Arg2:T21	
+R13	Negative Arg1:T22 Arg2:T21	
+T24	Phenotype 13216 13223;13262 13289	embryos showed developmental arrest
+T25	Gene 13638 13650	hua2-7 hulk1
+T26	Phenotype 13656 13739	defective embryo phenotype progressively diminished during reproductive development
+R14	Causation Arg1:T25 Arg2:T26	
+T27	Phenotype 14003 14113	plants uniformly showed earlier stages of seed arrest compared with phenotypes observed in hua2-7 hulk1 plants
+T28	Gene 13902 13920	hua2-7 hulk1 hulk2
+R15	Causation Arg1:T28 Arg2:T27	
+T29	Phenotype 14118 14126;14175 14255	siliques all seeds were translucent, with embryos that were arrested in early development
+T30	Phenotype 14439 14507	embryos arrested in the globular to early heart stage of development
+T31	Gene 14384 14396	hua2-7 hulk1
+T32	Gene 14401 14419	hua2-7 hulk1 hulk2
+R16	Causation Arg1:T32 Arg2:T30	
+R17	Causation Arg1:T31 Arg2:T30	
+T33	Phenotype 14749 14828	heterogeneous and random changes in cell numbers in various parts of the embryo
+T34	Phenotype 15399 15406;15423 15446	stamens shorter than the stigma
+T35	Phenotype 15668 15684	arrested embryos
+T36	Gene 15702 15714	hua2-7 hulk1
+T37	Gene 15752 15770	hua2-7 hulk1 hulk2
+R18	Causation Arg1:T36 Arg2:T35	
+R19	Causation Arg1:T37 Arg2:T35	
+T38	Phenotype 16492 16549	reduced in size with small leaves and only a few branches
+T39	Gene 16461 16479	hua2-7 hulk1 hulk3
+R20	Causation Arg1:T39 Arg2:T38	
+T40	Phenotype 16603 16636	sterile due to pollen inviability
+R21	Causation Arg1:T39 Arg2:T40	
+T41	Phenotype 16940 16963	normal pollen viability
+T42	Gene 16851 16857	hua2-1
+T43	Gene 16859 16864	hulk1
+T44	Gene 16869 16875	hulk3)
+T45	Gene 16899 16911	hua2-7 hulk1
+T46	Gene 16916 16928	hua2-7 hulk3
+R22	Causation Arg1:T46 Arg2:T41	
+R23	Causation Arg1:T45 Arg2:T41	
+R24	Causation Arg1:T44 Arg2:T41	
+R25	Causation Arg1:T43 Arg2:T41	
+R26	Causation Arg1:T42 Arg2:T41	
+T47	Gene 17567 17578	hulk2 hulk3
+T48	Phenotype 17597 17625	shoot meristem abnormalities
+R27	Causation Arg1:T47 Arg2:T48	
+T49	Phenotype 18117 18138	late-flowering plants
+T50	Gene 18055 18066	hulk2 hulk3
+R28	Causation Arg1:T50 Arg2:T49	
+T51	Gene 18259 18276	hulk1 hulk2 hulk3
+T52	Phenotype 18309 18333	late-flowering phenotype
+R29	Causation Arg1:T51 Arg2:T52	
+T53	Phenotype 18518 18574	smaller than wild-type and had aberrant root development
+T54	Gene 18484 18502	hua2-7 hulk2 hulk3
+R30	Causation Arg1:T54 Arg2:T53	
+T55	Phenotype 18839 18908	flattened shoot apical meristem with an abnormal and reduced rib zone
+T56	Gene 18806 18824	hua2-7 hulk2 hulk3
+R31	Causation Arg1:T56 Arg2:T55	
+T57	Phenotype 19122 19248	randomly initiated and mis-shapen leaf primordia that developed into shoots with abnormal phyllotaxis and abnormal leaf shapes
+T58	Phenotype 19433 19501;19510 19579	Petals in early flowers were often absent and stamens were aberrant, sterility, failure to dehisce, and occasionally a petaloid morphology
+T59	Phenotype 19700 19780	In early flowers, the gynoecium was mis-shapen with disorganized stigmatic hairs

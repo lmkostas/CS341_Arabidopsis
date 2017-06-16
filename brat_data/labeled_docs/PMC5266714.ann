@@ -1,0 +1,98 @@
+T1	Gene 4081 4090	At5g02890
+T2	Gene 4095 4104	At5g02890
+T3	Phenotype 4158 4177	causes glossy stems
+R1	Causation Arg1:T2 Arg2:T3	
+R2	Causation Arg1:T1 Arg2:T3	
+T4	Gene 4415 4426	SALK_064174
+T5	Gene 4431 4442	SALK_064194
+T6	Phenotype 4455 4501	wild-type genotype without any T-DNA insertion
+R3	Causation Arg1:T5 Arg2:T6	
+R4	Causation Arg1:T4 Arg2:T6	
+T7	Gene 4523 4534	SALK_064193
+T8	Phenotype 4636 4711	At5g02890 transcript levels were not reduced compared with wild-type plants
+T9	Phenotype 5414 5459	significantly reduced expression of At5g02890
+T10	Gene 5450 5459	At5g02890
+T11	Phenotype 5833 5899	stems of all OE-At5g02890 plants showed a visibly glossy phenotype
+T12	Gene 5846 5858	OE-At5g02890
+T13	Phenotype 6214 6230	glossy phenotype
+T14	Gene 6246 6255	At5g02890
+R5	Causation Arg1:T12 Arg2:T11	
+T15	Gene 6288 6297	At5g02890
+T16	Gene 6348 6360	OE-At5g02890
+R6	Causation Arg1:T14 Arg2:T13	
+T17	Phenotype 6480 6546	The expression level of At5g02890 was improved by 402 times to 554
+T18	Gene 6556 6568	OE-At5g02890
+T19	Gene 6504 6513	At5g02890
+R7	Causation Arg1:T18 Arg2:T17	
+T20	Phenotype 6642 6663	glossy stem phenotype
+T21	Gene 6700 6709	At5g02890
+T22	Phenotype 8479 8525	Defective wax deposition and cuticle structure
+T23	Gene 8529 8541	OE-At5g02890
+T24	Gene 8546 8552	OE-Bn1
+R8	Causation Arg1:T23 Arg2:T22	
+R9	Causation Arg1:T24 Arg2:T22	
+T25	Gene 8908 8920	OE-At5g02890
+T26	Gene 8925 8931	OE-Bn1
+T27	Phenotype 8972 9009	abnormal, reduced numbers of crystals
+R10	Causation Arg1:T26 Arg2:T27	
+R11	Causation Arg1:T25 Arg2:T27	
+T28	Gene 9377 9389	OE-At5g02890
+T29	Gene 9394 9400	OE-Bn1
+T30	Phenotype 9411 9441	disorganized, thinner cuticles
+R12	Causation Arg1:T29 Arg2:T30	
+R13	Causation Arg1:T28 Arg2:T30	
+T31	Phenotype 9574 9598	altered electron density
+T32	Phenotype 9603 9633	disorganized cuticle structure
+T33	Gene 9641 9653	OE-At5g02890
+T34	Gene 9658 9664	OE-Bn1
+R14	Causation Arg1:T33 Arg2:T31	
+R15	Causation Arg1:T33 Arg2:T32	
+R16	Causation Arg1:T34 Arg2:T31	
+R17	Causation Arg1:T34 Arg2:T32	
+T35	Gene 10064 10073	At5g02890
+T36	Phenotype 10094 10120	formation of wax compounds
+T37	Phenotype 10537 10612	total wax load did not differ between the OE-At5g02890 and wild-type plants
+T38	Gene 10579 10591	OE-At5g02890
+R18	Negative Arg1:T38 Arg2:T37	
+T39	Gene 11472 11484	OE-At5g02890
+T40	Phenotype 11495 11617	significant reductions in the levels of the alkane, secondary alcohol and ketone fractions of wax (alkane-forming pathway)
+T41	Phenotype 11622 11724	significant increases in the levels of the primary alcohol and ester fractions (alcohol-forming pathwa
+R19	Causation Arg1:T39 Arg2:T40	
+R20	Causation Arg1:T39 Arg2:T41	
+T42	Phenotype 13171 13196	green fluorescent signals
+T43	Gene 13227 13240	At5g02890-GFP
+T44	Gene 13245 13252	BiP-RFP
+R21	Causation Arg1:T43 Arg2:T42	
+R22	Causation Arg1:T44 Arg2:T42	
+T45	Phenotype 13458 13483	green fluorescent signals
+T46	Gene 13514 13527	At5g02890-GFP
+T47	Gene 13552 13556	mRFP
+R23	Causation Arg1:T46 Arg2:T45	
+R24	Causation Arg1:T47 Arg2:T45	
+T48	Gene 13893 13902	At5g02890
+T49	Phenotype 13903 13967	alters cuticular wax composition and causes the glossy phenotype
+R25	Causation Arg1:T48 Arg2:T49	
+T50	Gene 15146 15158	OE-At5g02890
+T51	Phenotype 15159 15197	stems contained 1434 upregulated genes
+R26	Causation Arg1:T50 Arg2:T51	
+T52	Phenotype 15213 15237	2511 downregulated genes
+R27	Causation Arg1:T50 Arg2:T52	
+T53	Phenotype 18048 18112	the expression levels of CER2 and CER6 were significantly higher
+T54	Gene 18116 18128	OE-At5g02890
+R28	Causation Arg1:T54 Arg2:T53	
+T55	Gene 19448 19460	OE-At5g02890
+T56	Phenotype 19268 19444	Auxin biosynthesis genes, such as anthranilate synthase genes (ASA1, ASB1), Cytochrome P450 genes (CYP79B2, CYP79B3), and SUPERROOT2 (SUR2), showed much lower expression levels
+R29	Causation Arg1:T55 Arg2:T56	
+T57	Gene 19609 19621	OE-At5g02890
+T58	Phenotype 19500 19605	nitrilase gene NIT2 and TRYPTOPHAN AMINOTRANSFERASE OF ARABIDOPSIS 1 (TAA1) showed enhanced transcription
+T59	Phenotype 20392 20459	contents of endogenous ABA, JA, and JA-Ile were significantly lower
+T60	Gene 20463 20475	OE-At5g02890
+R30	Causation Arg1:T60 Arg2:T59	
+T61	Phenotype 20539 20649	the IAA content was increased by ~45% in OE-At5g02890 stem tops and reduced by ~47% in OE-At5g02890 stem bases
+T62	Gene 20580 20592	OE-At5g02890
+R31	Causation Arg1:T62 Arg2:T61	
+T63	Gene 20626 20638	OE-At5g02890
+R32	Causation Arg1:T63 Arg2:T61	
+T64	Gene 20726 20735	At5g02890
+T65	Phenotype 20740 20815	influence ABA, JA, and JA-Ile biosynthesis and block polar auxin transport.
+R33	Causation Arg1:T64 Arg2:T65	

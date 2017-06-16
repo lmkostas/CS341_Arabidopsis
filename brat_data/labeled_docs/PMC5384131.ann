@@ -1,0 +1,4 @@
+T1	Gene 1463 1472	aip1/aip3
+T2	Phenotype 1501 1537	severely developmentally compromised
+R1	Causation Arg1:T1 Arg2:T2	
+#1	AnnotatorNotes R1	really more of a summary- non specific, more info on explicit phenotypes are elsewhere

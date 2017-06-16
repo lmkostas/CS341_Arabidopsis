@@ -1,0 +1,53 @@
+T1	Gene 187 192	tic-2
+T2	Phenotype 206 291	similar root length to that of wild type in the absence of exogenous methyl jasmonate
+R1	Causation Arg1:T1 Arg2:T2	
+T3	Gene 500 505	tic-2
+T4	Phenotype 456 492	primary root elongation was retarded
+R2	Causation Arg1:T3 Arg2:T4	
+T5	Gene 983 988	tic-2
+T6	Phenotype 913 965	Significantly reduced meristem length and cell numbe
+R3	Causation Arg1:T5 Arg2:T6	
+T7	Gene 1264 1269	tic-2
+T8	Phenotype 1166 1256	elongation zone length was not affected, and cell sizes in the maturation zone were larger
+R4	Causation Arg1:T7 Arg2:T8	
+T9	Gene 1393 1398	tic-2
+T10	Phenotype 1363 1389	Reduced root meristem size
+R5	Causation Arg1:T9 Arg2:T10	
+T11	Gene 2596 2601	tic-2
+T12	Phenotype 2508 2592;2623 2658	No significant difference for inhibited root meristem size and decreased cell number nder any of the tested photoperiods
+R6	Negative Arg1:T11 Arg2:T12	
+T13	Gene 3021 3026	tic-2
+T14	Phenotype 3033 3085	similar rhythmic root elongation to wild-type plants
+R7	Causation Arg1:T13 Arg2:T14	
+T15	Gene 3178 3183	tic-2
+T16	Phenotype 3247 3317	shorter meristem length and fewer meristem cells at both dawn and dusk
+R8	Causation Arg1:T15 Arg2:T16	
+T17	Gene 3804 3809	tic-2
+T18	Phenotype 3722 3800	percentage of GUS-stained cells in the root meristem was significantly reduced
+R9	Causation Arg1:T17 Arg2:T18	
+T19	Gene 6527 6532	tic-2
+T20	Phenotype 6488 6523	IAA levels were significantly lower
+R10	Causation Arg1:T19 Arg2:T20	
+T21	Gene 9006 9011	tic-2
+T22	Phenotype 8962 9002	A significant decrease in auxin movement
+R11	Causation Arg1:T21 Arg2:T22	
+T23	Gene 9215 9220	tic-2
+T24	Phenotype 9178 9211	decreased auxin level in the root
+R12	Causation Arg1:T23 Arg2:T24	
+T25	Gene 11240 11245	tic-2
+T26	Phenotype 11205 11236	auxin biosynthesis was affected
+R13	Causation Arg1:T25 Arg2:T26	
+T27	Gene 15644 15656	tic-2 myc2-1
+T28	Gene 15634 15639	tic-2
+T29	Phenotype 15677 15693	reduced meristem
+R14	Causation Arg1:T27 Arg2:T29	
+R15	Causation Arg1:T28 Arg2:T29	
+T30	Gene 16209 16215	myc2-1
+T31	Phenotype 16231 16274	less sensitive to JA for root meristem size
+R16	Causation Arg1:T30 Arg2:T31	
+T32	Gene 16439 16451	tic-2 myc2-1
+T33	Phenotype 16467 16481;16527 16532	less sensitive to JA
+R17	Causation Arg1:T32 Arg2:T33	
+T34	Gene 16491 16496	tic-2
+T35	Phenotype 16512 16532	hypersensitive to JA
+R18	Causation Arg1:T34 Arg2:T35	

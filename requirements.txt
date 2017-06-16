@@ -1,1 +1,3 @@
+nltk==3.2.1
+progressbar
 psycopg2

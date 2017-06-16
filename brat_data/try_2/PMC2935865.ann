@@ -1,0 +1,3 @@
+T1	Gene 11195 11197	bp
+T2	Phenotype 11207 11233	downward-oriented siliques
+R1	Causation Arg1:T1 Arg2:T2	

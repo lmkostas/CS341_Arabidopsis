@@ -3,6 +3,9 @@ This file takes an xml file containing a series of pmc papers in html format and
 saves them as a tsv file where each paper is represented on a single line in the format of 
 [pmc_id <tab> document text].
 
+*Note - this script returns the entire contents of each article
+*Note - all new lines are treated as new sentences
+
 The script takes three arguments:
 1) raw xml data file name,
 2) name of tsv file to which processed data will be saved, and 
@@ -77,6 +80,10 @@ ESCAPE_CHARS = {
     u"\u03C9": "omega"
 }
 
+"""
+Function to replace escape characters their unicode representable equivalent and
+replace greek letter symbols with their english spelling equivalents
+"""
 def replace_all_escaped(text):
     for char in ESCAPE_CHARS:
         text = text.replace(char, ESCAPE_CHARS[char])
