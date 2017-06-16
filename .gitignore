@@ -9,4 +9,5 @@ small_data/20k_files/data_20k.xml
 small_data/temp_files/PMC_OA_list.csv
 small_data/not_full_splits/data_1k_2.xml
 small_data/not_full_splits/data_1k_1.xml
+SparseLR*
 .ipynb_checkpoints/

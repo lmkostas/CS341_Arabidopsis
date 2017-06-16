@@ -428,65 +428,6 @@ class Contains(NgramMatcher):
 
             return True
 
-"""
-class Contains(NgramMatcher):
-    '''Matches a slot fill pattern of matchers _at the character level_'''
-    def init(self):
-        '''
-        try:
-            self.rgxs = self.opts['rgxs']
-        except KeyError:
-            raise Exception("Please supply a regular expression string r as rgx=r.")
-        '''
-        try:
-            self.query = self.opts['query']
-        except KeyError:
-            raise Exception("Please supply a query q as query=q.")
-        try:
-            self.type = self.opts['type']
-        except KeyError:
-            raise Exception("Please supply a type for query t as type=t.")
-        self.ignore_case = self.opts.get('ignore_case', True)
-        self.attrib      = self.opts.get('attrib', WORDS)
-        self.sep         = self.opts.get('sep', " ")
-        self.reverse    =self.opts.get('reverse', False)
-        # Compile regex matcher
-        # NOTE: Enforce full span matching by ensuring that regex ends with $!
-        if self.type == 'rgx':
-            self.rgxs = [rgx if rgx.endswith('$') else rgx + r'$' for rgx in self.query]
-            self.r = [re.compile(rgx, flags=re.I if self.ignore_case else 0) for rgx in self.rgxs]
-        # Check for correct number of child matchers / slots
-        if len(self.children) > 1:
-            raise ValueError("Number of provided matchers is greater than 1.")
-    def f(self, c):
-        # First, filter candidates by matching splits pattern
-        if self.children:
-            for child in self.children:
-                if child.f(c) <= 0: return False
-        if not self.reverse:
-            if self.type == 'rgx':
-                for rgx in self.r:
-                    if re.search(rgx, c.get_attrib_span(self.attrib, sep=self.sep)) is None:
-                        return False 
-                return True
-            elif self.type == 'words':
-                for d in self.query:
-                    for match in re.finditer(r'\w+', c.get_attrib_span('lemmas')):
-                        if re.match(d, c[match.start(1):match.end(1)], flags = re.IGNORECASE) is None:
-                            return False
-            return True
-        else:
-            if self.type == 'rgx':
-                for rgx in self.r:
-                    if re.search(rgx, c.get_attrib_span(self.attrib, sep=self.sep)) is not None:
-                        return False 
-            elif self.type =='words':
-                for match in re.finditer(r'\w+', c.get_attrib_span('lemmas')):
-                    for d in self.query:
-                        if re.match(d, c.get_attrib_span(self.attrib)[match.start(0):match.end(0)], flags = re.IGNORECASE) is not None:
-                            return False
-            return True
-"""
 class Intersection(NgramMatcher):
     """Takes the intersection of candidate sets returned by child operators"""
     def f(self, c):
@@ -524,42 +465,3 @@ class MergeMatcher(NgramMatcher):
                 if self.permutations and self.children[1].f(c1) and self.children[0].f(c2):
                     return True
         return False
-
-class Seq(NgramMatcher):
-    def init(self):
-        self.ignore_case = self.opts.get('ignore_case', True)
-        self.attrib      = self.opts.get('attrib', WORDS)
-        self.reverse     = self.opts.get('reverse', False)
-        try:
-            self.d = list(set(w.lower() if self.ignore_case else w for w in self.opts['d']))
-            self.d.sort(key=len, reverse=True)
-        except KeyError:
-            raise Exception("Please supply a dictionary (list of phrases) d as d=d.")
-
-        # Optionally use a stemmer, preprocess the dictionary
-        # Note that user can provide *an object having a stem() method*
-        self.stemmer = self.opts.get('stemmer', None)
-        if self.stemmer is not None:
-            if self.stemmer == 'porter':
-                self.stemmer = PorterStemmer()
-            self.d = frozenset(self._stem(w) for w in list(self.d))
-
-    def _stem(self, w):
-        """Apply stemmer, handling encoding errors"""
-        try:
-            return self.stemmer.stem(w)
-        except UnicodeDecodeError:
-            return w
-
-    def _f(self, c):
-        p = c.get_attrib_span(self.attrib)
-        p = p.lower() if self.ignore_case else p
-        p = self._stem(p) if self.stemmer is not None else p
-        while len(p) > 0: 
-            for w in self.d:
-                if len(p) > len(w):
-                    if p[:len(w)] == w:
-                        p = p[len(w):]
-                elif len(p) == len(w) and p == w:
-                    p = ''
-        return len(p) == 0
