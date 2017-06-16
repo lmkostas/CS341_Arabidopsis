@@ -25,9 +25,11 @@ jupyter notebook
 ```
 
 ## Files
+```
 BRAT Import-complexPheno.ipynb - import labels from brat annotations
 LabelingFunctions-complexPheno.ipynb - Run through generative and discriminative models
 small_matcher_test-complexPheno.ipynb - Candidate extraction
+```
 
 ## Data
 Follow the steps below to retrive the data. This will take a while.
