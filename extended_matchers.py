@@ -155,6 +155,26 @@ class Union(NgramMatcher):
                return True
        return False
 
+class Intersection(NgramMatcher):
+    """Takes the intersection of candidate sets returned by child operators"""
+    def f(self, c):
+       for child in self.children:
+           if child.f(c) <= 0:
+               return False
+       return True
+
+class SetDiff(NgramMatcher):
+    """Takes the set difference of the first from the second candidate sets returned by child operators"""
+    def f(self, c):
+        if len(self.children) != 2:
+            return False
+        for i, child in enumerate(self.children):
+            if i==0 and child.f(c) <= 0:
+                return False
+            if i==1 and child.f(c) > 0:
+                return False
+       return True
+
 
 class Concat(NgramMatcher):
     """
@@ -427,14 +447,6 @@ class Contains(NgramMatcher):
                     return False 
 
             return True
-
-class Intersection(NgramMatcher):
-    """Takes the intersection of candidate sets returned by child operators"""
-    def f(self, c):
-       for child in self.children:
-           if child.f(c) <= 0:
-               return False
-       return True
 
 class MergeMatcher(NgramMatcher):
     """
