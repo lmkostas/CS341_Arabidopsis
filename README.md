@@ -2,8 +2,7 @@
 cs341 Spring 2017 project. Learning relationships between genes and phenotypes using snorkel.
 
 ## Environment
-Clone the [snorkel](https://github.com/HazyResearch/snorkel) repository. Set up snorkel and run at least once according to the installation instructions.
-Create a virtualenv.
+Clone the [snorkel](https://github.com/HazyResearch/snorkel) repository. Create a virtualenv. Set up snorkel and run at least once according to the installation instructions.
 Install snorkel python requirements.
 Run the following to install arabidopsis requirements:
 ```
