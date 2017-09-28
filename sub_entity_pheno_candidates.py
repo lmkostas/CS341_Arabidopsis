@@ -125,8 +125,8 @@ entity = load_pheno_ontology() + ['stem', 'leaves', 'phenotype', 'carpel', 'tip'
 descriptor = parse_pato(PATO_ONTOLOGY) + ['alter', 'growth', 'develop', 'affect', 'display', 'twice', 'inhibit', 'type'] #formerly named patos
 
 
-ENT = DictionaryMatch(d=patos, longest_match_only=True, stemmer='porter', blacklist=blacklist)
-DES = DictionaryMatch(d=obos, longest_match_only=True, stemmer='porter', blacklist=blacklist)
+ENT = DictionaryMatch(d=obos, longest_match_only=True, stemmer='porter', blacklist=blacklist)
+DES = DictionaryMatch(d=patos, longest_match_only=True, stemmer='porter', blacklist=blacklist)
 
 COMP_ADJS = DictionaryMatch(d=['JJR'], longest_match_only=True, attrib='pos_tags')
 ADJS = DictionaryMatch(d=['JJ'], longest_match_only=True, attrib='pos_tags')
