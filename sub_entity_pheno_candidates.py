@@ -14,7 +14,7 @@ BLACKLIST = "dicts/blacklist_words.txt"
 PHENO_LIST = "dicts/list_phenotypes_arabidopsis_filtered.txt"  #Leave out for now 9/28/17
 PHENO_EQ_LIST = "dicts/phenotypes_all_eq_dict.txt"
 PHENO_MANUAL = "dicts/phenotypes_manual.txt"
-ONTOLOGIES = ["dicts/po.obo", "dicts/chebi.obo", "dicts/go-basic.obo"]
+ONTOLOGIES = ["dicts/po.obo", "dicts/chebi.obo", "dicts/go-basic.obo", "dicts/pato.obo"]
 PATO_ONTOLOGY = "dicts/pato.obo"
 
 
@@ -45,13 +45,16 @@ def load_pheno_list():
 
     return [pheno.lower() for pheno in result if pheno.lower() not in blacklist and len(pheno)>1]
 
-def load_pheno_ontology():
+def load_pheno_ontology(O):
     """
     Load chebi, pato, and go ontologies.
     """
     ontology_terms = []
-    for ontology_file in ONTOLOGIES:
-        ontology_terms.extend(parse_ontology(ontology_file))
+    for ontology_file in O:
+        if ontology_file == "dicts/po.obo" or ontology_file == "dicts/pato.obo":
+            ontology_terms.extend(parse_ontology(ontology_file, split=True))
+        else:
+            ontology_terms.extend(parse_ontology(ontology_file))
 
     #blacklist = read_blacklist()
     #return [pheno.lower() for pheno in ontology_terms if pheno.lower() not in blacklist and len(pheno)>1]
@@ -59,7 +62,7 @@ def load_pheno_ontology():
     return ontology_terms
 
 
-def parse_ontology(ontology_file):
+def parse_ontology(ontology_file, split=False):
     terms = []
     for elt in parseGOOBO(ontology_file):
         terms.append(elt["name"])
@@ -67,12 +70,16 @@ def parse_ontology(ontology_file):
             if isinstance(elt['synonym'], list):
                 for syn in elt['synonym']:
                     try:
-                        terms.append(syn.split('"')[1])
+                        term = syn.split('"')[1]
+                        terms.append(term)
+                        if ' ' in term: terms.extend(term.split())
                     except:
                         print 'error parsing ontology synonym'
             else:
                 try:
-                    terms.append(elt['synonym'].split('"')[1])
+                    term = elt['synonym'].split('"')[1]
+                    terms.append(term)
+                    if ' ' in term: terms.extend(ter.split())
                 except:
                     print 'error parsing ontology synonym non list'
     blacklist = read_blacklist()
@@ -121,7 +128,7 @@ from extended_matchers import DictionaryMatch, Concat, RegexMatchSpan, SlotFillM
 blacklist = read_blacklist()
 blacklist.extend([stem(b) for b in blacklist])
 #phenos = load_pheno_list()
-entity = load_pheno_ontology() + ['stem', 'leaves', 'phenotype', 'carpel', 'tip', 'type' ] #formerly named obos
+entity = load_pheno_ontology(ONTOLOGIES) + ['stem', 'leaves', 'phenotype', 'carpel', 'tip', 'type' ] #formerly named obos
 descriptor = parse_pato(PATO_ONTOLOGY) + ['alter', 'growth', 'develop', 'affect', 'display', 'twice', 'inhibit', 'type'] #formerly named patos
 
 
