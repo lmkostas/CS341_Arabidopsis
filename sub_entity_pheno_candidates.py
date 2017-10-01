@@ -141,7 +141,7 @@ NN_ADJ = RegexMatchSpan(rgx=r'^[A-Za-z-]+(ion|ment|ance|ence|ity)s?$', longest_m
 ALL_ENTS = Union(Union(ENT, DESC_ENT, longest_match_only=True), NN_ADJ, longest_match_only=True)
 
 DESC = Intersection(DESC, ALL_ADJ_LIKE)
-ALL_DESCS = Union(DESC,DictionaryMatch(d=['JJ','JJR','RB','RBR','VB', 'VBD'], longest_match_only=True, attrib='pos_tags'), longest_match_only=True)
+ALL_DESCS = Union(DESC,DictionaryMatch(d=['JJ','JJR','RB','RBR','VB','VBD','VBN'], longest_match_only=True, attrib='pos_tags'), longest_match_only=True)
 
 PERC = RegexMatchSpan(rgx=r'\d+.?\d*%', longest_match_only=True)
 
