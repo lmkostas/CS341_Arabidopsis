@@ -85,12 +85,11 @@ def DESC_VERB_PRESENT(c):
 def DESC_PAST_PART(c):
     return 1 if contains_token(c[0], 'VBN', attrib='pos_tags') else 0    
 
-#"ENT <helper_vb> DESC" or "DESC <helper_vb> ENT"
+#"ENT <helper_vb> DESC" or "DESC <helper_vb> ENT" #NOT DONE YET
 def HELPER_VERB_BTWN(c):
     return 1 if len(helper_vbs.intersection(set(get_between_tokens(c, attrib='lemmas', n_max=3)))) > 0 else 0
 
-#"ENT <prep phrase> DESC"
-
-
-
+#"ENT <prep phrase> DESC"  #NOT DONE YET
+def PREP_PHRASE_BTWN(c):
+    return 1 if len(helper_vbs.intersection(set(get_between_tokens(c, attrib='lemmas', n_max=3)))) > 0 else 0
 
