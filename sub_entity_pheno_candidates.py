@@ -128,19 +128,21 @@ from extended_matchers import DictionaryMatch, Concat, RegexMatchSpan, SlotFillM
 blacklist = read_blacklist()
 blacklist.extend([stem(b) for b in blacklist])
 #phenos = load_pheno_list()
-entity = load_pheno_ontology(ONTOLOGIES) + ['stem', 'leaves', 'phenotype', 'carpel', 'tip', 'type' ] #formerly named obos
-descriptor = parse_pato(PATO_ONTOLOGY) + ['alter', 'growth', 'develop', 'affect', 'display', 'twice', 'inhibit', 'type'] #formerly named patos
+# entity = load_pheno_ontology(ONTOLOGIES) + ['stem', 'leaves', 'phenotype', 'carpel', 'tip', 'type' ] #formerly named obos
+# descriptor = parse_pato(PATO_ONTOLOGY) + ['alter', 'growth', 'develop', 'affect', 'display', 'twice', 'inhibit', 'type'] #formerly named patos
 
+onts = load_pheno_ontology(ONTOLOGIES) + ['stem', 'leaves', 'phenotype', 'carpel', 'tip', 'type','alter', 'growth', 'develop', 'affect', 'display', 'twice', 'inhibit', 'type'] #formerly named obos
 
-DESC = DictionaryMatch(d=patos, longest_match_only=True, blacklist=blacklist)
+ONT = DictionaryMatch(d=onts, longest_match_only=True, blacklist=blacklist)
+# DESC = DictionaryMatch(d=patos, longest_match_only=True, blacklist=blacklist)
 ALL_ADJ_LIKE = DictionaryMatch(d=['JJ','JJR','JJS','RB','RBR','RBS'], longest_match_only=True, attrib='pos_tags')
 
-DESC_ENT = SetDiff(DESC, ALL_ADJ_LIKE)
-ENT = DictionaryMatch(d=obos, longest_match_only=True, blacklist=blacklist)
+ENT = SetDiff(ONT, ALL_ADJ_LIKE)
+# ENT = DictionaryMatch(d=obos, longest_match_only=True, blacklist=blacklist)
 NN_ADJ = RegexMatchSpan(rgx=r'^[A-Za-z-]+(ion|ment|ance|ence|ity)s?$', longest_match_only=True)
-ALL_ENTS = Union(Union(ENT, DESC_ENT, longest_match_only=True), NN_ADJ, longest_match_only=True)
+ALL_ENTS = Union(ONT, NN_ADJ, longest_match_only=True)
 
-DESC = Intersection(DESC, ALL_ADJ_LIKE)
+DESC = Intersection(ONT, ALL_ADJ_LIKE)
 ALL_DESCS = Union(DESC,DictionaryMatch(d=['JJ','JJR','RB','RBR','VB', 'VBD'], longest_match_only=True, attrib='pos_tags'), longest_match_only=True)
 
 PERC = RegexMatchSpan(rgx=r'\d+.?\d*%', longest_match_only=True)
@@ -148,6 +150,8 @@ PERC = RegexMatchSpan(rgx=r'\d+.?\d*%', longest_match_only=True)
 PREP = DictionaryMatch(d=['IN', 'TO'], longest_match_only=True, attrib='pos_tags')
 
 ALL_DESCS = Union(Concat(ALL_DESCS, PERC, right_required=False, permutations=True), SlotFillMatch(ALL_DESCS, PREP, PERC, '{0} {1} {2}', longest_match_only=True))
+
+ALL_DESCS = Union(ALL_ENTS, Concat(ALL_DESCS, SlotFillMatch(ALL_ENTS, PREP, '{0} {1}', longest_match_only=True)), longest_match_only=True, left_required=False), longest_match_only=True)
 
 # COMP_ADJS = DictionaryMatch(d=['JJR'], longest_match_only=True, attrib='pos_tags')
 # ADJS = DictionaryMatch(d=['JJ'], longest_match_only=True, attrib='pos_tags')
