@@ -1,0 +1,6 @@
+T1	Entity 2530 2541	salt stress
+T2	Descriptor 2512 2526	more sensitive
+R1	Causation Arg1:T2 Arg2:T1	
+T3	Entity 2651 2662	root growth
+T4	Descriptor 2667 2674	reduced
+R2	Causation Arg1:T4 Arg2:T3	

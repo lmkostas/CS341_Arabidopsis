@@ -1,0 +1,14 @@
+T1	Descriptor 9464 9467	low
+T2	Entity 9468 9484	shoot Mo content
+R1	Causation Arg1:T1 Arg2:T2	
+T3	Descriptor 9511 9520	no change
+T4	Entity 9528 9546	shoot content of S
+R2	Causation Arg1:T3 Arg2:T4	
+T5	Entity 9578 9652	content of Li, B, Na, Mg, P, K, Ca, Mn, Fe, Co, Ni, Cu, Zn, As, Se, and Cd
+R3	Causation Arg1:T3 Arg2:T5	
+T6	Descriptor 9847 9868	significantly reduced
+T7	Entity 9880 9924	levels of MOT1 in both root and shoot tissue
+R4	Causation Arg1:T6 Arg2:T7	
+T8	Entity 12053 12069	shoot Mo content
+T9	Descriptor 12049 12052	low
+R5	Causation Arg1:T9 Arg2:T8	

@@ -1,0 +1,3 @@
+T1	Descriptor 355 364	resistant
+T3	Entity 368 421	glucose inhibition of seed storage lipid mobilization
+R1	Causation Arg1:T1 Arg2:T3	

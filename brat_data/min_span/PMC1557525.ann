@@ -1,0 +1,11 @@
+T1	Descriptor 125 139	did not affect
+T2	Entity 140 169	normal vegetative development
+T3	Descriptor 181 194	fragmentation
+T4	Entity 217 228	chromosomes
+T5	Descriptor 199 213	missegregation
+R1	Causation Arg1:T1 Arg2:T2	
+R2	Causation Arg1:T3 Arg2:T4	
+R3	Causation Arg1:T5 Arg2:T4	
+T6	Entity 365 389	chromosome fragmentation
+T7	Descriptor 404 414	suppressed
+R4	Causation Arg1:T7 Arg2:T6	

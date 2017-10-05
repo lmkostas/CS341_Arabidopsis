@@ -1,0 +1,21 @@
+T1	Descriptor 5731 5745	increased rate
+T2	Entity 5749 5772	rosette leaf initiation
+T3	Descriptor 5802 5808	modest
+T4	Entity 5809 5826	delayed flowering
+R1	Causation Arg1:T1 Arg2:T2	
+R2	Causation Arg1:T3 Arg2:T4	
+T5	Descriptor 5851 5857	denser
+T6	Entity 5858 5866	rosettes
+R3	Causation Arg1:T5 Arg2:T6	
+T7	Descriptor 6532 6537	extra
+T8	Entity 6538 6552	rosette leaves
+R4	Causation Arg1:T7 Arg2:T8	
+T9	Descriptor 6819 6828	reduction
+T10	Entity 6732 6746	cauline leaves
+R5	Causation Arg1:T9 Arg2:T10	
+T11	Descriptor 8997 9007	average of
+T12	Entity 9008 9026	2.11.1 side shoots
+R6	Causation Arg1:T11 Arg2:T12	
+T13	Descriptor 10462 10471	increased
+T14	Entity 10472 10491	rosette leaf number
+R7	Causation Arg1:T13 Arg2:T14	

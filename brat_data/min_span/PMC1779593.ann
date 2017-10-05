@@ -1,0 +1,3 @@
+T1	Entity 177 194	metabolite levels
+T2	Descriptor 238 256	similar or smaller
+R1	Causation Arg1:T2 Arg2:T1	
