@@ -135,15 +135,15 @@ onts = load_pheno_ontology(ONTOLOGIES) + ['stem', 'leaves', 'phenotype', 'carpel
 
 ONT = DictionaryMatch(d=onts, longest_match_only=True, blacklist=blacklist)
 # DESC = DictionaryMatch(d=patos, longest_match_only=True, blacklist=blacklist)
-ALL_ADJ_LIKE = DictionaryMatch(d=['JJ','JJR','JJS','RB','RBR','RBS'], longest_match_only=True, attrib='pos_tags')
+ALL_ADJ_LIKE = DictionaryMatch(d=['JJ','JJR','JJS','RB','RBR','RBS', 'VBN'], longest_match_only=True, attrib='pos_tags')
 
 ENT = SetDiff(ONT, ALL_ADJ_LIKE)
 # ENT = DictionaryMatch(d=obos, longest_match_only=True, blacklist=blacklist)
 NN_ADJ = RegexMatchSpan(rgx=r'^[A-Za-z-]+(ion|ment|ance|ence|ity)s?$', longest_match_only=True)
 ALL_ENTS = Union(ONT, NN_ADJ, longest_match_only=True)
 
-DESC = Intersection(ONT, ALL_ADJ_LIKE)
-ALL_DESCS = Union(DESC,DictionaryMatch(d=['JJ','JJR','RB','RBR','VB', 'VBD'], longest_match_only=True, attrib='pos_tags'), longest_match_only=True)
+DESC = Intersection(DESC, ALL_ADJ_LIKE)
+ALL_DESCS = Union(DESC,DictionaryMatch(d=['JJ','JJR','RB','RBR','VB','VBD','VBN'], longest_match_only=True, attrib='pos_tags'), longest_match_only=True)
 
 PERC = RegexMatchSpan(rgx=r'\d+.?\d*%', longest_match_only=True)
 
