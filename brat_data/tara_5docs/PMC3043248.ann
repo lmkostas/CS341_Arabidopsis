@@ -1,0 +1,17 @@
+T1	Descriptor 13042 13053	significant
+T2	Entity 13018 13037	response to nitrate
+T3	Descriptor 13676 13687	compromised
+T4	Entity 13691 13741	photoperiod, autonomous and GA-dependent flowering
+R1	Causation Arg1:T3 Arg2:T4	
+T5	Descriptor 13747 13755	does not
+T6	Entity 13756 13762	flower
+R2	Causation Arg1:T5 Arg2:T6	
+T7	Descriptor 14761 14764	Low
+T8	Entity 14765 14794	nitrate accelerated flowering
+R3	Causation Arg1:T7 Arg2:T8	
+T9	Descriptor 14904 14918	hardly delayed
+T10	Entity 14890 14899	flowering
+R4	Causation Arg1:T9 Arg2:T10	
+T11	Descriptor 14995 15011	strongly delayed
+T12	Entity 14981 14990	Flowering
+R5	Causation Arg1:T11 Arg2:T12	

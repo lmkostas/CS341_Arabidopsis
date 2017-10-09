@@ -1,0 +1,26 @@
+T1	Descriptor 3860 3868	enhanced
+T2	Entity 3869 3883	susceptibility
+R1	Causation Arg1:T1 Arg2:T2	
+T3	Descriptor 4568 4589	grew to higher titers
+T4	Entity 4552 4562	Pst DC3000
+R2	Causation Arg1:T3 Arg2:T4	
+T5	Entity 11422 11431	SA levels
+T6	Descriptor 11460 11479	significantly lower
+R3	Causation Arg1:T6 Arg2:T5	
+T7	Entity 11863 11871	SA level
+T8	Descriptor 11893 11898	lower
+R4	Causation Arg1:T8 Arg2:T7	
+T9	Descriptor 12926 12935	deficient
+T10	Entity 12952 12967	SA accumulation
+R5	Causation Arg1:T9 Arg2:T10	
+T11	Descriptor 13392 13405	no difference
+T12	Entity 13409 13426	production of ROS
+R6	Causation Arg1:T11 Arg2:T12	
+T13	Descriptor 13738 13740	No
+T14	Entity 13741 13759	callose deposition
+R7	Causation Arg1:T13 Arg2:T14	
+T15	Descriptor 13854 13867	not defective
+T16	Entity 13871 13899	flg22-induced ROS production
+T17	Entity 13903 13921	callose deposition
+R8	Causation Arg1:T15 Arg2:T16	
+R9	Causation Arg1:T15 Arg2:T17	

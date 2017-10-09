@@ -1,0 +1,24 @@
+T1	Entity 12912 12929	average LR length
+T2	Descriptor 12870 12908	No significant salt-mediated reduction
+R1	Causation Arg1:T2 Arg2:T1	
+T3	Descriptor 16345 16359	greater number
+T4	Entity 16363 16378	first order LRs
+R2	Causation Arg1:T3 Arg2:T4	
+T5	Descriptor 16714 16739	no significant difference
+T6	Entity 16743 16764	first order LR number
+R3	Causation Arg1:T5 Arg2:T6	
+T7	Descriptor 16882 16897	greater numbers
+T8	Entity 16901 16916	first order LRs
+R4	Causation Arg1:T7 Arg2:T8	
+T9	Descriptor 16958 16972	no stimulation
+T10	Entity 16976 17004	first order LR proliferation
+R5	Causation Arg1:T9 Arg2:T10	
+T11	Descriptor 17053 17063	stimulated
+T12	Entity 17064 17092	first order LR proliferation
+R6	Causation Arg1:T11 Arg2:T12	
+T13	Descriptor 18127 18141	similar number
+T14	Entity 18145 18148	LRs
+R7	Causation Arg1:T13 Arg2:T14	
+T15	Descriptor 18215 18222	greater
+T16	Entity 18223 18239	LR proliferation
+R8	Causation Arg1:T15 Arg2:T16	

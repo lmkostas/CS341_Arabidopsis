@@ -1,0 +1,29 @@
+T1	Descriptor 14054 14070	20-40% increases
+T2	Entity 13940 14035	APS1/AT3G22890, MYB12/AT2G47460, AP2/AT4G36920, and GRF8/AT4G24150 antisense transcript signals
+R1	Causation Arg1:T1 Arg2:T2	
+T3	Descriptor 14559 14568	decreased
+T4	Entity 14569 14600	antisense transcript expression
+R2	Causation Arg1:T3 Arg2:T4	
+T5	Descriptor 14767 14779	up-regulated
+T6	Entity 14688 14761	ARF17/AT1G77850 and MET2/AT4G14140 antisense transcript expression levels
+R3	Causation Arg1:T5 Arg2:T6	
+T7	Descriptor 16670 16690	increased expression
+T8	Entity 16694 16715	antisense transcripts
+R4	Causation Arg1:T7 Arg2:T8	
+T9	Descriptor 17017 17031	down-regulated
+T11	Descriptor 17052 17060	increase
+T13	Descriptor 19607 19626	elevated expression
+T14	Entity 19630 19656	DCL1 antisense transcripts
+R7	Causation Arg1:T13 Arg2:T14	
+T12	Entity 17064 17101	UBC24/AT2G33770 antisense transcripts
+R6	Causation Arg1:T11 Arg2:T12	
+T10	Entity 16949 17012	MYB12, SCL6(IV), TOE2, and TCP4 antisense transcript expression
+R5	Causation Arg1:T9 Arg2:T10	
+T15	Entity 19840 19869	antisense transcripts of MET2
+T16	Descriptor 19875 19884	increased
+R8	Causation Arg1:T16 Arg2:T15	
+T17	Entity 20404 20430	most antisense transcripts
+T18	Descriptor 20463 20471	elevated
+R9	Causation Arg1:T18 Arg2:T17	
+T19	Entity 20489 20506	sense transcripts
+R10	Causation Arg1:T18 Arg2:T19	
